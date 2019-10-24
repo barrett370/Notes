@@ -21,3 +21,7 @@ Please follow the following links for lecture notes
 - [Lecture 1](Y3/Parallel+Distributed/out/Lecture1.html)
 - [Lecture 2](Y3/Parallel+Distributed/out/Lecture2.html)
 - [Lecture 3](Y3/Parallel+Distributed/out/Lecture3.html)
+
+### Machine Learning 
+
+- [Lecture 1](Y3/Machine-Learning/out/Lecture1.html)
