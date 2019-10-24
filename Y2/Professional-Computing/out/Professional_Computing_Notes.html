@@ -1,0 +1,2312 @@
+<!DOCTYPE html><html><head>
+      <title>Professional_Computing_Notes</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css">
+      
+      
+
+      
+      
+      
+      
+      
+      
+
+      <style>
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="professional-computing">Professional Computing</h1>
+
+<ul>
+<li><a href="#professional-computing">Professional Computing</a>
+<ul>
+<li><a href="#topics">Topics</a>
+<ul>
+<li><a href="#disruptive-innovation---an-innovation-that-helps-create-a-new-market-and-value-network-eventually-disrupts-existing-market-and-value-network-displacing-all-earlier-technology">Disruptive Innovation - an innovation that helps create a new market and value network, eventually disrupts existing market and value network, displacing all earlier technology.</a></li>
+</ul>
+</li>
+<li><a href="#legal-perspectives">Legal Perspectives</a>
+<ul>
+<li><a href="#criminal-vs-civil-law">Criminal vs. Civil Law</a>
+<ul>
+<li><a href="#criminal-law">Criminal Law</a></li>
+<li><a href="#civil-law">Civil Law</a></li>
+<li><a href="#torts">Torts</a></li>
+<li><a href="#legalisation">Legalisation</a></li>
+<li><a href="#appeal">Appeal</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#computer-misuse-act-of-1990-cma">Computer Misuse Act of 1990 (CMA)</a>
+<ul>
+<li><a href="#3-offences">3 Offences:</a>
+<ul>
+<li><a href="#1-unauthorised-access-to-a-computer">1. Unauthorised access to a computer</a></li>
+<li><a href="#2-intent-to-commit-a-serious-crime">2. Intent to commit a serious crime</a></li>
+<li><a href="#3-unauthorised-modification">3. Unauthorised Modification</a></li>
+</ul>
+</li>
+<li><a href="#review-of-cma">Review of CMA</a></li>
+<li><a href="#issues-with-cma">Issues with CMA</a></li>
+<li><a href="#serious-crime-act-of-2015">Serious Crime Act of 2015</a></li>
+</ul>
+</li>
+<li><a href="#data-protection-act-of-1984-dpa">Data Protection Act of 1984 (DPA)</a>
+<ul>
+<li><a href="#major-revision-in-1998">Major revision in 1998</a></li>
+<li><a href="#general-data-protection-regulation-gdpr">General Data Protection Regulation (GDPR)</a></li>
+<li><a href="#data-protection-act-2018">Data Protection Act (2018)</a></li>
+<li><a href="#dpa-principals">DPA Principals</a></li>
+</ul>
+</li>
+<li><a href="#regulation-of-investigatory-powers-act-2000-ripa">Regulation of Investigatory Powers Act (2000) (RiPA)</a></li>
+<li><a href="#freedom-of-information-act-foi">Freedom of Information Act (FOI)</a>
+<ul>
+<li><a href="#issues-with-the-foi-act">Issues with the FOI Act</a></li>
+</ul>
+</li>
+<li><a href="#intellectual-property-ip">Intellectual Property (IP)</a>
+<ul>
+<li><a href="#copyright-copyright">Copyright <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>&#xA9;</mtext></mrow><annotation encoding="application/x-tex">\copyright</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:0em;"></span><span class="mord text"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8888799999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">c</span></span></span><span style="top:-3.19444em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-full" style="left:0em;top:.2em;">&#x25EF;</span></span></span></span></span></span></span></span></span></span></a></li>
+<li><a href="#infringement">Infringement</a></li>
+<li><a href="#patents">Patents</a></li>
+<li><a href="#copyleft">Copyleft</a></li>
+<li><a href="#confidential-information">Confidential Information</a></li>
+<li><a href="#trademarks--passing-off">Trademarks &amp; Passing off</a></li>
+</ul>
+</li>
+<li><a href="#contracts--liability">Contracts &amp; Liability</a>
+<ul>
+<li><a href="#contracts">Contracts</a>
+<ul>
+<li><a href="#fixed-price-contracts">Fixed price contracts</a></li>
+<li><a href="#contract-stipulations">Contract Stipulations</a>
+<ul>
+<li><a href="#what-is-to-be-produced">What is to be produced?</a></li>
+<li><a href="#what-is-delivered">What is delivered?</a></li>
+<li><a href="#payment">Payment</a></li>
+<li><a href="#penalty-clauses">Penalty Clauses</a></li>
+<li><a href="#obligations-on-the-client">Obligations on the client</a></li>
+<li><a href="#acceptance-warranty--indemnity">Acceptance, Warranty &amp; Indemnity</a></li>
+<li><a href="#termination-and-arbitration">Termination and Arbitration</a></li>
+</ul>
+</li>
+<li><a href="#time-and-materials-contracts">Time and Materials Contracts</a></li>
+<li><a href="#contract-hire--consultancy">Contract Hire &amp; Consultancy</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#human-resources-employment-law">Human Resources (Employment law)</a>
+<ul>
+<li><a href="#human-resources-departments">Human Resources Departments</a></li>
+<li><a href="#recruitment--selection">Recruitment &amp; Selection</a>
+<ul>
+<li><a href="#recruitment">Recruitment</a></li>
+<li><a href="#selection">Selection</a></li>
+<li><a href="#references">References</a></li>
+<li><a href="#tests">Tests</a></li>
+</ul>
+</li>
+<li><a href="#staff-training-and-management">Staff Training and Management</a></li>
+<li><a href="#remuneration">Remuneration</a></li>
+<li><a href="#appraisal-schemes">Appraisal Schemes</a></li>
+<li><a href="#redundancy-and-dismissal">Redundancy and Dismissal</a></li>
+<li><a href="#statutory-dismissal-procedure">Statutory Dismissal Procedure</a></li>
+<li><a href="#constructive-dismissal">Constructive Dismissal</a></li>
+<li><a href="#redundancy">Redundancy</a></li>
+<li><a href="#transfer-of-undertakings-protection-of-employment-tupe">Transfer of Undertakings, Protection of Employment (TUPE)</a></li>
+<li><a href="#anti-discrimination-laws">Anti-Discrimination Laws</a>
+<ul>
+<li><a href="#equality-act-of-2010">Equality Act of 2010</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#the-internet">The Internet</a>
+<ul>
+<li><a href="#internet-service-providers-isps">Internet Service Providers (ISPs)</a>
+<ul>
+<li><a href="#isp-as-a-conduit">ISP as a Conduit</a></li>
+<li><a href="#isp-as-a-caching-service">ISP as a caching service</a></li>
+<li><a href="#isp-as-a-host">ISP as a Host</a></li>
+</ul>
+</li>
+<li><a href="#the-internet--national-boundaries">The Internet &amp; National Boundaries</a>
+<ul>
+<li><a href="#national-boundaries">National Boundaries</a></li>
+<li><a href="#national-boundaries-with-the-internet">National Boundaries with the Internet</a></li>
+</ul>
+</li>
+<li><a href="#international-convention-on-cybercrime">International Convention on Cybercrime</a></li>
+<li><a href="#defamation">Defamation</a></li>
+<li><a href="#pornography">Pornography</a>
+<ul>
+<li><a href="#pornography-under-uk-law">Pornography under UK Law</a>
+<ul>
+<li><a href="#child-pornography">Child Pornography</a></li>
+</ul>
+</li>
+<li><a href="#pornography-in-the-us">Pornography in the US</a></li>
+</ul>
+</li>
+<li><a href="#internet-watch-foundation">Internet Watch Foundation</a></li>
+<li><a href="#internet-content-rating-association">Internet Content Rating Association</a></li>
+<li><a href="#spam">Spam</a></li>
+</ul>
+</li>
+<li><a href="#ethics">Ethics</a>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#moral-philosophy">Moral Philosophy</a></li>
+<li><a href="#4-objections-to-moral-discourse">4 Objections to Moral Discourse</a></li>
+<li><a href="#virtue-ethics">Virtue Ethics</a></li>
+<li><a href="#stoicism">Stoicism</a></li>
+<li><a href="#utilitarianism">Utilitarianism</a>
+<ul>
+<li><a href="#utilitarianism-and-the-law">Utilitarianism and the Law</a></li>
+<li><a href="#problems-with-utilitarianism">Problems with Utilitarianism</a></li>
+</ul>
+</li>
+<li><a href="#intuitionism">Intuitionism</a>
+<ul>
+<li><a href="#problems-with-intuitionism">Problems with Intuitionism</a></li>
+</ul>
+</li>
+<li><a href="#rights-ethics">Rights Ethics</a></li>
+<li><a href="#duty-ethics">Duty Ethics</a>
+<ul>
+<li><a href="#categorical-imperative-kant">Categorical Imperative (Kant)</a></li>
+</ul>
+</li>
+<li><a href="#the-golden-rule">The Golden Rule</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="mume-header" id="topics">Topics</h2>
+
+<ul>
+<li>English Law(Civil, Criminal, Tort) <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">&#x2713;</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">&#x2713;</span></span></span></span></li>
+<li>Computer Misuse Act <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">&#x2713;</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">&#x2713;</span></span></span></span></li>
+<li>General Data Protection Act <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">&#x2713;</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">&#x2713;</span></span></span></span></li>
+<li>Freedom of Information Act <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">&#x2713;</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">&#x2713;</span></span></span></span></li>
+<li>Intellectual Property <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">&#x2713;</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">&#x2713;</span></span></span></span></li>
+<li>Contracts Law <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">&#x2713;</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">&#x2713;</span></span></span></span></li>
+<li>Employment Law <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">&#x2713;</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">&#x2713;</span></span></span></span></li>
+<li>The Internet - Responsibility of ISPs, Defamation, etc. <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">&#x2713;</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">&#x2713;</span></span></span></span></li>
+<li>Ethics and Professionalism <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">&#x2713;</mi></mrow><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mord amsrm">&#x2713;</span></span></span></span></li>
+</ul>
+<hr>
+<h4 class="mume-header" id="disruptive-innovation-an-innovation-that-helps-create-a-new-market-and-value-network-eventually-disrupts-existing-market-and-value-network-displacing-all-earlier-technology">Disruptive Innovation - an innovation that helps create a new market and value network, eventually disrupts existing market and value network, displacing all earlier technology.</h4>
+
+<h2 class="mume-header" id="legal-perspectives">Legal Perspectives</h2>
+
+<h3 class="mume-header" id="criminal-vs-civil-law">Criminal vs. Civil Law</h3>
+
+<hr>
+<h4 class="mume-header" id="criminal-law">Criminal Law</h4>
+
+<hr>
+<ul>
+<li>Designed to protect &quot;society&quot; from wrong doers</li>
+<li>Police investigation and arrest.</li>
+<li>Central Prosecution Service (CPS) proceed with prosecution.</li>
+<li>&quot;Innocent until proven guilty&quot;.</li>
+<li>Must be proven &quot;guilty beyond a reasonable doubt&quot;.</li>
+</ul>
+<hr>
+<h4 class="mume-header" id="civil-law">Civil Law</h4>
+
+<hr>
+<ul>
+<li>Settling Disputes between people (Companies can behave as people).</li>
+<li>Litigation must be <em>brought</em> by one of the parties of the dispute, they are the <strong>plaintiff</strong>, against the other, the <strong>defendant</strong> .</li>
+<li>Both parties must present arguments.</li>
+<li>Decision based on <em>balance of probabilities</em></li>
+<li>Litigation is usually brought with the goal of obtaining damages ($$) or an injunction (court order).</li>
+</ul>
+<hr>
+<h4 class="mume-header" id="torts">Torts</h4>
+
+<ul>
+<li>In Common Law, a Tort is a &apos;civil wrong&apos;.</li>
+<li>The action might not be necessarily illegal/ criminal but has still caused harm. Such harm can be addressed by courts</li>
+<li>Torts-based litigation is usually solved through the awarding of damages.
+<ul>
+<li>Negligence - Duty of care, the plaintiff suffered damages as a result of the negligence of the defendant.</li>
+<li>Nuisance</li>
+<li>Defamation</li>
+</ul>
+</li>
+</ul>
+<h4 class="mume-header" id="legalisation">Legalisation</h4>
+
+<ul>
+<li>A <em>&quot;Legislative Act of Parliament</em> or <em>Statute</em> can create, amend or repeal any existing law.</li>
+<li>Any statute overrules any previous act or precedent, but not court decisions based on previous laws.</li>
+</ul>
+<h4 class="mume-header" id="appeal">Appeal</h4>
+
+<ul>
+<li>Appeal to Criminal Division of Court of Appeal
+<ul>
+<li>Possible to overturn convictions/ court decisions based on appeal where new evidence can be presented and a new verdict given which can overturn or affirm a previous ruling.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="mume-header" id="computer-misuse-act-of-1990-cma">Computer Misuse Act of 1990 (CMA)</h2>
+
+<hr>
+<h3 class="mume-header" id="3-offences">3 Offences:</h3>
+
+<hr>
+<ol>
+<li>Unauthorised access to a computer .</li>
+<li>Unauthorised access to a computer to commit a serious crime.</li>
+<li>Unauthorised modification of the contents of a computer.</li>
+</ol>
+<h4 class="mume-header" id="1-unauthorised-access-to-a-computer">1. Unauthorised access to a computer</h4>
+
+<p>A person is guilty iff :</p>
+<ul>
+<li>They cause a computer to perform any function with intent to secure access to any program or data held in any computer</li>
+<li>The access he intends to secure is unauthorised</li>
+<li>They know at the time when they cause the computer to perform the function that this is the case.</li>
+<li>Punishable by a fine up to &#xA3;5000 or 6 months imprisonment</li>
+<li><strong>Key points</strong>:
+<ul>
+<li>Knowledge &amp; intent</li>
+<li>Attempt is insufficient</li>
+<li>No requirement of damage done</li>
+</ul>
+</li>
+</ul>
+<h4 class="mume-header" id="2-intent-to-commit-a-serious-crime">2. Intent to commit a serious crime</h4>
+
+<ul>
+<li>eg. a blackmailer might hack into an email account to gain evidence of an affair</li>
+<li>It is not necessary for the more serious crime to be carried out as long as intent to do so can be shown.</li>
+<li>Punishable by 5 years imprisonment or an unlimited fine</li>
+</ul>
+<h4 class="mume-header" id="3-unauthorised-modification">3. Unauthorised Modification</h4>
+
+<p>A person is guilty of an offence iff:</p>
+<ul>
+<li>They carry out any act which causes an unauthorised modification of the contents of any computer.</li>
+<li>At the time they carry out the act they have the requisite intent and knowledge.
+<ul>
+<li>Requisite Intent covers:
+<ul>
+<li>To impair the operation of any computer</li>
+<li>to prevent or hinder access to any program or data held in any computer</li>
+<li>to impair the operation of any such program or the reliability of any such data.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Punishable by 5 years imprisonment or an unlimited fine.</li>
+<li>Examples of offences include:
+<ul>
+<li>Spreading a virus</li>
+<li>Encrypting files and demanding a ransom for revealing the key</li>
+<li>Redirection of a browser to certain pages.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="review-of-cma">Review of CMA</h3>
+
+<hr>
+<ul>
+<li>All party review of the act</li>
+<li>Input from professional bodies</li>
+<li>Added an additional offence
+<ul>
+<li>Impairing access to data</li>
+<li>Motivated by DDOS attacks</li>
+</ul>
+</li>
+<li>Increased tariff for unauthorised access (1) from 6 months to 2 years imprisonment
+<ul>
+<li>To show this is a serious crime</li>
+<li>A crime which is extraditable under UK law.</li>
+</ul>
+</li>
+<li>Still relatively few prosecutions under CMA</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="issues-with-cma">Issues with CMA</h3>
+
+<hr>
+<ul>
+<li>Common view is that the real issue with Computer crime is a lack of resources for investigation and prosecution other than laws.</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="serious-crime-act-of-2015">Serious Crime Act of 2015</h3>
+
+<hr>
+<ul>
+<li>
+<p>Created to alleviate pressures from EU law makers</p>
+</li>
+<li>
+<p>Resulted in 2 main amendments to the CMA:</p>
+<ul>
+<li>Anyone obtaining malware can be prosecuted before they even steal any personal information.</li>
+<li>Any UK nationals, previously escaping law can now be prosecuted.</li>
+</ul>
+</li>
+<li>
+<p>EU nationals can be extradited to their relevant countries under a blanket directive.</p>
+</li>
+</ul>
+<hr>
+<h2 class="mume-header" id="data-protection-act-of-1984-dpa">Data Protection Act of 1984 (DPA)</h2>
+
+<hr>
+<ul>
+<li>Major concerns about large amounts of data being collected about people</li>
+<li>Data being used for reasons other than why is was originally collected</li>
+<li>The DPA is designed to protect individuals against:
+<ul>
+<li>The use of inaccurate / incomplete personal information</li>
+<li>The use of information by unauthorised persons</li>
+<li>The use of information for reasons other than why it was collected</li>
+</ul>
+</li>
+</ul>
+<h3 class="mume-header" id="major-revision-in-1998">Major revision in 1998</h3>
+
+<ul>
+<li>
+<p>Data defined as : <em>Information that is being processed automatically or is collected with that intention or recorded as part of a &quot;relevant filing system&quot;</em></p>
+</li>
+<li>
+<p>Processing = <em>Obtaining, recording or holding data or carrying out any operation on it</em></p>
+</li>
+<li>
+<p>Data Controller = <em>Who controls why or how data is processed</em></p>
+</li>
+<li>
+<p>Data Processor = <em>Anybody who processes the data on behalf of the controller</em></p>
+</li>
+<li>
+<p>Personal Data = <em>Data which relates to a living person who can be identified using this data (possibly with other data the Controller might have)</em></p>
+</li>
+<li>
+<p>Sensitive Data = <em>Personal Data having racial, ethnic, religious, political or sexual aspects of a person</em></p>
+</li>
+</ul>
+<h3 class="mume-header" id="general-data-protection-regulation-gdpr">General Data Protection Regulation (GDPR)</h3>
+
+<ul>
+<li>Next major revision</li>
+<li>Focus is on the protection of personal data</li>
+<li>Aims for consistency across Europe</li>
+<li>Technology has changed drastically since 1998</li>
+<li>Emphasis on transparency, accountability and awareness</li>
+<li>Should give more control to a person&apos;s own data
+<ul>
+<li>online identifiers, location data, etc.</li>
+</ul>
+</li>
+</ul>
+<h3 class="mume-header" id="data-protection-act-2018">Data Protection Act (2018)</h3>
+
+<ul>
+<li>Applies the EU&apos;s GDPR standards
+<ul>
+<li>preparing Britain for Brexit</li>
+<li>Businesses will be able to continue to operate across Europe.</li>
+</ul>
+</li>
+<li>Covers all other
+<ul>
+<li>General data</li>
+<li>Law enforcement Data</li>
+<li>National security data</li>
+</ul>
+</li>
+<li>Modifies GDPR to work better for the UK
+<ul>
+<li>Academic Research</li>
+<li>Financial services</li>
+<li>Child protection.</li>
+</ul>
+</li>
+</ul>
+<h3 class="mume-header" id="dpa-principals">DPA Principals</h3>
+
+<ol>
+<li>
+<p><strong>Lawfulness</strong></p>
+<ul>
+<li>Personal Data will be processed fairly and faithfully and in particular will not be processed unless:
+<ul>
+<li>a. at least one condition in &quot;Schedule 2&quot; is met</li>
+<li>b. in the case of sensitive data, at least one condition in &quot;Schedule 3&quot; is met</li>
+</ul>
+</li>
+<li>Schedule 2 - consent is given for some legal obligation to process data (tax returns, law enforcement, etc.)</li>
+<li>Schedule 3 - Explicit consent is given</li>
+</ul>
+</li>
+<li>
+<p><strong>Purpose</strong></p>
+<ul>
+<li>Personal Data shall be obtained only for one or more <strong>specified</strong> purposes, and shall not be further processed in any manner incompatible with that purpose(s)
+<ul>
+<li>Data cannot be collected <em>&quot;just in case it&apos;s useful&quot;</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Data Minimisation</strong></p>
+<ul>
+<li>Personal Data should be adequate, relevant and not excessive in relation to the purpose or purposes for which it is being collected.
+<ul>
+<li>Often broken</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Accuracy</strong></p>
+<ul>
+<li>Personal Data should be accurate and, where necessary, kept up to date.</li>
+<li>Reasonable steps must be taken to ensure that inaccurate personal data is erased or rectified.</li>
+</ul>
+</li>
+<li>
+<p><strong>Storage</strong></p>
+<ul>
+<li>Personal Data processed for any purpose or purposes should not be kept for longer than it is necessary.</li>
+<li>How long is long enough?
+<ul>
+<li>Financial data must be kept for 7 years for auditing</li>
+<li>Civil actions can be issued six years after any event</li>
+<li>CCTV data is routinely deleted after one month</li>
+</ul>
+</li>
+<li>Procedures for data deletion must be rigorous and specified</li>
+</ul>
+</li>
+<li>
+<p><strong>Access</strong></p>
+<ul>
+<li>Personal Data should be processed in accordance with the rights of the data subjects under this act</li>
+<li>GDRP Rights of the Individual :
+<ul>
+<li>Right to be informed
+<ul>
+<li>What, why and how your data is being processed</li>
+</ul>
+</li>
+<li>Right of access
+<ul>
+<li>Request all Personal Data and Confidential Data for free</li>
+</ul>
+</li>
+<li>Right to rectification
+<ul>
+<li>incorrect data can be corrected</li>
+</ul>
+</li>
+<li>Right to erasure
+<ul>
+<li>all data erased from systems without delay (new in GDPR)</li>
+</ul>
+</li>
+<li>Right to restrict processing
+<ul>
+<li>Cease processing and leave data alone</li>
+</ul>
+</li>
+<li>Right to data portability
+<ul>
+<li>Receive an electronic version of all the data you have submitted (new to GDPR)</li>
+</ul>
+</li>
+<li>Right to object
+<ul>
+<li>to processing such as direct marketing or profiling</li>
+</ul>
+</li>
+<li>Rights based in relation to automatic decision making
+<ul>
+<li>not to be subejct to a decision based upon profiling</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Security</strong></p>
+<ul>
+<li>Personal data shall be processed in a manner that ensures appropriate security of personal data</li>
+<li>Protection against unauthorised or unlawful processing</li>
+<li>Protection against accidental loss, destruction or damage</li>
+<li>Must use appropriate technical or organizational measures</li>
+</ul>
+</li>
+<li>
+<p><strong>Overseas transfer</strong></p>
+<ul>
+<li>No GDPR equivalent principal</li>
+<li>Transfer will only take place if the country of transfer offers and adequate level of protection</li>
+</ul>
+</li>
+<li>
+<p><strong>Accountability</strong> - new in GDPR</p>
+<ul>
+<li>The controller shall be responsible for, and be abe to demonstrate compliance with these principals</li>
+</ul>
+</li>
+</ol>
+<h2 class="mume-header" id="regulation-of-investigatory-powers-act-2000-ripa">Regulation of Investigatory Powers Act (2000) (RiPA)</h2>
+
+<hr>
+<ul>
+<li>Framework for lawful interception of computer, telephone and postal messages</li>
+<li>ISPs (&amp; most employers) can monitor communications without consent to:
+<ul>
+<li>Establish facts</li>
+<li>Ensure company regulation are being complied with</li>
+<li>To ascertain standards which ought o be achieved</li>
+<li>To prevent crime</li>
+<li>To investigate unauthorised use of telecommunications systems</li>
+<li>To find out whether a communication is business or personal</li>
+<li>To monitor but not record calls to confidential counselling helplines</li>
+</ul>
+</li>
+<li>Such organisastion are required to make reasonable efforts to inform users that such interception might take place</li>
+<li>RiPA also allows government agencies the right to ask for interception warrants to monitor communications to or from specific persons / organisations.</li>
+</ul>
+<h2 class="mume-header" id="freedom-of-information-act-foi">Freedom of Information Act (FOI)</h2>
+
+<hr>
+<ul>
+<li>Act to provide clear right of access of information held by bodies in the public sector
+<ul>
+<li>with certain conditions and exemptions</li>
+</ul>
+</li>
+<li>Where information is exempted from disclosure there is a duty on the public body to disclose where, in the public body&apos;s view, the public interest in disclosure outweighs that of maintaining the exemption.</li>
+<li>Monitored by the Information Commissioner</li>
+</ul>
+<h3 class="mume-header" id="issues-with-the-foi-act">Issues with the FOI Act</h3>
+
+<ul>
+<li>Potential conflicts between FOI requests and GDPR/DPA in cases where there is personal data</li>
+<li>Usually, FOI requests must be answered within one month of receipt
+<ul>
+<li>sometimes impossible</li>
+<li>FOI requests have been used to &quot;punish&quot; perceived slights</li>
+<li>Public organisations need to develop the necessary infrastructure to handle FOI requests. Often this cost is passed via FOI request charge</li>
+</ul>
+</li>
+</ul>
+<h2>Intellectual Property (IP)</h2>
+<hr>
+<ul>
+<li><strong>Theft</strong> = <em>The intentional taking of somebody else&apos;s property with the intention of permanently depriving them of it</em></li>
+</ul>
+<h3>Copyright <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>&#xA9;</mtext></mrow><annotation encoding="application/x-tex">\copyright</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:0em;"></span><span class="mord text"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8888799999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">c</span></span></span><span style="top:-3.19444em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-full" style="left:0em;top:.2em;">&#x25EF;</span></span></span></span></span></span></span></span></span></span></h3>
+<hr>
+<ul>
+<li>
+<p>Copyright, Design and Patents Act of 1988</p>
+</li>
+<li>
+<p>Copyright (computer programs) Regulations of 1992</p>
+</li>
+<li>
+<p>The owner of an IP work has certain exclusive rights:</p>
+<ul>
+<li>The right to:
+<ul>
+<li>make copies of the work</li>
+<li>issue copies of the work to the public (paid | free)</li>
+<li>adapt the work (English -&gt; Japanese, Java -&gt; Python)</li>
+</ul>
+</li>
+<li>These rights are automatic</li>
+</ul>
+</li>
+<li>
+<p>Anybody must request permission to view/ use the IP</p>
+</li>
+<li>
+<p>Copyright doesn&apos;t stop anybody publishing identical work, only directly copied work</p>
+</li>
+<li>
+<p>Copyright lasts 70 years after the author&apos;s death</p>
+</li>
+<li>
+<p>Copyright applies to databases where content is of the authors own creation</p>
+</li>
+<li>
+<p>Database copyright also applies if <em>&quot;There is substantial investment in obtaining, verifying or presenting the contents of the database&quot;</em></p>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="infringement">Infringement</h3>
+
+<hr>
+<p>-<strong>What can you do without Permission?</strong></p>
+<ul>
+<li>It is not infringement to:
+<ul>
+<li>Make a backup of a program you are authorised to use (only 1 copy)</li>
+<li>You can decompile code to correct any errors</li>
+<li>You can sell your right to use a program
+<ul>
+<li>but you must destroy any copies you have</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>-<strong>What is Infringement</strong></p>
+<ul>
+<li>Primary infringement
+<ul>
+<li>Exclusive right of copyright holder are infringed</li>
+<li>Civil issue - damages, injunctions</li>
+</ul>
+</li>
+<li>Secondary infringement
+<ul>
+<li>Primary infringement in a business context
+<ul>
+<li>selling copies</li>
+<li>using pirated software in a business context</li>
+</ul>
+</li>
+<li>Criminal issue
+<ul>
+<li>Large fines, imprisonment</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>-<strong>DRM</strong></p>
+<ul>
+<li>Many pieces of software use DRM
+<ul>
+<li>providing information about how to avoid DRM is the same as actual copyright infringement (as of the 1988 Copyright, Design and Patents Act)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="patents">Patents</h3>
+
+<hr>
+<ul>
+<li>
+<p>Patents Act of 1977</p>
+</li>
+<li>
+<p>A patent is a temporary right granted by the state enabling the inventor to prevent other people from copying his work without permission</p>
+</li>
+<li>
+<p>Patents must be applied for (are not automatic)</p>
+<ul>
+<li>Are far stronger than Copyright
+<ul>
+<li>Prevents other people from coming up with the same solution</li>
+</ul>
+</li>
+<li>Patents were meant to encourage innovation
+<ul>
+<li>reward an inventor with a grace period to recoup development costs</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>For a product to be patented it must be:</p>
+<ul>
+<li>New</li>
+<li>Involves an inventive step
+<ul>
+<li>isn&apos;t an obvious solution</li>
+</ul>
+</li>
+<li>Is capable of industrial application
+<ul>
+<li>is practical</li>
+</ul>
+</li>
+<li>Is not in an area specifically excluded i.e. no:
+<ul>
+<li>Scientific theories</li>
+<li>Mathematical Methods</li>
+<li>Literary/ dramatic/ artistic work</li>
+<li>Presentation of information</li>
+<li>A scheme, rule or method for performing a mental act (includes computer programs)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>-<strong>Obtaining and enforcing</strong></p>
+<ul>
+<li>
+<p>Patents are granted nationally</p>
+</li>
+<li>
+<p>Technically you need to apply in each country</p>
+</li>
+<li>
+<p>Trade schemes such as WIPO, European PO etc. eliminate this requirement</p>
+</li>
+<li>
+<p>Timing is crucial</p>
+<ul>
+<li>Data of initial applicaion determines what is &quot;new&quot;</li>
+<li>Full paten specification requires specialist work</li>
+<li>Often takes 4 years to complete</li>
+</ul>
+</li>
+<li>
+<p>Computing being a global business requires the patent to be taken out in enough countries for it to be challengeable</p>
+</li>
+<li>
+<p>Enforcing is difficult</p>
+</li>
+<li>
+<p>Many are contested</p>
+</li>
+<li>
+<p>Software can be patented iff:</p>
+<ul>
+<li>It is part of a product that can be patented</li>
+<li>Controls some process with a physical effect</li>
+<li>Processes data that arises from the natural world</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>- Patents allow for financial rewards for innovators and creators</td>
+<td>- software has been successful without patents</td>
+</tr>
+<tr>
+<td>- Fund future research</td>
+<td>- Patents allow big companies to claim basic computer functionality as their exclusive right</td>
+</tr>
+<tr>
+<td>- Fund computer scientists</td>
+<td>- A great deal of software has already been written without patents, leading to retrospective patents being granted</td>
+</tr>
+<tr>
+<td></td>
+<td>- Most original development is done by small companies, which is then licensed to/ exploited by big companies</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 class="mume-header" id="copyleft">Copyleft</h3>
+
+<hr>
+<ul>
+<li>Political/Software Philosophy
+<ul>
+<li>Software is released as &quot;free&quot;</li>
+<li>No restrictions on re-use/modification/ copying</li>
+<li>EXCEPT:
+<ul>
+<li>Any resulting code must also be free</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="confidential-information">Confidential Information</h3>
+
+<hr>
+<ul>
+<li>Work often involves an obligation of confidence:
+<ul>
+<li>Software developement for a company might reveal commercially sensitive information</li>
+<li>Conditions of employment for employees</li>
+<li>Long periods of notice for employees with sensitive knowledge</li>
+<li>Clauses in consultancy agreements for consultants</li>
+</ul>
+</li>
+<li>Without such conditions, obligations might occur under <strong>Equity</strong>
+<ul>
+<li>Obligation occurs if a reasonable person in such a position would reasonably understand that information was given in confidence.</li>
+</ul>
+</li>
+</ul>
+<p>-<strong>Public Interest Disclosure Act of 1998</strong></p>
+<ul>
+<li>Information can be disclosed if the employee believes any of the following might occur:
+<ul>
+<li>A criminal offence</li>
+<li>Failure to comply with legal obligation</li>
+<li>A miscarriage of justice</li>
+<li>Danger to health and safety</li>
+<li>Environmental Damage</li>
+<li>Information that occurrences of these have been concealed</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="trademarks-passing-off">Trademarks &amp; Passing off</h3>
+
+<hr>
+<ul>
+<li>
+<p>Any sign capable of being represented graphically which is capable of distinguishing goods and services</p>
+</li>
+<li>
+<p>Useful to protect some kind of retail software</p>
+</li>
+<li>
+<p>Trademarks can be registered or not</p>
+<ul>
+<li>Registered in the UK by the <em>Intellectual Property Office</em></li>
+<li>There are rules for what can be a trademark</li>
+</ul>
+</li>
+<li>
+<p>UK 1994 Act makes it illegal to</p>
+<ul>
+<li>Apply unauthorised trademark to goods</li>
+<li>Sell or hire goods with such a trademark</li>
+<li>Have in the course of business such goods</li>
+<li>Usually a criminal offence but civil actions can also be brought</li>
+</ul>
+</li>
+<li>
+<p>Unregistered trademarks are also protected in the UK under the Tort of passing off</p>
+<ul>
+<li>Civil action (less strong than registered trademarks)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="mume-header" id="contracts-liability">Contracts &amp; Liability</h2>
+
+<hr>
+<h3 class="mume-header" id="contracts">Contracts</h3>
+
+<hr>
+<ul>
+<li>
+<p>Old law</p>
+</li>
+<li>
+<p>All parties intend to make a contract</p>
+</li>
+<li>
+<p>All parties must be competent to make a contract</p>
+</li>
+<li>
+<p>There must be a &quot;consideration&quot;</p>
+<ul>
+<li>Each party must receive and provide something</li>
+</ul>
+</li>
+<li>
+<p>Minor additions have been made for modern technology</p>
+</li>
+<li>
+<p>Fine for most things, <strong>Except software</strong></p>
+</li>
+<li>
+<p><strong>Software Projects are high risk</strong></p>
+</li>
+<li>
+<p><strong>Contracts protect both parties</strong></p>
+</li>
+</ul>
+<h4 class="mume-header" id="fixed-price-contracts">Fixed price contracts</h4>
+
+<hr>
+<ul>
+<li>Typically tailor-made, bespoke systems</li>
+<li>Short agreement
+<ul>
+<li>Who the parties are</li>
+<li>what has been said before is not part of the contract</li>
+</ul>
+</li>
+<li>Standard T&amp;C
+<ul>
+<li>How the supplier normally does business</li>
+</ul>
+</li>
+<li>A set of schedules/ annexes
+<ul>
+<li>PArticular requirements of the contract</li>
+<li>What is supplied</li>
+<li>Deadlines</li>
+<li>What payments are to be made</li>
+<li>etc.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 class="mume-header" id="contract-stipulations">Contract Stipulations</h4>
+
+<hr>
+<h5 class="mume-header" id="what-is-to-be-produced">What is to be produced?</h5>
+
+<ul>
+<li>
+<p>The contract must define a product</p>
+</li>
+<li>
+<p>Good requirement specifications are hard to produce</p>
+</li>
+</ul>
+<h5 class="mume-header" id="what-is-delivered">What is delivered?</h5>
+
+<ul>
+<li>
+<p>Rarely just handing over the code as a text file</p>
+</li>
+<li>
+<p>Contract needs to specify explicitly what is delivered:</p>
+<ul>
+<li>Source Code</li>
+<li>Command files for building executables</li>
+<li>Documentation</li>
+<li>Reference/training/ operations manuals</li>
+<li>Training</li>
+<li>Test data &amp; results</li>
+</ul>
+</li>
+<li>
+<p>Ownership</p>
+<ul>
+<li>Who owns the IP for the software?</li>
+</ul>
+</li>
+<li>
+<p>Confidentiality</p>
+<ul>
+<li>Should be specified for both parties</li>
+</ul>
+</li>
+</ul>
+<h5 class="mume-header" id="payment">Payment</h5>
+
+<ul>
+<li>
+<p>Unlikely for a clause to exist stipulating a due date of payment with consequences otherwise such as surcharges or break of contract</p>
+</li>
+<li>
+<p>Payment is more likely to be staggered</p>
+<ul>
+<li>Initial Payment of 15% on signing</li>
+<li>Stage payments during development</li>
+<li>25% at acceptance of software</li>
+<li>10% at end of contract</li>
+</ul>
+</li>
+<li>
+<p>Such a system is designed to protect the supplier</p>
+<ul>
+<li>Client may go out of business</li>
+<li>Cash flow for the supplier</li>
+</ul>
+</li>
+<li>
+<p>Staggering can be done by</p>
+<ul>
+<li>calendar month (benefits supplier)</li>
+<li>by project completion (benefits client)</li>
+</ul>
+</li>
+</ul>
+<h5 class="mume-header" id="penalty-clauses">Penalty Clauses</h5>
+
+<ul>
+<li>
+<p>Payment clauses protect the supplier but the client may also add penalty clauses</p>
+</li>
+<li>
+<p>e.g. reduced payment of &#xA3;x per week project overrun up to a maximum of y%</p>
+</li>
+</ul>
+<h5 class="mume-header" id="obligations-on-the-client">Obligations on the client</h5>
+
+<ul>
+<li>Contract needs to specify client obligations
+<ul>
+<li>
+<p>Provide documentation</p>
+</li>
+<li>
+<p>Provide access to appropriate staff</p>
+</li>
+<li>
+<p>Provide machine facilities for testing</p>
+</li>
+<li>
+<p>etc.</p>
+</li>
+<li>
+<p>Most suppliers will have their own standards of testing and quality assurance</p>
+</li>
+<li>
+<p>Large clients will prefer to use their own</p>
+<ul>
+<li>Must be specified in the contract</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 class="mume-header" id="acceptance-warranty-indemnity">Acceptance, Warranty &amp; Indemnity</h5>
+
+<ul>
+<li>
+<p>Acceptance</p>
+<ul>
+<li>Client must provide fixed set of acceptance tests</li>
+<li>Successful demonstration of system will constitute acceptance</li>
+</ul>
+</li>
+<li>
+<p>Warranty</p>
+<ul>
+<li>Standard is 90 days</li>
+<li>Any identified errors are fixed free of charge</li>
+<li>Beyond this is subject to negotiation</li>
+</ul>
+</li>
+<li>
+<p>Indemnity</p>
+<ul>
+<li>Risk of supplier infringing on IP rights of third party</li>
+<li>usual for contract to indemnify client and supplier so each are not liable for any infringement by the other due to their own fault</li>
+</ul>
+</li>
+</ul>
+<h5 class="mume-header" id="termination-and-arbitration">Termination and Arbitration</h5>
+
+<ul>
+<li>
+<p>Termination</p>
+<ul>
+<li>
+<p>It is not uncommon for projects to be cancelled</p>
+<ul>
+<li>Client goes bust / merges /</li>
+<li>Technology is not obsolete</li>
+</ul>
+</li>
+<li>
+<p>Contract must specify what payments are made to the supplier in such circumstances</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Arbitration</p>
+<ul>
+<li>Contracts are complex</li>
+<li>Litigation is expensive (often not worthwhile)</li>
+<li>Contract may specify that in the case of a dispute the option of an independent arbitrator will decide</li>
+<li>Avoids legal costs</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 class="mume-header" id="time-and-materials-contracts">Time and Materials Contracts</h4>
+
+<hr>
+<ul>
+<li>
+<p>Also referred to as a <em>&quot;Cost Plus&quot;</em> contract</p>
+</li>
+<li>
+<p>Supplier agrees to develop software</p>
+<ul>
+<li>payment based on costs incurred plus daily rate</li>
+</ul>
+</li>
+<li>
+<p>Acceptance tests and payment is often much simpler</p>
+</li>
+<li>
+<p>Often cheaper than fixed price contracts</p>
+</li>
+<li>
+<p>Sometimes project is unclear meaning fixed price is impossible</p>
+</li>
+</ul>
+<hr>
+<h4 class="mume-header" id="contract-hire-consultancy">Contract Hire &amp; Consultancy</h4>
+
+<hr>
+<ul>
+<li>
+<p>Fixed price contracts are complex</p>
+</li>
+<li>
+<p>Contract hire offers a simple alternative</p>
+<ul>
+<li>Supplier provides services of staff for a fixed period</li>
+<li>Agreed hourly/ daily rates</li>
+<li>Client takes responsibility for managing staff</li>
+<li>Termination by either side can be done at short notice</li>
+</ul>
+</li>
+<li>
+<p>Consultancy - Expert analysis is a key part of business</p>
+<ul>
+<li>Usually produces a report</li>
+<li>Done at a fixed price but
+<ul>
+<li>small amount of cash involved</li>
+<li>harder for a report to fail an acceptance test</li>
+<li>reputation of a consultant is a good guarantee</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Issues with Consultancy</p>
+<ul>
+<li>Confidentiality
+<ul>
+<li>Need to be safeguards to ensure consultant doesn&apos;t profit against the client following the project</li>
+</ul>
+</li>
+<li>Terms of reference
+<ul>
+<li>what is the consultant mean to be looking at?</li>
+<li>often changes during the course of the project</li>
+<li>major source of disagreements</li>
+</ul>
+</li>
+<li>Who approves the final report?
+<ul>
+<li>Usually client approves draft</li>
+<li>May require amendments</li>
+<li>Might damage consultants reputation</li>
+</ul>
+</li>
+<li>Liability
+<ul>
+<li>Few consultants want to be liable for the advice they give</li>
+<li>Most clients want them to be liable</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="mume-header" id="human-resources-employment-law">Human Resources (Employment law)</h2>
+
+<hr>
+<h3 class="mume-header" id="human-resources-departments">Human Resources Departments</h3>
+
+<hr>
+<ul>
+<li>Complex</li>
+<li>Ensuring recruitment/selection/promotion complied with legislation</li>
+<li>Staff training and development</li>
+<li>Appraisal</li>
+<li>Dismissal and redundancy procedures</li>
+<li>Administrating grievance procedures</li>
+<li>Being aware of new legislation</li>
+<li>Health and Safety</li>
+<li>Recruitment is expensive</li>
+<li>Keep employees happy</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="recruitment-selection">Recruitment &amp; Selection</h3>
+
+<hr>
+<h4 class="mume-header" id="recruitment">Recruitment</h4>
+
+<ul>
+<li>Soliciting applications</li>
+<li>Often outsourced</li>
+<li>Pre-selection &amp; shortlisting</li>
+<li>Typically charge 25% of first year salary for services</li>
+</ul>
+<h4 class="mume-header" id="selection">Selection</h4>
+
+<ul>
+<li>Left to parent company</li>
+<li>Selection Procedures
+<ul>
+<li>1-1 interviews with senior management
+<ul>
+<li>reliable</li>
+<li>Difficult to make comply with anti-discrimination legislation</li>
+</ul>
+</li>
+<li>Interview by panel
+<ul>
+<li>Common</li>
+<li>Easy to comply with legislation</li>
+<li>May not be reliable</li>
+<li>Charismatic people have large advantage</li>
+<li>Avoids nepotism &amp; corruption</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 class="mume-header" id="references">References</h4>
+
+<ul>
+<li>
+<p>Assessment by reference</p>
+<ul>
+<li>Important in academic and public bodies</li>
+<li>Less so in private companies</li>
+<li>Often simply a final check</li>
+<li>Law often allows applicants to read their own references</li>
+</ul>
+</li>
+<li>
+<p>Potential for Civil action</p>
+<ul>
+<li>By applicant for unfair reference</li>
+<li>By employer if reference misses negative aspects</li>
+<li>Often referees write banal but positive priase</li>
+</ul>
+</li>
+</ul>
+<h4 class="mume-header" id="tests">Tests</h4>
+
+<ul>
+<li>Psychometric tests
+<ul>
+<li>ability tests
+<ul>
+<li>eg maths or written skills</li>
+</ul>
+</li>
+<li>Aptitude tests
+<ul>
+<li>focus on ability to learn</li>
+<li>reliable for assessing programming ability</li>
+<li>increasingly difficult for more advanced skills</li>
+</ul>
+</li>
+<li>Personality Tests
+<ul>
+<li>common</li>
+<li>Unclear definitions of &quot;good personality traits&quot;</li>
+<li>value unclear</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="staff-training-and-management">Staff Training and Management</h3>
+
+<hr>
+<ul>
+<li>UK industry is often criticised for lack of interest in staff training</li>
+<li>In the US employers frequently fun part time masters degrees</li>
+<li>UK governments have attempted to provide initiatives</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="remuneration">Remuneration</h3>
+
+<hr>
+<ul>
+<li>Disparity of pay &amp; benefits cause dissatisfaction in employees</li>
+<li>Public services
+<ul>
+<li>fixed pay scales</li>
+<li>Annual increments</li>
+<li>Promotion = moving to a better scale</li>
+<li>Rarely competitive with private sector</li>
+</ul>
+</li>
+<li>Private companies
+<ul>
+<li>Individual agreements within broad guidelines</li>
+<li>Often difficult to justify</li>
+<li>Job evaluation to make sure people are doing enough work for their pay</li>
+<li>Equal pay for equal work &amp; anti-discrimination legislation</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="appraisal-schemes">Appraisal Schemes</h3>
+
+<hr>
+<ul>
+<li>Management by objectives
+<ul>
+<li>Regular (annual) meeting with manager</li>
+<li>Agreed objectives</li>
+<li>Objectives should be
+<ul>
+<li>Clear</li>
+<li>measurable</li>
+<li>achievable</li>
+</ul>
+</li>
+<li>revised objectives for next period</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="redundancy-and-dismissal">Redundancy and Dismissal</h3>
+
+<hr>
+<ul>
+<li>
+<p>HR is responsible for ensuring proper procedures are followed</p>
+</li>
+<li>
+<p>Such actions are hard on</p>
+<ul>
+<li>the employee</li>
+<li>general staff morale</li>
+</ul>
+</li>
+<li>
+<p>Laws surrounding redundancy are complex</p>
+</li>
+<li>
+<p>Unfair dismissal</p>
+<ul>
+<li>reason for dismissal must be valid</li>
+<li>correct procedure must be followed</li>
+</ul>
+</li>
+<li>
+<p>Reasons for a justified dismissal</p>
+<ul>
+<li>Lack of capability</li>
+<li>Misconduct</li>
+<li>Breach of law</li>
+<li>Redundancy</li>
+</ul>
+</li>
+<li>
+<p>But NOT:</p>
+<ul>
+<li>Legal union activity</li>
+<li>legal action to enforce employee rights</li>
+<li>issues covered by anti-discrimination law
+<ul>
+<li>eg maternity leave</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="statutory-dismissal-procedure">Statutory Dismissal Procedure</h3>
+
+<hr>
+<ul>
+<li>
+<p>Set procedure (2004-2009)</p>
+<ul>
+<li>Employer required to give reasons for dismissal in writing</li>
+<li>Meeting arranged for all parties to state their case</li>
+<li>If employer goes ahead, employee has right to appeal</li>
+<li>Unfair dismissal can be claimed only after one year of unemployment</li>
+<li>Any dismissal which breached the above is automatically considered unfair</li>
+</ul>
+</li>
+<li>
+<p>ACAS Code of Practice (2009)</p>
+<ul>
+<li>No set procedure but a guide to best practice</li>
+<li>Tribunal will take into account actual practice</li>
+<li>May increase payout by up to 25% in cases of unfair dismissal</li>
+<li>2 year employment required for any claim of unfair dismissal</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="constructive-dismissal">Constructive Dismissal</h3>
+
+<hr>
+<ul>
+<li>Company behaves in a way towards employees that makes them feel as though they must resign</li>
+<li>Any breach in terms of employment contract can be seen as contrcutive dismissal</li>
+<li>Constructive dismissal is not necessarily unfair (often is)</li>
+<li>Examples include moving office and requiring current employees who want to remain to move along with the office.</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="redundancy">Redundancy</h3>
+
+<hr>
+<ul>
+<li>
+<p>Redundancy = when the company no longer requires people to do a certain job</p>
+</li>
+<li>
+<p>Potentially, the company may have gone bust</p>
+</li>
+<li>
+<p>Employees are entitled by law to certain minimum levels of compensation based on age, salary and experience</p>
+</li>
+<li>
+<p>In UK law there are 2 concepts of redundancy</p>
+<ul>
+<li>For purposes of compensation, redundancy is where employer no longer needs employees for a given job</li>
+<li>For purposes of consultation, redundancy is dismissal where reason is not related to individuals concerned</li>
+</ul>
+</li>
+<li>
+<p>Difficult to decide who to make redundant</p>
+<ul>
+<li>last in first out is the normal</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="transfer-of-undertakings-protection-of-employment-tupe">Transfer of Undertakings, Protection of Employment (TUPE)</h3>
+
+<hr>
+<ul>
+<li>Laws governing where one company takes over another
+<ul>
+<li>Employees of the old company are automatically employees of the new company</li>
+<li>Conditions of employment must be maintained</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="anti-discrimination-laws">Anti-Discrimination Laws</h3>
+
+<hr>
+<ul>
+<li>Provide similar but not equal protection against:
+<ul>
+<li>Sexual</li>
+<li>Gender</li>
+<li>Disabled</li>
+<li>Religion</li>
+<li>Political Discrimination</li>
+</ul>
+</li>
+<li>Used to be that each was monitored by a different government body</li>
+</ul>
+<h4 class="mume-header" id="equality-act-of-2010">Equality Act of 2010</h4>
+
+<ul>
+<li>Consolidation of all previous laws into a single act</li>
+<li>Provides a single framework which guarantees
+<ul>
+<li>anti-discrimination</li>
+<li>equal pay and employment conditions</li>
+<li>Equal access to sales and services</li>
+</ul>
+</li>
+<li>All of the above for the following :
+<ul>
+<li>Gender</li>
+<li>Sexual preference</li>
+<li>Marital Status</li>
+<li>Age</li>
+<li>Race</li>
+<li>Religion</li>
+<li>Political Views</li>
+<li>Disabilities</li>
+</ul>
+</li>
+<li>With some explicit exceptions</li>
+</ul>
+<hr>
+<hr>
+<h2 class="mume-header" id="the-internet">The Internet</h2>
+
+<hr>
+<h3 class="mume-header" id="internet-service-providers-isps">Internet Service Providers (ISPs)</h3>
+
+<hr>
+<ul>
+<li>How responsible an ISP is for their customers behaviour is dependant on what the ISP does:
+<ul>
+<li>Simply a conduit</li>
+<li>Caching</li>
+<li>Hosting</li>
+</ul>
+</li>
+</ul>
+<h4 class="mume-header" id="isp-as-a-conduit">ISP as a Conduit</h4>
+
+<ul>
+<li>ISP does no more than transmit data to and from the internet</li>
+<li>ISP does not
+<ul>
+<li>Initiate transmissions</li>
+<li>select or modify data</li>
+<li>can store data as part of the transmission process</li>
+</ul>
+</li>
+<li>ISP is not responsible for:
+<ul>
+<li>Not liable for any civil damages</li>
+<li>not open to any criminal sanction</li>
+</ul>
+</li>
+</ul>
+<h4 class="mume-header" id="isp-as-a-caching-service">ISP as a caching service</h4>
+
+<ul>
+<li>
+<p>If information is subject to:</p>
+<ul>
+<li>automatic, intermediate and temporary storage
+<ul>
+<li>eg to improve the efficiency of transmission to other recipients upon their requests</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>ISP is not responsible, provided it:</p>
+<ul>
+<li>does nto modify information</li>
+<li>complies with conditions on access to the information</li>
+<li>compiles with any rules regarding the updating of information, specified and used by industry practice</li>
+<li>does not interfere with the lawful use of technology, widely recognised and used by industry</li>
+<li>acts expeditiously to remove or disable access to the information once made aware that it has been removed at the source of the transmission or access to it has been disabled, or a court has ordered such remove or disablement</li>
+</ul>
+</li>
+</ul>
+<h4 class="mume-header" id="isp-as-a-host">ISP as a Host</h4>
+
+<ul>
+<li>ISP is not liable if:
+<ul>
+<li>it did not know anything unlawful was going on</li>
+<li>where a claim of damages is made, it did not know anything which should have led it to think something unlawful was going on</li>
+<li>when it found something illegal, it acted expeditiously to remove the information or disable access</li>
+<li>the customer was not acting under the authority or control of the ISP</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="the-internet-national-boundaries">The Internet &amp; National Boundaries</h3>
+
+<hr>
+<h4 class="mume-header" id="national-boundaries">National Boundaries</h4>
+
+<ul>
+<li>If a crime is committed in Country A but the criminal moves to country B, can the criminal be prosecuted?
+<ul>
+<li>if there is an extradition treaty in place then
+<ul>
+<li>criminal arrested in B can be sent back to A
+<ul>
+<li>only if the act is also a crime in country B</li>
+</ul>
+</li>
+<li>Extraditions often fail</li>
+</ul>
+</li>
+<li>Can the criminal be prosecuted in B ?
+<ul>
+<li>generally : no</li>
+<li>exceptions include
+<ul>
+<li>UK will prosecute child abuse committed in other countries</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 class="mume-header" id="national-boundaries-with-the-internet">National Boundaries with the Internet</h4>
+
+<ul>
+<li>You live in country A, publish a website that is legal in country A but a criminal offence in country B
+<ul>
+<li>You cannot be prosecuted in country A</li>
+<li>It is highly unlikely you will be extradited to B</li>
+<li>Unwise for you to visit B</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="international-convention-on-cybercrime">International Convention on Cybercrime</h3>
+
+<hr>
+<ul>
+<li>
+<p>Approved draft by Council of Europe (2001) with a focus on:</p>
+<ul>
+<li>Child pornography</li>
+<li>Copyright infringement</li>
+<li>Computer fraud</li>
+<li>Religious and Racial hatred</li>
+</ul>
+</li>
+<li>
+<p>with additional protocols added in 2006:</p>
+<ul>
+<li>Criminalises dissemination of racist and xenophobic material via computers</li>
+<li>along with Racist and xenophobic threats and insults distributed via computers</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="defamation">Defamation</h3>
+
+<hr>
+<ul>
+<li>
+<p>Covers statements which damage a person&apos;s reputation</p>
+</li>
+<li>
+<p>In English law:</p>
+<ul>
+<li>Slander = spoken defamation</li>
+<li>Libel = written defamation</li>
+</ul>
+</li>
+<li>
+<p>Defamation act of 1996 defends anybody who:</p>
+<ul>
+<li>is not the author, editor or publisher or</li>
+<li>took responsible care in relation to publication</li>
+<li>Did not know, and had no reason to believe the publication constituted a defamatory statement</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="pornography">Pornography</h3>
+
+<hr>
+<h4 class="mume-header" id="pornography-under-uk-law">Pornography under UK Law</h4>
+
+<ul>
+<li><em>&quot;An article shall be deemed to be obscene if its effect<br>
+or the effect of any one of its items is, if taken as a<br>
+whole such as to tend to deprave and corrupt<br>
+persons who are likely, having regard to all relevant<br>
+circumstances, to read or hear the matter contained<br>
+or embodied in it.&quot;</em></li>
+<li>Possession is <strong>not</strong> illegal</li>
+<li>Publication and distribution <strong>is</strong></li>
+</ul>
+<h5 class="mume-header" id="child-pornography">Child Pornography</h5>
+
+<ul>
+<li>Protection of Children act of 1978
+<ul>
+<li>serious criminal offence</li>
+<li>mere possession is an offence</li>
+<li>does not need to be obscene</li>
+</ul>
+</li>
+<li>Wide international agreement</li>
+<li>Very severe penalties</li>
+</ul>
+<h4 class="mume-header" id="pornography-in-the-us">Pornography in the US</h4>
+
+<ul>
+<li>All non-child porn is protected under the 1st amendment</li>
+<li>Mainly concerned with children accessing porn</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="internet-watch-foundation">Internet Watch Foundation</h3>
+
+<hr>
+<ul>
+<li>
+<p>UK body formed in 1996</p>
+</li>
+<li>
+<p>Supported by government, police and ISPs</p>
+</li>
+<li>
+<p>Monitors and takes action against offensive internet content</p>
+<ul>
+<li>eg.:
+<ul>
+<li>(intentional) child pornography</li>
+<li>Adult material that potentially breaks the law</li>
+<li>Contains criminally racists material in the UK</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Operate a hotline to the public</p>
+</li>
+<li>
+<p>Receives around 20,000 complaints annually</p>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="internet-content-rating-association">Internet Content Rating Association</h3>
+
+<ul>
+<li>International, Independent Association</li>
+<li>Board contained major tech players such as IBM, BT and Microsoft</li>
+<li>Provided a framework for content producers to label their websites with content labels (nudity, violence etc.)</li>
+<li>Disbanded in 2010 due to lack of acceptance</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="spam">Spam</h3>
+
+<hr>
+<ul>
+<li>
+<p>Unsolicited email</p>
+</li>
+<li>
+<p>Solutions :</p>
+<ul>
+<li>Closing loopholes in email servers</li>
+<li>Machine learning and NLP techniques</li>
+<li>Virus detection</li>
+<li>Stop listing of sites</li>
+</ul>
+</li>
+<li>
+<p>UK Privacy and Electronic Communications</p>
+<ul>
+<li>an EU Directive</li>
+<li>Spam can only be sent to those who give consent</li>
+<li>Spam without valid return address (or opt out link) is illegal</li>
+<li>If email is gained from sale of goods, it can be used for spam as long as the customer has clear instructions for opting out</li>
+</ul>
+</li>
+<li>
+<p>Equivalent laws in the US are far weaker</p>
+</li>
+</ul>
+<hr>
+<hr>
+<h2 class="mume-header" id="ethics">Ethics</h2>
+
+<hr>
+<h3 class="mume-header" id="introduction">Introduction</h3>
+
+<hr>
+<ul>
+<li>Ethics is the area of philosophy concerned with right and wrong behaviour</li>
+<li>Most people consider themselves to be &quot;good&quot;</li>
+<li>However, bad things happen</li>
+<li>The ethics of a situation can be complex</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="moral-philosophy">Moral Philosophy</h3>
+
+<hr>
+<ul>
+<li>Philosophy = the rational analysis of assumptions based on arguments</li>
+<li>Moral Philosophy asks:
+<ul>
+<li>What does it mean to be/do good?</li>
+<li>What is wrong/ evil?</li>
+<li>How can we lead a &quot;good life&quot; ?</li>
+</ul>
+</li>
+<li>Not directly practical, doesn&apos;t yield definite answers</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="4-objections-to-moral-discourse">4 Objections to Moral Discourse</h3>
+
+<hr>
+<ol>
+<li>People disagree on solutions to moral issues
+<ol>
+<li>But also disagreements in all areas of science</li>
+<li>Most of us agree on the major points of morality</li>
+</ol>
+</li>
+<li>Who am I to judge others?
+<ol>
+<li>Judgement is needed in some cases</li>
+<li>e.g. Human rights abuses</li>
+</ol>
+</li>
+<li>Morality is a private matter
+<ol>
+<li>Not just private beliefs</li>
+<li>Our actions affect others</li>
+</ol>
+</li>
+<li>Morality is a matter for individual cultures to decide
+<ol>
+<li>Moral relativism</li>
+<li>e.g ages of consent</li>
+<li>Considerable agreement across many cultures</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h3 class="mume-header" id="virtue-ethics">Virtue Ethics</h3>
+
+<hr>
+<ul>
+<li>
+<p>Ethics was a major part of ancient Greek philosophy</p>
+</li>
+<li>
+<p><em><strong>Socrates</strong></em> (469 BC)</p>
+<ul>
+<li>A good life is one based on self development rather than wealth</li>
+<li>Virtues - courage, honesty and friendship</li>
+<li>The community is more important than the individual</li>
+</ul>
+</li>
+<li>
+<p><em><strong>Aristotle</strong></em> (384 BC)</p>
+<ul>
+<li>Virtue is the proper function of a thing</li>
+<li>An eye is good if it sees</li>
+<li>A person is good if they follow their soul with reason to achieve happiness</li>
+<li>To be happy requires good character</li>
+</ul>
+</li>
+<li>
+<p><em><strong>Epicurus</strong></em> (341 BC)</p>
+<ul>
+<li>Point of life is happiness, tranquility and friendship</li>
+<li>Self-sufficiency</li>
+<li>Pain and pleasure are measures of good and evil</li>
+<li>Hedonism</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="stoicism">Stoicism</h3>
+
+<hr>
+<ul>
+<li>Founded in 3 BC</li>
+<li>Popular in the Roman Empire</li>
+<li>Rationality and acceptance of misfortunes</li>
+<li>PAssion is the cause of suffering</li>
+<li>Ignorance is the main cause of evil in the world</li>
+<li>Thinking as a spiritual exercise</li>
+<li>Equality and brotherhood for all mankind</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="utilitarianism">Utilitarianism</h3>
+
+<hr>
+<ul>
+<li>Popularised by Jeremy Bentham (1780 AD)</li>
+<li>Hedonic Calculus</li>
+<li>Any pleasure or pain can be measured and quantified</li>
+<li>Act Utilitarianism (John Stuart Mill, 1863)
+<ul>
+<li>An action is right if it promotes happiness</li>
+<li>Choose the action that will produce the greatest amount of happiness</li>
+</ul>
+</li>
+</ul>
+<h4 class="mume-header" id="utilitarianism-and-the-law">Utilitarianism and the Law</h4>
+
+<ul>
+<li>Greatest happiness for greatest number of people implies altruism</li>
+<li>Law exists to enforce altruism for benefit of society</li>
+<li>Therefore, using this argument we can quantify why stealing is wrong:
+<ul>
+<li>Stealing increases happiness of thief</li>
+<li>Reduces happiness of victim</li>
+<li>Makes other people feel insecure</li>
+<li>Therefore, net happiness is lower</li>
+</ul>
+</li>
+</ul>
+<h4 class="mume-header" id="problems-with-utilitarianism">Problems with Utilitarianism</h4>
+
+<ul>
+<li>How do we quantify pleasure and pain?</li>
+<li>How do we decide what is good if we don&apos;t know the consequences?</li>
+<li>Utilitarianism ignores the needs of an individual
+<ul>
+<li>Medical treatments require tax funding</li>
+<li>Taxes make more people unhappy</li>
+<li>Therefore, we should stop funding medical treatments</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="intuitionism">Intuitionism</h3>
+
+<ul>
+<li>Moral realism</li>
+<li>Intuitive awareness of moral &quot;facts&quot;</li>
+<li>Self evident principles of right action:
+<ul>
+<li>Promoting the happiness of people</li>
+<li>Refraining from harming others</li>
+<li>Treating people justly</li>
+<li>Telling the truth</li>
+<li>etc.</li>
+</ul>
+</li>
+</ul>
+<h4 class="mume-header" id="problems-with-intuitionism">Problems with Intuitionism</h4>
+
+<ul>
+<li>Principles are not always self evident</li>
+<li>If morality is objective fact, why do we still debate right and wrong?</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="rights-ethics">Rights Ethics</h3>
+
+<hr>
+<ul>
+<li>Good actions represent the rights of individuals</li>
+<li>Humans have essential rights
+<ul>
+<li>French declaration of human rights (1789)</li>
+<li>US Bill of rights (1789)</li>
+<li>The European Bill of Human Rights</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="mume-header" id="duty-ethics">Duty Ethics</h3>
+
+<hr>
+<ul>
+<li>
+<p>Imperatives for right behaviour</p>
+</li>
+<li>
+<p>Hypothetical (prudential)</p>
+<ul>
+<li>if you want x, do y</li>
+</ul>
+</li>
+<li>
+<p>Categorical (moral)</p>
+<ul>
+<li>
+<p>No if - moral reason is enough</p>
+</li>
+<li>
+<p>Be kind</p>
+</li>
+<li>
+<p>Be honest</p>
+</li>
+<li>
+<p>etc.</p>
+</li>
+<li>
+<p>No exceptions</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 class="mume-header" id="categorical-imperative-kant">Categorical Imperative (Kant)</h4>
+
+<ol>
+<li>Act as if you are legislating for everybody else
+<ol>
+<li>if you do an action, would you want everybody else to have taken the same action?</li>
+<li>Treat any action as if it was a law for everybody</li>
+</ol>
+</li>
+<li>Act so as to treat human beings always as ends and never as means</li>
+<li>Act as if you were a member of a realm of ends
+<ol>
+<li>Act as a member of a community</li>
+<li>All of whom treat each-other as ends rather than  means</li>
+<li>All of whom decide as if they were legislating for all</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h3 class="mume-header" id="the-golden-rule">The Golden Rule</h3>
+
+<hr>
+<ul>
+<li>One should treat other as one would like other to treat oneself</li>
+<li>One should not treat others in ways that one would not like to be treated.</li>
+</ul>
+<hr>
+<hr>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

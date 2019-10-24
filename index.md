@@ -3,11 +3,19 @@
 
 Please follow the following links for lecture notes
 
-## Neural Computation 
+## 2nd Year
+
+### Professional Computing 
+
+- [All Notes](Y2/Professional-Computing/out/Professional_Computing_Notes.html)
+
+## 3rd Year
+
+### Neural Computation 
 
 - [Lecture 1](Y3/Neural-Computation/out/Lecture1.html)
 - [Lecture 2](Y3/Neural-Computation/out/Lecture2.html)
 
-## Parallel & Distributed Computation
+### Parallel & Distributed Computation
 
 - [Lecture 1](Y3/Parallel+Distributed/out/Lecture1.html)
