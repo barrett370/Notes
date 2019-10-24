@@ -125,6 +125,7 @@ $f'(x) = \lim_{\Delta x \rightarrow 0}\frac{f(x+\Delta x) - f(x)}{\Delta x}$**
 - To make this viable we need to define:
   - *"what is the right direction?"*
   - *"what is slightly?"*
+![Graph of gradient descent](../../../../docs/Y3/Neural-Computation/resources/GradientDescent&#32;.jpg)
 
 ###### Attempt 1 **(failed)**
 
@@ -139,7 +140,7 @@ repeat:
 
 **Issue with this attempt:**
 
-- w may oscillate inthe interval $[w_{opt} - \epsilon, w_{opt}+ \epsilon]$
+- w may oscillate in the interval $[w_{opt} - \epsilon, w_{opt}+ \epsilon]$
 - w fails to converge 
 
 ###### Attempt 2: Gradient Descent (1D)
