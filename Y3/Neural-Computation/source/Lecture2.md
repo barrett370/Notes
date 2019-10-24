@@ -21,7 +21,7 @@
 
 ## Linear Regression Models
 
-![High level representation of ML](../../../../docs/Y3/Neural-Computation/resources/ML-supervised-l2.png)
+![High level representation of ML](../resources/ML-supervised-l2.png)
 
 ### Cat Hearts example:
 
@@ -61,7 +61,7 @@ ___
 
 - Want a function, $J(w)$ which quantifies the error in the predictions for a given parameter $w$
 
-![Graph showing predicted vs actual values](../../../../docs/Y3/Neural-Computation/resources/y=x-notes.jpg)
+![Graph showing predicted vs actual values](../resources/y=x-notes.jpg)
 
 - The following empirical loss function, $J$ takes into account the errors $\forall n$ data points.
   - $J(w) = (1/2N)\sum_{i=1}^N(y_i-wx_i)^2$
@@ -83,7 +83,7 @@ Given a continuous function:
   - A **local** minimum of $f$ iff:
     - $\exists \epsilon > 0, \forall y \in \R^d$ if $\forall i \in \{1,...,d\} , | x_i - y_i | < \epsilon \implies f(x) \leq f(y)$
 
-![Graph showing local vs global minima](../../../../docs/Y3/Neural-Computation/resources/local-minima.jpg)
+![Graph showing local vs global minima](../resources/local-minima.jpg)
 
 ___
 **Theorem: 
@@ -125,7 +125,7 @@ $f'(x) = \lim_{\Delta x \rightarrow 0}\frac{f(x+\Delta x) - f(x)}{\Delta x}$**
 - To make this viable we need to define:
   - *"what is the right direction?"*
   - *"what is slightly?"*
-![Graph of gradient descent](../../../../docs/Y3/Neural-Computation/resources/GradientDescent&#32;.jpg)
+![Graph of gradient descent](../resources/GradientDescent&#32;.jpg)
 
 ###### Attempt 1 **(failed)**
 
