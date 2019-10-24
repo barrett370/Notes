@@ -15,7 +15,7 @@
 
 ## Linear Regression Models
 
-![](../resources/ML-supervised-l2.png)
+![](../../../../docs/Y3/Neural-Computation/resources/ML-supervised-l2.png)
 
 ### Cat Hearts example:
 
@@ -55,7 +55,7 @@ ___
 
 - Want a function, $J(w)$ which quantifies the error in the predictions for a given parameter $w$
 
-![](../resources/y=x-notes.jpg)
+![](../../../../docs/Y3/Neural-Computation/resources/y=x-notes.jpg)
 
 - The following empirical loss function, $J$ takes into account the errors $\forall n$ data points.
   - $J(w) = (1/2N)\sum_{i=1}^N(y_i-wx_i)^2$
