@@ -29,9 +29,7 @@ A Computer Program is said to learn from experience, _E_, with respect to some c
 
 - Construct a function, $f : \R^n \rightarrow \{ 1,...,k \}$, s.t. if an object with features $x \in \R^n $ belongs to class , *y*, then $f(x) = y$
 - Alternatively, Construct a function which given features returns the probability of each class
-```python
-print("Hello, World!")
-```
+
 #### Regression
 
 - Predict a numerical value given some inputs, i.e. a function: $ f : \R^n \rightarrow \R$
