@@ -7,3 +7,7 @@ Please follow the following links for lecture notes
 
 - [Lecture 1](Y3/Neural-Computation/out/Lecture1.html)
 - [Lecture 2](Y3/Neural-Computation/out/Lecture2.html)
+
+## Parallel & Distributed Computation
+
+- [Lecture 1](Y3/Parallel+Distributed/out/Lecture1.html)
