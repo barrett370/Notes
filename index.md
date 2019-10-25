@@ -1,7 +1,9 @@
 # Welcome to my Notes repo!
 
 
-Please follow the following links for lecture notes
+Please follow the following links for lecture notes.
+
+**Please create an issue [here](https://github.com/barrett370/Notes/issues) if you find any typos/ inaccuracies**
 
 ## 2nd Year
 
