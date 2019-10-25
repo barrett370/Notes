@@ -120,7 +120,7 @@ If we differentiate $L_{LSE}$ with respect to $\textbf{w}$ we get:
 
 $$\frac{\delta L_{LSE}(\textbf{w})}{\delta \textbf{w}} = -2 \boldsymbol{\Phi}^T(\textbf{y} - \boldsymbol{\Phi}\textbf{w})$$
 
-**For a proof of this, see Iain Style's Notes**
+**For a proof of this, see Iain Styles' Notes**
 
 Setting this result to 0 we obtain: 
 
