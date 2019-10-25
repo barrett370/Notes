@@ -87,3 +87,4 @@ A Computer Program is said to learn from experience, _E_, with respect to some c
 
 - The algorithm interacts with an environment through a sequence of actions
 - each action is rewarded or penalised
+
