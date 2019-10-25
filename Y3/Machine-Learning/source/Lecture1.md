@@ -126,7 +126,7 @@ Setting this result to 0 we obtain:
 
 ###### (13) 
 
-$$\boldsymbol{\Phi}^Ty - \boldsymbol{\Phi}^T\boldsymbol{\Phi}\textbf{w}^*=0$$
+$$\boldsymbol{\Phi}^T\textbf{y} - \boldsymbol{\Phi}^T\boldsymbol{\Phi}\textbf{w}^*=0$$
 
 This is known as the **normal equations** and are a set of simultaneous linear equations which we can solve for $\textbf{w}^*$
 
