@@ -23,7 +23,7 @@ Measurements of $y$, subject ot noise are defined by,
 
 ###### (2)
 
-$$y_i = f(\textbf{w},w) + \epsilon$$
+$$y_i = f(\textbf{w},x_i) + \epsilon$$
 
 Where $\epsilon$ is a random number drawn from some continuous probability density function.
 Goal is to find some $\textbf{w}$ that solves, or provides the best approximation to the above equation.
