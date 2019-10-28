@@ -11,6 +11,7 @@
     - $N \sim \mathcal{N}(0,\sigma^2)$
     - is a *noise term* 
     - $F(X)$ is a *random variable* which can be described by a *conditional density* $P(y | x, w)$
+  
 ____
 
 ## An aside into basic probability
@@ -33,7 +34,7 @@ $$f(x ; \mu , \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}}\exp(-\frac{(x - \mu)^2}
 
 ### Expectation 
 
-- The **expected value** of $f(x)$ when $x$ is a random variable with *p.d.f* $P$ is 
+- The **expected value** of $f(x)$ when $x$ is a random variable with *p.d.f* $P$ is
 
 ###### (2) 
 
@@ -53,7 +54,7 @@ $$\int_D P(x_1,\cdots, x_n)\delta x_1 \cdots \delta x_n = Pr((x_1 ,\cdots, x_n)\
 
 ###### (4) 
 
-$$P(x_1,\cdots, x_n) = \Pi_{i=1}^n P_i(x_i)$$
+$$P(x_1,\cdots, x_n) = \prod_{i=1}^n P_i(x_i)$$
 
 ### Empirical Distribution
 
@@ -93,7 +94,7 @@ $$P_{model}(y | x ; \theta)$$
 
 ###### (7)
 
-$$\mathcal{L}(\theta; (x_1,y_1), \cdots , (x_n,y_n)) := \Pi_{i=1}^n P_{model}(y_i | x_i ; \theta)$$
+$$\mathcal{L}(\theta; (x_1,y_1), \cdots , (x_n,y_n)) := \prod_{i=1}^n P_{model}(y_i | x_i ; \theta)$$
 
 - $\mathcal{L}(\theta; ...)$ is the *likelihood* that the observed data came from the model with parameter $\theta$ 
 
@@ -103,7 +104,7 @@ $$\mathcal{L}(\theta; (x_1,y_1), \cdots , (x_n,y_n)) := \Pi_{i=1}^n P_{model}(y_
 
 ###### (8)
 
-$$\Theta_{MLE} := \argmax_\theta \mathcal{L}(\theta; (x_1,y_1),\cdots, (x_n,y_n)) = \argmax_\theta \Pi_{i=1}^n P_{model}(y_i | x_i; \theta)$$
+$$\Theta_{MLE} := \argmax_\theta \mathcal{L}(\theta; (x_1,y_1),\cdots, (x_n,y_n)) = \argmax_\theta \prod_{i=1}^n P_{model}(y_i | x_i; \theta)$$
 
 #### Log-Likelihood
 
