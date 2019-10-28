@@ -20,7 +20,6 @@ $$D = \{(x_1,y_1),...,(x_n,y_n)\} = \{(x_i,y_i)\}_{i=1}^N$$
 Model the relationship between $x$ and $y$ with the function $f(\textbf{w},x)$, s.t $y_i \approx f(\textbf{w},x_i)$
 Measurements of $y$, subject ot noise are defined by,
 
-
 ###### (2)
 
 $$y_i = f(\textbf{w},x_i) + \epsilon$$
