@@ -15,7 +15,7 @@ Let us consider a simple *linear* example with 1 independent variable, $x$ & 1 d
 
 ###### (1)
 
-$$D = \{(x_1,y_1),...,(x_n,y_n)\} = \{(x_i,y_i)\}_{i=1}^N$$
+$$\mathcal{D} = \{(x_1,y_1),...,(x_n,y_n)\} = \{(x_i,y_i)\}_{i=1}^N$$
 
 Model the relationship between $x$ and $y$ with the function $f(\textbf{w},x)$, s.t $y_i \approx f(\textbf{w},x_i)$
 Measurements of $y$, subject ot noise are defined by,
@@ -36,7 +36,7 @@ First, let us approach this as a optimisation problem in which the objective is 
 $$\textbf{w}* = \argmin_w L(\textbf{w}) $$
 
 Intuitively, $L(\textbf{w})$ should be designed to capture the difference between the data and the predictions of the model, and seek to minimise this. 
-One common choice for $L(\textbf{w})$ is *least-squares error*. Given our dataset $D$ and modelling function $f(\textbf{w},x)$, we construct $\forall d \in D$ a residual error defined as:
+One common choice for $L(\textbf{w})$ is *least-squares error*. Given our dataset $D$ and modelling function $f(\textbf{w},x)$, we construct $\forall d \in \mathcal{D}$ a residual error defined as:
 
 ###### (4)
 
@@ -76,7 +76,7 @@ Our function is a *linear combination* of a set of *basis functions*, $\{\phi_i(
 
 A common choice of basis function is the polynomials $\{x^i\}_{i=0}^{M-1}$
 
-For a finite set of data points $D$ we can re-write the equation for $f(\textbf{w},x)$ in matrix form by defining a matrix **$\Phi$** with components $\Phi_{ij} = \phi_j(x_i)$ which yields the equation:
+For a finite set of data points $\mathcal{D}$ we can re-write the equation for $f(\textbf{w},x)$ in matrix form by defining a matrix **$\Phi$** with components $\Phi_{ij} = \phi_j(x_i)$ which yields the equation:
 
 ###### (8)
 
