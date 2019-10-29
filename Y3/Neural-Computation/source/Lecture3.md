@@ -2,7 +2,10 @@
 
 - So far we have considered a **deterministic model**, $f(x) = wx$
 
-![Cat Heart dataset](../resources/cat-heart-0.png)
+<!-- ![Cat Heart dataset](../resources/cat-heart-0.png) -->
+
+<div style="text-align:center"><img src="../resources/cat-heart-0.png" /></div>
+
 
 - However, we can see that there is **variation** in the data for each value of $x$
 - A **probabilistic model** can account for this variance
