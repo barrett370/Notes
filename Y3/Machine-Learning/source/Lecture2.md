@@ -23,3 +23,5 @@ We know that such an approximation is possible via the *Maclaurin series*, $\sin
 
 
 <sub>**These notes were heavily influenced by those of Dr. Iain Styles, University of Birmingham, School of Computer Science*</sub>
+
+

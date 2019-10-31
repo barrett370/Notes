@@ -23,6 +23,7 @@ Please follow the following links for lecture notes.
 - [Lecture 1](Y3/Parallel+Distributed/out/Lecture1.html)
 - [Lecture 2](Y3/Parallel+Distributed/out/Lecture2.html)
 - [Lecture 3](Y3/Parallel+Distributed/out/Lecture3.html)
+- [Lecture 4](Y3/Parallel+Distributed/out/Lecture4.html)
 - ...
 - [Lecture 7](Y3/Parallel+Distributed/out/Lecture7.html)
 

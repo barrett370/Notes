@@ -243,7 +243,7 @@ double h_msecs = sdkGetTimerValue(&timer);
 sdkDeleteTimter(&timer);
 
 ```
-- The best way to time GPU code is to insert an **event** into the GPU execution stream before and after the code to time and get the elapsed time form them.
+- The best way to time GPU code is to insert an **event** into the GPU execution stream before and after the code to time and get the elapsed time from them.
 
 ```c 
 cudaEvent_t start, stop;

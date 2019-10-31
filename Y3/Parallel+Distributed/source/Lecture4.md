@@ -12,6 +12,17 @@
         - [Instantiating a Thread](#instantiating-a-thread)
   - [Monitors](#monitors)
     - [Concurrent access Queue Implementation](#concurrent-access-queue-implementation)
+  - [Mutual Exclusion](#mutual-exclusion)
+  - [Waiting](#waiting)
+    - [Spinning](#spinning)
+    - [Blocking](#blocking)
+    - [The `wait()` method](#the-wait-method)
+      - [Usage](#usage)
+    - [Awakening](#awakening)
+  - [Thread local data](#thread-local-data)
+    - [Thread local data in Java](#thread-local-data-in-java)
+      - [Thread local methods](#thread-local-methods)
+    - [Thread local IDs](#thread-local-ids)
 
 <!-- /code_chunk_output -->
 
@@ -187,13 +198,13 @@ class QueueObject<T> {
 
 This is an optimal implementation and satisfies the following:
 
-- Mutual Exclusion 
-  - Only one thread modifying queue fields at a time
-  - Achieved using `syncronised` methods
-    - locks object on call
-    - releases lock on return
-    - code in the syncronised method / code block is known as the *critical section*
-  - These can also be placed around specific blocks of code in a method by:
+## Mutual Exclusion 
+- Only one thread modifying queue fields at a time
+- Achieved using `syncronised` methods
+  - locks object on call
+  - releases lock on return
+  - code in the syncronised method / code block is known as the *critical section*
+- These can also be placed around specific blocks of code in a method by:
 
 ```java 
 void foo(){
@@ -209,4 +220,143 @@ void foo(){
   - Java does not suffer from deadlocks
   - Keeps track of number of times locked and unlocked & only releases lock when they even out. 
 
-- Waiting
+-
+
+
+## Waiting
+
+- *What if?*
+  - The enqueuer finds a full queue? 
+  - The dequeuer finds an empty queue? 
+    - wait for something to happen
+
+### Spinning
+
+```java
+while (itemCount == QSIZE){} //wait
+```
+
+- Here a condition is retested repeatedly 
+  - Good for short intervals
+    - as expensive to call the OS
+  - Works **Only on multiprocessors**
+
+- If spinning occurs inside the critical section of the code, a **deadlock** can occur.
+  - If the Enqueuer is waiting for a dequeuer whilst also holding the lock
+  - If the dequeuer is then waiting for the enqueuer to release the lock $\implies$ nothing will ever happen! 
+
+### Blocking
+
+- Release the lock whilst waiting
+- When *something changes*, re-aquire the lock then either re-release lock and wait again or finish and return 
+
+- Essentially asks the OS to run some other thread
+  - Good for longer intervals
+  - Processor can do work whilst this thread is waiting 
+
+### The `wait()` method
+
+```java
+try{
+    q.wait(); // throws InterrupedException 
+} catch (InterruptedException e){
+    ...
+}
+```
+
+- Releases the lock on q 
+- sleeps, giving up the processor
+- Awakens adn resumes running
+- re-aquires lock and returns 
+
+#### Usage 
+
+```java
+...
+while (item_count == QSIZE) { //while full
+        wait();
+}
+...
+```
+
+### Awakening
+
+- For a thread to awaken it must be *notified* by another thread
+  - Failure to wakeup a sleeping thread is known as a *"lost wakeup"*
+
+```java
+q.notify();
+```
+
+- Awakens **one** waiting thread
+  - Which reacquires the lock and returns 
+
+```java
+q.notifyAll();
+```
+
+- Awakens **all** waiting threads
+  - one of which will re-acquire the lock and return 
+
+**Note: In practice, always use `notifyAll()` to avoid lost wakeup bugs**
+
+## Thread local data
+
+- In many of our examples, we assume that threads have unique IDs $\in \{1,\cdots,n-1\}$
+- Where do they come from ?
+
+
+### Thread local data in Java
+
+- `Threadlocal<T>` class
+- No built-in language support 
+
+#### Thread local methods
+
+```java
+Threadlocal<T> local;
+T x = ...;
+local.set(x);
+```
+
+- Changes current threads version of the data, `x`, other threads are unaffected. 
+- Value can be retrieved via: 
+
+```java
+Threadlocal<T> local;
+T x = local.get();
+```
+
+- Thread local variables can be initialised as follows:
+
+``` java 
+T x = local.initialValue()
+```
+  
+- This is implicitly called by `get()` the first time the thread-local variable is accessed 
+
+### Thread local IDs
+
+```java
+package threadMisc;
+
+public class ThreadID {
+    private static volatile int nextID = 0;
+
+    private static class ThreadLocalID extends ThreadLocal<Integer>{
+        protected synchronized Integer initialValue(){
+            return nextID++;
+        }
+    }
+
+    private static ThreadLocalID threadID = new ThreadLocalID();
+    public static int get(){
+        return threadID.get();
+    }
+}
+```
+
+- Where:
+  - `nextID` is the next ID to assign 
+  - `LocalID` is a subclass of `ThreadLocal<Integer>`
+  - And `initialValue()` is overwritten to provider unique threadIDs
