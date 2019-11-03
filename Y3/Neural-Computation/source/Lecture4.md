@@ -1,6 +1,6 @@
 # Lecture 4
 
-- So far we have only looked at models with 1 parameter\
+- So far we have only looked at models with 1 parameter
 
 ###### (1)
 
