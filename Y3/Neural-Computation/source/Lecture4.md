@@ -133,6 +133,7 @@ $$h(\alpha) := f(u_1,\cdots,u_m)$$
 ###### (12) 
 
 $$\nabla_{\vec{v}} f(\vec{x}) := \lim_{\alpha \rightarrow 0} \frac{f(\vec{x}+ \alpha \vec{v}) - f(\vec{x})}{\alpha}$$
+
 - [From definition of $\nabla_{\vec{v}}f$](#9)
 
 $$=\lim_{\alpha\rightarrow 0} \frac{h(0+\alpha)=h(0)}{\alpha}$$
@@ -186,9 +187,9 @@ $$ = \argmax_{\vec{v} , \|\vec{v}\|=1} \|\nabla f(\vec{x}) \|\cdot \cos\theta$$
 ### Method of Gradient Descent
 
 ***Input:** cost function: $J : \R^m \rightarrow \R$*
-*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; learning rate: $\epsilon \in \R, \epsilon > 0$*
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; learning rate: $\varepsilon \in \R, \epsilon > 0$*
 
 *$\vec{x} \leftarrow$ Some initial point in $\R^m$*
 *while termination condition not met {*
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $\vec{x}\leftarrow \vec{x} - \epsilon \cdot \nabla J(\vec{x})$
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $\vec{x}\leftarrow \vec{x} - \varepsilon \cdot \nabla J(\vec{x})$
 *}*
