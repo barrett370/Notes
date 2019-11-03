@@ -133,7 +133,7 @@ $$h(\alpha) := f(u_1,\cdots,u_m)$$
 ###### (12) 
 
 $$\nabla_{\vec{v}} f(\vec{x}) := \lim_{\alpha \rightarrow 0} \frac{f(\vec{x}+ \alpha \vec{v}) - f(\vec{x})}{\alpha}$$
--[From definition of $\nabla_{\vec{v}}f$](#9)
+- [From definition of $\nabla_{\vec{v}}f$](#9)
 
 $$=\lim_{\alpha\rightarrow 0} \frac{h(0+\alpha)=h(0)}{\alpha}$$
 
