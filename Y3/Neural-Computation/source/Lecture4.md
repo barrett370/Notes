@@ -180,16 +180,16 @@ $$= \argmax_{\vec{v} , \|\vec{v}\|=1} \|\nabla f(\vec{x})\|\|\vec{v}\|\cdot \cos
 
 $$ = \argmax_{\vec{v} , \|\vec{v}\|=1} \|\nabla f(\vec{x}) \|\cdot \cos\theta$$
 
-- Where $\cos\theta$ is the angle between $\vec{v} and \nabla f(\vec{x})$
+- Where $\cos\theta$ is the angle between $\vec{v}$ and $\nabla f(\vec{x})$
 
-- $\implies$ The vector $\vec{v}$ which gives the **steepest ascent** is the vector that has angle $\theta=0$ to $\nabla f$, i.e. the vector $\vec{v}$ whihc points in the same direction as $\nabla f$
+- $\implies$ The vector $\vec{v}$ which gives the **steepest ascent** is the vector that has angle $\theta=0$ to $\nabla f$, i.e. the vector $\vec{v}$ which points in the same direction as $\nabla f$
 
 ### Method of Gradient Descent
 
 ***Input:** cost function: $J : \R^m \rightarrow \R$*
-*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; learning rate: $\varepsilon \in \R, \epsilon > 0$*
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; learning rate: $\epsilon \in \R, \epsilon > 0$*
 
 *$\vec{x} \leftarrow$ Some initial point in $\R^m$*
 *while termination condition not met {*
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $\vec{x}\leftarrow \vec{x} - \varepsilon \cdot \nabla J(\vec{x})$
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $\vec{x}\leftarrow \vec{x} - \epsilon \cdot \nabla J(\vec{x})$
 *}*
