@@ -97,7 +97,7 @@ $$f : \R^m \rightarrow \R$$
 
 $$\vec{v} = \langle v_1,\cdots,v_m\rangle \mid \|\vec{v}\| = 1$$ 
  
-- The directional derivative of $f$ at $\vec{x} = \langle x_1, \cdots, x_m \rangle$  along [the vector $\vec{v}$](8) is
+- The directional derivative of $f$ at $\vec{x} = \langle x_1, \cdots, x_m \rangle$  along [the vector $\vec{v}$](#8) is
 
 ###### (9)
 

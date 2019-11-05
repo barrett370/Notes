@@ -57,7 +57,7 @@ $$\int_D P(x_1,\cdots, x_n)\delta x_1 \cdots \delta x_n = Pr((x_1 ,\cdots, x_n)\
 
 ###### (4) 
 
-$$P(x_1,\cdots, x_n) = \prod_{i=1}^n P_i(x_i)$$
+$$P_{\theta}(x_1,\cdots, x_n) = \prod_{i=1}^n P_{\theta}(x_i)$$
 
 ### Empirical Distribution
 
