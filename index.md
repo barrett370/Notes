@@ -18,6 +18,7 @@ Please follow the following links for lecture notes.
 - [Lecture 2](Y3/Neural-Computation/out/Neural-Comp-Lecture2.html)
 - [Lecture 3](Y3/Neural-Computation/out/Neural-Comp-Lecture3.html)
 - [Lecture 4](Y3/Neural-Computation/out/Neural-Comp-Lecture4.html)
+- [Lecture 5](Y3/Neural-Computation/out/Neural-Comp-Lecture5.html)
 
 ### Parallel & Distributed Computation
 
