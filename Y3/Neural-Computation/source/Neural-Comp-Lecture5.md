@@ -66,13 +66,13 @@ $$\frac{\delta C}{\delta w_{jk}^l} = \frac{\delta C}{\delta z_j^l}\cdot\frac{\de
 
 Where $a_k^{l-1}$ is the *"activation"* of unit $k$ in layer $l-1$ 
 
-###### (5) 
+###### (5)
 
 $$\frac{\delta C}{\delta b_j^l} = \frac{\delta C}{\delta z_j^l}\cdot \frac{\delta z_j^l}{\delta b_j^l} = \frac{\delta C}{\delta z_j^l}\cdot 1$$
 
 Hence, we can compute $\frac{\delta C}{\delta w_{kj}}$ and $\frac{\delta C}{\delta b_j^l}$ if we know:
 
-###### (6) 
+###### (6)
 
 $$\delta_j^l := \frac{\delta C}{\delta z_j^l}$$
 
@@ -155,15 +155,15 @@ $$\frac{\delta C}{\delta b_j^l} = \delta_j^l$$
 
 Where the local gradient $\delta_j^l$ is: 
 
-###### (14) 
+###### (14)
 
-$$\delta_j^l = 
+$$\delta_j^l =
 \begin{cases}
 \phi'(z_j^L)\cdot \frac{\delta C}{\delta a_j^L} &\text{if $l=L$ (output layer)} \\\\
 \phi'(z_j^l)\cdot\sum_k \delta_k^{l+1}\cdot w_{kj}^{l+1} &\text{otherwise (hidden layer)}
 \end{cases}$$
 
-### Matrix Description 
+### Matrix Description
 
 The back-propagation algorithm can exploit efficient implementations of matrix operations
 
@@ -186,7 +186,118 @@ For two vectors $\vec{u},\vec{v} \in \R^m$
 | $(\vec{u}\vec{v}^T)_{ij} = u_iv_j$                           | Outer Product    |
 
 
-#### Weighted Inputs and Activations 
+#### Weighted Inputs and Activations
+
+###### (15)
+
+$$z^l = (z_1^l, \cdots, z_m^l) $$
+
+$$= \left( \sum_{k=1}^m w_{1k}^la_k^{l-1} + b_1^l, \cdots, \sum_{k=1}^m w_{mk}^la_k^{l-1}+ b_m^l \right)$$
+
+$$= w^la^l-1 + b $$
 
 
+###### (16)
 
+$$a^l = (a_1^l,\cdots, a_m^l)$$
+
+$$= (\phi(z_1^l), \cdots, \phi(z_m^l))$$
+
+$$=\phi(z^l)$$
+
+#### Local Gradients
+
+##### Output Layer
+
+###### (17)
+
+$$\delta^L = (\delta_1^L,\cdots, \delta_m^L)$$
+
+$$= \left( \frac{\delta C}{\delta a_1^L}\cdot \phi'(z_1^L), \cdots, \frac{\delta C}{\delta a_m^L}\cdot\phi'(z_m^L) \right)$$
+
+$$= \nabla_{a^L}C \odot \phi'(z^L)$$
+
+##### Hidden Layer
+
+###### (18)
+
+$$\delta^l = (\delta_1^l, \cdots, \delta_m^l)$$
+
+$$= \left( \phi'(z_1^l)\cdot\sum_k \delta_k^{l+1}\cdot w_{k1}^{l+1} , \cdots, \phi'(z_m^l)\cdot \sum_k \delta_k^{l+1}\cdot w_{km}^{l+1}\right)$$
+
+$$= \phi'(z^l) \odot \left( \sum_k (w^{l+1})_{1k}^T\delta_k^{l+1},\cdots, \sum_k(w^{l+1})_{mk}^T\delta_k^{l+1}\right)$$
+
+$$= \phi'(z^l)\odot (w^{l+1})^T\delta^{l+1}$$
+
+
+### Backpropagation Algorithm
+
+<u>Input</u> : A training example, $(x,y)\in \R^m\times\R^{m'}$
+
+
+1. Set the activation in the input layer 
+   $a^1 = x$
+2. for each $l=(2\cdots L)$, feed forward 
+    $z^l = w^la^{l-1}+b^l$
+    $a^l = \phi(z^l)$
+3. Compute local gradient for output layer
+   $\delta^L := \nabla_{a^L}C \odot \phi'(z^L)$
+4. Backpropagate local gradients for hidden layers, i.e
+   For each $l=(L-1 \cdots 2)$
+   $\hspace{10px}\delta^l := \left( (w^{l+1})^T\delta^{l+1}\right)\odot \phi'(z^l)$
+5. return the partial derivatioes
+    $\frac{\delta C}{\delta w_{jk}^l} = a_k^{l-1}\delta_j^l$
+    $\frac{\delta C}{\delta b_j^l} = \delta_j^l$
+
+
+### Training Feed-Forward Neural Networks
+
+Assume $n$ training samples
+
+$$(x_1,y_1),\cdots,(x_n,y_n)$$
+
+and a cost function:
+
+$$C = \frac{1}{m}\sum_{i=1}^n C_i$$
+
+Where $C_i$ is the cost on the $i^{th}$ example.
+
+For example, with Mean Squared error, we can define it as:
+
+$$C_i = \frac{1}{2}(y_i-a^L)$$
+
+Where $a^L$ is the output of the network when $a^1 = x_i$
+
+Backpropagation gives us the gradient of the overall cost function as follows:
+
+###### (19)
+
+$$\frac{\delta C}{\delta w^l} = \frac{1}{m}\sum_{i=1}^n \frac{\delta C_i}{\delta w^l}$$
+
+$$\frac{\delta C}{\delta b^l} = \frac{1}{m}\sum_{i=1}^n \frac{\delta C_i}{\delta B^l}$$
+
+**Note: these provide the *average* gradient per training example**
+
+We can now use gradient descent to optimise the weights, $w$ adn biases, $b$.
+
+#### Mini-Batch Gradient Descent
+
+Computing the gradients is expensive when the number of training examples, $n$ is large
+
+We can approximate the gradients:
+
+###### (20)
+
+$$\frac{\delta C}{\delta w^l} \approx \frac{1}{b}\sum_{i=1}^b \frac{\delta C_i}{\delta w_l}$$
+
+$$\frac{\delta C}{\delta b^l} \approx \frac{1}{b} \sum_{i=1}^b \frac{\delta C_i}{\delta b^l}$$
+
+using a random *"mini-batch"* of $b\leq n$ training examples
+
+| Size    | Name                        |
+| ------- | --------------------------- |
+| $1<b<n$ | Mini-batch Gradient Descent |
+| $b=1$   | Stochastic Gradient Descent |
+| $b=n$   | Batch Gradient Descent      |
+
+It is common to use mini-batch size of $b \in (20,100)$
