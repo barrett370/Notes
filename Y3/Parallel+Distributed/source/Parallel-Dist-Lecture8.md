@@ -58,6 +58,46 @@
     Supports MultiDevice Co-op Kernel Launch:      Yes
     Device PCI Domain ID / Bus ID / location ID:   0 / 1 / 0    
 ```
+```python
+print("foo")
+```
+
+
+## Details of the 1080Ti
+
+- Pascal micro-architecture
+  - 4 warp schedulers
+  - Each schedulers can issue up to 2 independent instructions from the asme warp each cycle
+- 28 SMs
+- Max number of blocks per SM is 64
+  - therefore, if you have less than 32 threads/block you cannot fill the full SM thread limit, which may lead to under occupancy 
+- You shouldn't really have less than 32 threads per blok as otherwise you are under-utilising warps
+- Therefore, the theoretical optimal case, if you havea kernel with 32xN threads in total and the kernel is K instructions long, you could potentially execute the kernel in $\frac{}{}$
+***/* todo, finish section */***
+
+## Syncronisation
+
+- Warps execute in lock-step
+  - so synchronisation within a warp is mostly automatic but (data variables should be marked `volatile`)
+  - In practice, it is much more complex
+  - We need to be able to synchronise threads in a block
+  - We also need to be able to synchronise threads in a warp
+  - Cannot synchronise across different blocks
+  - **Barrier synchronisation:** `__syncthreads()`
+  - Must **Never** have `__syncthreads()` in a branch of a conditional that some threads in the block will not execute
+    - else a deadlock will occur.
+
+## More on Warps
+
+- For threads in a block
+  - Warp 0 consists of threads 0 $\rightarrow$ 31
+  - Warp 1 consists of threads 32 $\rightarrow$ 63
+  - $\vdots$
+
+- For threads in a mutli-dimensional block
+  - Mutlidimensional threads are linearised in a row-major order
 
 
 
+
+ 
