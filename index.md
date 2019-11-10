@@ -28,6 +28,7 @@ Please follow the following links for lecture notes.
 - [Lecture 2](Y3/Parallel+Distributed/out/Parallel-Dist-Lecture2.html)
 - [Lecture 3](Y3/Parallel+Distributed/out/Parallel-Dist-Lecture3.html)
 - [Lecture 4](Y3/Parallel+Distributed/out/Parallel-Dist-Lecture4.html)
+- [Lecture 5](Y3/Parallel+Distributed/out/Parallel-Dist-Lecture5.html)
 - ...
 - [Lecture 7](Y3/Parallel+Distributed/out/Parallel-Dist-Lecture7.html)
 
@@ -41,7 +42,7 @@ Please follow the following links for lecture notes.
 
 - [Lecture 1](Y3/Machine-Learning/out/ML-Lecture1.html)
 
-#### Provied Notes
+#### Provided Notes
 
 - [Lecture 1](Y3/Machine-Learning/out/styles/lecture01-notes.pdf)
 - [Lecture 2](Y3/Machine-Learning/out/styles/lecture02-notes.pdf)
