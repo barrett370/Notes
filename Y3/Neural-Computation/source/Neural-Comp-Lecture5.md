@@ -278,7 +278,7 @@ $$\frac{\delta C}{\delta b^l} = \frac{1}{m}\sum_{i=1}^n \frac{\delta C_i}{\delta
 
 **Note: these provide the *average* gradient per training example**
 
-We can now use gradient descent to optimise the weights, $w$ adn biases, $b$.
+We can now use gradient descent to optimise the weights, $w$ and biases, $b$.
 
 #### Mini-Batch Gradient Descent
 
@@ -288,7 +288,7 @@ We can approximate the gradients:
 
 ###### (20)
 
-$$\frac{\delta C}{\delta w^l} \approx \frac{1}{b}\sum_{i=1}^b \frac{\delta C_i}{\delta w_l}$$
+$$\frac{\delta C}{\delta w^l} \approx \frac{1}{b}\sum_{i=1}^b \frac{\delta C_i}{\delta w^l}$$
 
 $$\frac{\delta C}{\delta b^l} \approx \frac{1}{b} \sum_{i=1}^b \frac{\delta C_i}{\delta b^l}$$
 
