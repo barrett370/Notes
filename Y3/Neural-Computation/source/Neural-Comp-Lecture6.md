@@ -98,7 +98,7 @@ $$\frac{\delta C_i}{\delta z_j^L} = -\frac{\delta\log P(y_i | x_i)}{\delta z_j} 
 Neural networks are usually implemented with fixed length representations of real numbers. 
 Obviously, these representations are finite representations of a uncountably infinite set $\R$
 
-For instance, the maximal value of the `float69` data type in NumPy can represent is $\approx 1.8\times10^{308}$
+For instance, the maximal value of the `float64` data type in NumPy can represent is $\approx 1.8\times10^{308}$
 When computing the numerator in $\frac{e^{z_j^L}}{Q}$ we can easily exceed this limit
 
 ### Note:
