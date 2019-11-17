@@ -76,6 +76,8 @@
 
 ## Programming a Quantum Computer
 
+***Could not replicate diagrams, will try and link slide deck***
+
 - Quantum measurements are probabilistic and irreversible. Making measurements often lose quantum effects
 - Unitary operations are deterministic, reversible and maintain *quantumness*
   - These tend to make up the bulk of quantum computation.
@@ -123,7 +125,7 @@ All approaches require very low temperatures to remove a lot background noise
 Building large scale quantum computers is very difficult due to *decoherence*
 If a quantum computer interacts with the outside world is can lose its *quantumness* and behave like a classical computer
 
-- Quantum erorr correcting codes can be used to fight decoherence
+- Quantum error correcting codes can be used to fight decoherence
 - But they are far from perfect & decoherence is still a major issue 
 
 ### Noisy Intermediate Scale Quantum Computing
@@ -135,3 +137,4 @@ Often abbreviated to NISQ
 
 Computations should be kept short to avoid errors accumulating. However, they are still expected to outperform standard computers on certain tasks.
 
+> too many diagrams from here, cannot keep up
