@@ -377,7 +377,7 @@ $$write_B(victim[L]=B) \prec write_A(victim[L]=A)$$
 
 #### Bakery Algorithm
 
-- Provides First-Come-First-Served
+- Provides fairness via the First-Come-First-Served topology
 - It does this by assigning each waiting thread a number adn the current lowest waiting number is served next
 - Lexicographic order
   - $(a,i) > (b,j)$
@@ -430,3 +430,62 @@ class Bakery implements Lock{
     - But labels are strictly increasing so $B$ must have seen `flag[A] == false`
       - $Labeling_B \prec read_B(flag[A]) \prec write_A(flag[A]) \prec Labeling_A$
       - Which contradict the assumption that $A$ has the earlier label $\therefore$ impossible, $\therefore$ Bakery satisfies mutual exclusion.
+
+##### Impracticality of the Bakery Algorithm
+
+The Bakery Algorithm isn't widely used due to its impracticality stemming from its need for $N$ Distinct variables
+
+##### Shared Memory
+
+Shared read/write memory locations called **Registers**. Here we assume that all reads and writes are *atomic*
+
+There are different types of registers: 
+
+- Multi-Reader-Single-Writer (**MRSW**)
+- Multi-Reader-Multi-Writer (**MRMW**)
+- There are also SRMW and SRSW but they are not pertinent
+
+-----
+**Theorem**
+
+At least $N$ MRSW registers are needed to solve $N$-thread deadlock-free mutual exclusion
+
+----
+
+**Proof**
+
+Without $N$-MRSW registers, with N threads at least one thread won't be able to express intent to enter the CS, diagrammatically:
+
+@import "../resources/pd.l5.1.png"
+
+We cannot tell if $A$ is in the Critical Section
+
+---
+
+The bakery algorithm actually uses $2N$ MRSW registers
+
+What if we use MRMW registers instead? 
+
+---
+
+**Bad News Theorem**
+
+At least $N$ MRMW registers are needed to solve deadlock-free mutual exclusion
+
+---
+
+i.e. it doesn't help us 
+
+---
+
+**Theorem, $N=2$**
+
+Deadlock-free mutual exclusion for $2$ threads requires at least $2$ MRMW registers
+
+---
+
+**Proof**
+
+assume one register suffices & derive contradiction
+
+---
