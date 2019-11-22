@@ -56,6 +56,8 @@ Please follow the following links for lecture notes.
 - [Lecture 9](Y3/Machine-Learning/out/styles/lecture09-notes.pdf)
 - ...
 - [Lecture 11](Y3/Machine-Learning/out/styles/lecture11-notes.pdf)
+- [Lecture 12](Y3/Machine-Learning/out/styles/lecture12-notes.pdf)
+
 
 ### Quantum Computing Talk
 
