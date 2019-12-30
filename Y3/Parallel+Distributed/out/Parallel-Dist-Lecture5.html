@@ -281,7 +281,7 @@ pre[data-line] .line-highlight[data-end]:after {
 </ul>
 </li>
 </ul>
-<p><img src="../resources/l5d1.png" alt="Fig. 1."></p>
+<p><img src="../resources/l5d1.png" alt></p>
 <ul>
 <li>A <em>thread</em> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">A</span></span></span></span> is a sequence, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>a</mi><mn>0</mn></msub><mo separator="true">,</mo><mo>&#x22EF;</mo><mtext>&#x2009;</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(a_0,\cdots)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">&#x22EF;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mclose">)</span></span></span></span> of events
 <ul>
@@ -289,7 +289,7 @@ pre[data-line] .line-highlight[data-end]:after {
 </ul>
 </li>
 </ul>
-<p><img src="../resources/l5d2.png" alt="Fig. 2."></p>
+<p><img src="../resources/l5d2.png" alt></p>
 <ul>
 <li>
 <p>Thread events include the following:</p>
@@ -328,7 +328,7 @@ pre[data-line] .line-highlight[data-end]:after {
 <li>Their execution is <em>interleaved</em> on the timeline</li>
 <li>They are not necessarily independent as they may be interacting during the course of execution.</li>
 </ul>
-<p><img src="../resources/l5d3.png" alt="Fig. 3."><br>
+<p><img src="../resources/l5d3.png" alt><br>
 Where yellow shows events from thread <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">A</span></span></span></span> and green shows events from thread <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span></span></span></span></p>
 <h4 class="mume-header" id="intervals">Intervals</h4>
 
@@ -725,7 +725,7 @@ i.e. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.o
 <h4 class="mume-header" id="bakery-algorithm">Bakery Algorithm</h4>
 
 <ul>
-<li>Provides First-Come-First-Served</li>
+<li>Provides fairness via the First-Come-First-Served topology</li>
 <li>It does this by assigning each waiting thread a number adn the current lowest waiting number is served next</li>
 <li>Lexicographic order
 <ul>
@@ -805,17 +805,133 @@ i.e. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.o
 </ul>
 </li>
 </ul>
+<h5 class="mume-header" id="impracticality-of-the-bakery-algorithm">Impracticality of the Bakery Algorithm</h5>
+
+<p>The Bakery Algorithm isn&apos;t widely used due to its impracticality stemming from its need for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span> Distinct variables</p>
+<h5 class="mume-header" id="shared-memory">Shared Memory</h5>
+
+<p>Shared read/write memory locations called <strong>Registers</strong>. Here we assume that all reads and writes are <em>atomic</em></p>
+<p>There are different types of registers:</p>
+<ul>
+<li>Multi-Reader-Single-Writer (<strong>MRSW</strong>)</li>
+<li>Multi-Reader-Multi-Writer (<strong>MRMW</strong>)</li>
+<li>There are also SRMW and SRSW but they are not pertinent</li>
+</ul>
+<hr>
+<p><strong>Theorem</strong></p>
+<p>At least <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span> MRSW registers are needed to solve <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span>-thread deadlock-free mutual exclusion</p>
+<hr>
+<p><strong>Proof</strong></p>
+<p>Without <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span>-MRSW registers, with N threads at least one thread won&apos;t be able to express intent to enter the CS, diagrammatically:</p>
+<p><img src="../resources/pd.l5.1.png?0.0955776378062152" alt></p>
+<p>We cannot tell if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">A</span></span></span></span> is in the Critical Section</p>
+<hr>
+<p>The bakery algorithm actually uses <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>N</mi></mrow><annotation encoding="application/x-tex">2N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span> MRSW registers</p>
+<p>What if we use MRMW registers instead?</p>
+<hr>
+<p><strong>Bad News Theorem</strong></p>
+<p>At least <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span> MRMW registers are needed to solve deadlock-free mutual exclusion</p>
+<hr>
+<p>i.e. it doesn&apos;t help us</p>
+<hr>
+<p><strong>Theorem, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">N=2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></strong></p>
+<p>Deadlock-free mutual exclusion for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span> threads requires at least <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span> MRMW registers</p>
+<hr>
+<p><strong>Proof</strong></p>
+<p>assume one register suffices &amp; derive contradiction</p>
+<hr>
 
       </div>
+      <div class="md-sidebar-toc"><ul>
+<li><a href="#lecture-5">Lecture 5</a>
+<ul>
+<li><a href="#mutual-exclusion">Mutual Exclusion</a>
+<ul>
+<li><a href="#events">Events</a></li>
+<li><a href="#concurrency">Concurrency</a>
+<ul>
+<li><a href="#intervals">Intervals</a>
+<ul>
+<li><a href="#precedence-ordering">Precedence Ordering</a></li>
+</ul>
+</li>
+<li><a href="#repeated-events">Repeated events</a></li>
+</ul>
+</li>
+<li><a href="#locks">Locks</a>
+<ul>
+<li><a href="#desired-properties-of-locks">Desired Properties of Locks</a></li>
+<li><a href="#lockone-for-2-threads">LockOne, for 2 threads</a>
+<ul>
+<li><a href="#proof-lockone-satisfies-mutual-exclusion">Proof <code>LockOne</code> Satisfies Mutual Exclusion</a></li>
+<li><a href="#proof-lockone-satisfies-deadlock-freedom">Proof <code>LockOne</code> Satisfies Deadlock Freedom</a></li>
+</ul>
+</li>
+<li><a href="#locktwo-for-2-threads">LockTwo for 2 threads</a></li>
+<li><a href="#petersons-algorithm">Peterson&apos;s Algorithm</a>
+<ul>
+<li><a href="#mutual-exclusion-for-petersons-algorithm">Mutual Exclusion for Peterson&apos;s Algorithm</a>
+<ul>
+<li><a href="#1">(1)</a></li>
+<li><a href="#2">(2)</a></li>
+<li><a href="#3">(3)</a></li>
+</ul>
+</li>
+<li><a href="#deadlock-freedom-for-petersons-lock">Deadlock Freedom for Peterson&apos;s Lock</a></li>
+<li><a href="#starvation-freedom-for-petersons-lock">Starvation Freedom for Peterson&apos;s Lock</a></li>
+</ul>
+</li>
+<li><a href="#filter-algorithm-for-n-threads">Filter Algorithm for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span> Threads</a>
+<ul>
+<li><a href="#claim-of-filter-algorithm">Claim of Filter Algorithm</a></li>
+<li><a href="#induction-hypothesis">Induction Hypothesis</a>
+<ul>
+<li><a href="#4">(4)</a></li>
+<li><a href="#5">(5)</a></li>
+<li><a href="#6">(6)</a></li>
+</ul>
+</li>
+<li><a href="#filter-starvation-free">Filter Starvation Free</a></li>
+<li><a href="#bounded-waiting">Bounded Waiting</a></li>
+<li><a href="#first-come-first-served">First-Come-First-Served</a></li>
+<li><a href="#fairness-of-filter-lock">Fairness of Filter Lock</a></li>
+</ul>
+</li>
+<li><a href="#bakery-algorithm">Bakery Algorithm</a>
+<ul>
+<li><a href="#impracticality-of-the-bakery-algorithm">Impracticality of the Bakery Algorithm</a></li>
+<li><a href="#shared-memory">Shared Memory</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+      <a id="sidebar-toc-btn">&#x2261;</a>
+    
+    
+    
+    
+    
+    
+    
+    
+<script>
+
+var sidebarTOCBtn = document.getElementById('sidebar-toc-btn')
+sidebarTOCBtn.addEventListener('click', function(event) {
+  event.stopPropagation()
+  if (document.body.hasAttribute('html-show-sidebar-toc')) {
+    document.body.removeAttribute('html-show-sidebar-toc')
+  } else {
+    document.body.setAttribute('html-show-sidebar-toc', true)
+  }
+})
+</script>
       
-      
-    
-    
-    
-    
-    
-    
-    
-    
   
     </body></html>

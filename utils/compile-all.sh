@@ -1,18 +1,15 @@
 sd=$(pwd)
+tsc "$sd"/utils/converter.ts
 echo $sd
-tsc converter.ts
-cd Y3
+cd Y3 || exit
 
 for D in $(find . -type d); do
   if [[ $D =~ '/source$' ]]; then
-    #    echo "true, $D"
     for F in $(find $D -type f); do
       echo "compiling $F"
-      tsc $sd/utils/converter.ts && node $sd/utils/converter.js -f $F
+      node "$sd"/utils/converter.js -f "$F"
     done
-    mv $D/*.html $D/../out/
-    #  else
-    #    echo "false, $D "
+    mv "$D"/*.html "$D"/../out/
   fi
 
 done

@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-      <title>Lecture3</title>
+      <title>Parallel-Dist-Lecture3</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
@@ -7,6 +7,7 @@
       
       
 
+      
       
       
       
@@ -281,8 +282,8 @@ pre[data-line] .line-highlight[data-end]:after {
 <td>Amount of data transferred in a single request</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
+<td colspan="2"></td>
+
 <td>Reading smaller sizes is very inefficient</td>
 </tr>
 <tr>
@@ -291,8 +292,8 @@ pre[data-line] .line-highlight[data-end]:after {
 <td>If you use an address now, you will likely use it again soon (fetch from cache, not memory)</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
+<td colspan="2"></td>
+
 <td>If you use an address now, you will likely use one close to it soon (In same cache line, if realated objects are stored too far away from eachother, the cache line can be flushed causing a memory read (inefficient)</td>
 </tr>
 <tr>
@@ -360,8 +361,8 @@ pre[data-line] .line-highlight[data-end]:after {
 
 <ul>
 <li>Given 2 cores/ threads <strong>A</strong> and <strong>B</strong></li>
-<li>If <strong>A</strong> and <strong>B</strong> both cache address <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span></li>
-<li><strong>A</strong> writes to <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>
+<li>If <strong>A</strong> and <strong>B</strong> both cache address <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span></li>
+<li><strong>A</strong> writes to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>
 <ul>
 <li>updates cache</li>
 </ul>
@@ -435,15 +436,54 @@ pre[data-line] .line-highlight[data-end]:after {
 </ul>
 
       </div>
+      <div class="md-sidebar-toc"><ul>
+<li><a href="#lecture-3">Lecture 3</a>
+<ul>
+<li><a href="#dram-access-patterns">DRAM Access Patterns</a>
+<ul>
+<li><a href="#hit-ratio">Hit Ratio</a></li>
+<li><a href="#cache-flushing-re-filling">Cache Flushing/ Re-filling</a></li>
+<li><a href="#cache-topologies">Cache Topologies</a>
+<ul>
+<li><a href="#fully-associative-caches">Fully Associative Caches</a></li>
+<li><a href="#direct-mapped-cache">Direct Mapped Cache</a></li>
+<li><a href="#k-way-set-associative-cache">K-Way Set Associative Cache</a></li>
+<li><a href="#cache-coherence">Cache Coherence</a>
+<ul>
+<li><a href="#mesi">MESI</a></li>
+<li><a href="#write-through-caches">Write-through Caches</a></li>
+<li><a href="#write-back-caches">Write-back Caches</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+      <a id="sidebar-toc-btn">&#x2261;</a>
+    
+    
+    
+    
+    
+    
+    
+    
+<script>
+
+var sidebarTOCBtn = document.getElementById('sidebar-toc-btn')
+sidebarTOCBtn.addEventListener('click', function(event) {
+  event.stopPropagation()
+  if (document.body.hasAttribute('html-show-sidebar-toc')) {
+    document.body.removeAttribute('html-show-sidebar-toc')
+  } else {
+    document.body.setAttribute('html-show-sidebar-toc', true)
+  }
+})
+</script>
       
-      
-    
-    
-    
-    
-    
-    
-    
-    
   
     </body></html>

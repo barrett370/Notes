@@ -1,160 +1,109 @@
-import {MarkdownEngineConfig} from "@shd101wyy/mume";
+import { MarkdownEngineConfig } from "@shd101wyy/mume";
 import { MathRenderingOption } from "@shd101wyy/mume/out/src/markdown-engine-config";
-export const engineConfig: MarkdownEngineConfig = {
-    // Enable this option will render markdown by pandoc instead of markdown-it.
-    usePandocParser: false,
 
-    // In Markdown, a single newline character doesn't cause a line break in the generated HTML. In GitHub Flavored Markdown, that is not true. Enable this config option to insert line breaks in rendered HTML for single newlines in Markdown source.
-    breakOnSingleNewLine: true,
+export class MarkdownPreviewEnhancedConfig implements MarkdownEngineConfig {
+    public static getCurrentConfig() {
+        return new MarkdownPreviewEnhancedConfig();
+    }
 
-    // Enable smartypants and other sweet transforms.
-    enableTypographer: false,
+    public readonly usePandocParser: boolean;
+    public readonly breakOnSingleNewLine: boolean;
+    public readonly enableTypographer: boolean;
+    public readonly enableWikiLinkSyntax: boolean;
+    public readonly enableLinkify: boolean;
+    public readonly wikiLinkFileExtension: string;
+    public readonly enableEmojiSyntax: boolean;
+    public readonly enableExtendedTableSyntax: boolean;
+    public readonly enableCriticMarkupSyntax: boolean;
+    public readonly frontMatterRenderingOption: string;
+    public readonly mathRenderingOption: MathRenderingOption;
+    public readonly mathInlineDelimiters: string[][];
+    public readonly mathBlockDelimiters: string[][];
+    public readonly mathRenderingOnlineService: string;
+    public readonly codeBlockTheme: string;
+    public readonly mermaidTheme: string;
+    public readonly previewTheme: string;
+    public readonly revealjsTheme: string;
+    public readonly protocolsWhiteList: string;
+    public readonly imageFolderPath: string;
+    public readonly imageUploader: string;
+    public readonly printBackground: boolean;
+    public readonly chromePath: string;
+    public readonly imageMagickPath: string;
+    public readonly pandocPath: string;
+    public readonly pandocMarkdownFlavor: string;
+    public readonly pandocArguments: string[];
+    public readonly latexEngine: string;
+    public readonly enableScriptExecution: boolean;
+    public readonly enableHTML5Embed: boolean;
+    public readonly HTML5EmbedUseImageSyntax: boolean;
+    public readonly HTML5EmbedUseLinkSyntax: boolean;
+    public readonly HTML5EmbedIsAllowedHttp: boolean;
+    public readonly HTML5EmbedAudioAttributes: string;
+    public readonly HTML5EmbedVideoAttributes: string;
+    public readonly puppeteerWaitForTimeout: number;
+    public readonly usePuppeteerCore: boolean;
 
-    // Enable conversion of URL-like text to links in the markdown preview.
-    enableLinkify: true,
+    // preview config
+    public readonly scrollSync: boolean;
+    public readonly liveUpdate: boolean;
+    public readonly singlePreview: boolean;
+    public readonly automaticallyShowPreviewOfMarkdownBeingEdited: boolean;
 
-    // Math
-    mathRenderingOption: "KaTeX",  // "KaTeX" | "MathJax" | "None"
-    mathInlineDelimiters: [["$", "$"], ["\\(", "\\)"]],
-    mathBlockDelimiters: [["$$", "$$"], ["\\[", "\\]"]],
-    mathRenderingOnLineService: "https://latex.codecogs.com/gif.latex", // "https://latex.codecogs.com/svg.latex", "https://latex.codecogs.com/png.latex"
+    private constructor() {
 
-    // Enable Wiki Link syntax support. More information can be found a  https://help.github.com/articles/adding-links-to-wikis/
-    enableWikiLinkSyntax: true,
-    // By default, the extension for wikilink is `.md`. For example: [[test]] will direct to file path `test.md`.
-    wikiLinkFileExtension: '.md',
+        this.usePandocParser = false;
+        this.breakOnSingleNewLine = true;
+        this.enableTypographer = false;
+        this.enableWikiLinkSyntax = true;
+        this.enableLinkify = true;
+        this.wikiLinkFileExtension = 'md';
+        this.enableEmojiSyntax = true;
+        this.enableExtendedTableSyntax = true;
+        this.enableCriticMarkupSyntax = true;
+        this.frontMatterRenderingOption = 'none';
+        this.mermaidTheme = 'mermaid.dark.css';
+        this.mathRenderingOption = 'KaTeX' as MathRenderingOption;
+        this.mathInlineDelimiters = [["$", "$"], ["\\(", "\\)"]];
+        this.mathBlockDelimiters = [["$$", "$$"], ["\\[", "\\]"]];
+        this.mathRenderingOnlineService = "https://latex.codecogs.com/gif.latex";
+        this.codeBlockTheme = 'auto.css';
+        this.previewTheme = 'github-light.css';
+        this.revealjsTheme = "night.css";
+        this.protocolsWhiteList = "http://, https://, atom://, file://, mailto:, tel:";
+        this.imageFolderPath = "../resources";
+        // this.imageUploader = config.get<string>("imageUploader");
+        this.printBackground = false;
+        this.chromePath = '';
+        this.imageMagickPath = '';
+        this.pandocPath = 'pandoc';
+        this.pandocMarkdownFlavor = "markdown-raw_tex+tex_math_single_backslash";
+        this.pandocArguments = [];
+        this.latexEngine = 'pdflatex';
+        this.enableScriptExecution = true;
 
-    // Enable emoji & font-awesome plugin. This only works for markdown-it parser, but not pandoc parser.
-    enableEmojiSyntax: true,
+        // this.scrollSync = config.get<boolean>("scrollSync");
+        // this.liveUpdate = config.get<boolean>("liveUpdate");
+        // this.singlePreview = config.get<boolean>("singlePreview");
+        // this.automaticallyShowPreviewOfMarkdownBeingEdited = config.get<boolean>(
+        //     "automaticallyShowPreviewOfMarkdownBeingEdited",
+        // );
 
-    // Enable extended table syntax to support merging table cells.
-    enableExtendedTableSyntax: false,
+        this.enableHTML5Embed = true;
+        this.HTML5EmbedUseImageSyntax = true;
+        this.HTML5EmbedUseLinkSyntax = true;
+        this.HTML5EmbedIsAllowedHttp = false;
+        this.HTML5EmbedAudioAttributes = 'controls preload="metadata" width="320"';
+        this.HTML5EmbedVideoAttributes = 'controls preload="metadata" width="320" height="240"';
+        this.puppeteerWaitForTimeout = 0;
+        this.usePuppeteerCore = true;
+    }
 
-    // Enable CriticMarkup syntax. Only works with markdown-it parser.
-    // Please check http://criticmarkup.com/users-guide.php for more information.
-    enableCriticMarkupSyntax: false,
+    public isEqualTo(otherConfig: MarkdownPreviewEnhancedConfig) {
+        const json1 = JSON.stringify(this);
+        const json2 = JSON.stringify(otherConfig);
+        return json1 === json2;
+    }
 
-    // Front matter rendering option
-    frontMatterRenderingOption: 'none', // 'none' | 'table' | 'code block'
-
-    // Mermaid theme
-    mermaidTheme: 'mermaid.css', // 'mermaid.css' | 'mermaid.dark.css' | 'mermaid.forest.css'
-
-    // Code Block theme
-    // If `auto.css` is chosen, then the code block theme that best matches the current preview theme will be picked.
-    codeBlockTheme: 'auto.css',
-    //  "auto.css",
-    //  "default.css",
-    //  "atom-dark.css",
-    //  "atom-light.css",
-    //  "atom-material.css",
-    //  "coy.css",
-    //  "darcula.css",
-    //  "dark.css",
-    //  "funky.css",
-    //  "github.css",
-    //  "hopscotch.css",
-    //  "monokai.css",
-    //  "okaidia.css",
-    //  "one-dark.css",
-    //  "one-light.css",
-    //  "pen-paper-coffee.css",
-    //  "pojoaque.css",
-    //  "solarized-dark.css",
-    //  "solarized-light.css",
-    //  "twilight.css",
-    //  "vue.css",
-    //  "vs.css",
-    //  "xonokai.css"
-
-    // Preview theme
-    previewTheme: 'github-light.css',
-    // "atom-dark.css",
-    // "atom-light.css",
-    // "atom-material.css",
-    // "github-dark.css",
-    // "github-light.css",
-    // "gothic.css",
-    // "medium.css",
-    // "monokai.css",
-    // "newsprint.css",
-    // "night.css",
-    // "none.css",
-    // "one-dark.css",
-    // "one-light.css",
-    // "solarized-dark.css",
-    // "solarized-light.css",
-    // "vue.css"
-
-    // Revealjs presentation theme
-    revealjsTheme: "white.css",
-    // "beige.css",
-    // "black.css",
-    // "blood.css",
-    // "league.css",
-    // "moon.css",
-    // "night.css",
-    // "serif.css",
-    // "simple.css",
-    // "sky.css",
-    // "solarized.css",
-    // "white.css",
-    // "none.css"
-
-    // Accepted protocols for links.
-    protocolsWhiteList: "http://, https://, atom://, file://, mailto:, tel:",
-
-    // When using Image Helper to copy images, by default images will be copied to root image folder path '/assets'
-    imageFolderPath: '/assets',
-
-    // Whether to print background for file export or not. If set to `false`, then `github-light` preview theme will b  used. You can also set `print_background` in front-matter for individual files.
-    printBackground: false,
-
-    // Chrome executable path, which is used for Puppeteer export. Leaving it empty means the path will be found automatically.
-    chromePath: '',
-
-    // ImageMagick command line path. Should be either `magick` or `convert`. Leaving it empty means the path will be found automatically.
-    imageMagickPath: '',
-
-    // Pandoc executable path
-    pandocPath: 'pandoc',
-
-    // Pandoc markdown flavor
-    pandocMarkdownFlavor: "markdown-raw_tex+tex_math_single_backslash",
-
-    // Pandoc arguments e.g. ['--smart', '--filter=/bin/exe']. Please use long argument names.
-    pandocArguments: [],
-
-    // Default latex engine for Pandoc export and latex code chunk.
-    latexEngine: 'pdflatex',
-
-    // Enables executing code chunks and importing javascript files.
-    // ⚠ ️ Please use this feature with caution because it may put your security at risk!
-    //    Your machine can get hacked if someone makes you open a markdown with malicious code while script execution is enabled.
-    enableScriptExecution: false,
-
-    // Enables transform audio video link to to html5 embed audio video tags.
-    // Internally it enables markdown-it-html5-embed plugins.
-    enableHTML5Embed: false,
-
-    // Enables video/audio embed with ![]() syntax (default).
-    HTML5EmbedUseImageSyntax: true,
-
-    // Enables video/audio embed with []() syntax.
-    HTML5EmbedUseLinkSyntax: false,
-
-    // When true embed media with http:// schema in URLs. When false ignore and don't embed them.
-    HTML5EmbedIsAllowedHttp: false,
-
-    // HTML attributes to pass to audio tags.
-    HTML5EmbedAudioAttributes: 'controls preload="metadata" width="320"',
-
-    // HTML attributes to pass to video tags.
-    HTML5EmbedVideoAttributes: 'controls preload="metadata" width="320" height="240"',
-
-    // Puppeteer waits for a certain timeout in milliseconds before the document export.
-    puppeteerWaitForTimeout: 0,
-
-    // If set to true, then locally installed puppeteer-core will be required. Otherwise, the puppeteer globally installed by `npm install -g puppeteer` will be required.
-    usePuppeteerCore: true
+    [key: string]: any;
 }

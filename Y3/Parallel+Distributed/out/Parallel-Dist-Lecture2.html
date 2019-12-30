@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-      <title>Lecture2</title>
+      <title>Parallel-Dist-Lecture2</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
@@ -7,6 +7,7 @@
       
       
 
+      
       
       
       
@@ -273,15 +274,15 @@ pre[data-line] .line-highlight[data-end]:after {
 <li>
 <p>At 3GHz, 10ms = 30,000,000 cycles</p>
 <ul>
-<li>~1<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&#x2192;</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">&#x2192;</span></span></span></span>5 cycles per instruction</li>
-<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&#x2234;</mo></mrow><annotation encoding="application/x-tex">\therefore</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mrel amsrm">&#x2234;</span></span></span></span> 10ms <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&#x2248;</mo></mrow><annotation encoding="application/x-tex">\approx</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.48312em;vertical-align:0em;"></span><span class="mrel">&#x2248;</span></span></span></span> 10,000,000 instructions</li>
+<li>~1<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x2192;</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">&#x2192;</span></span></span></span>5 cycles per instruction</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x2234;</mo></mrow><annotation encoding="application/x-tex">\therefore</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mrel amsrm">&#x2234;</span></span></span></span> 10ms <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x2248;</mo></mrow><annotation encoding="application/x-tex">\approx</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.48312em;vertical-align:0em;"></span><span class="mrel">&#x2248;</span></span></span></span> 10,000,000 instructions</li>
 </ul>
 </li>
 <li>
 <p>Code that takes 15ms is reported as having taken 10 or 20 ms</p>
 <ul>
 <li>Large inaccuracy</li>
-<li>10ms <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&#xB1;</mo></mrow><annotation encoding="application/x-tex">\pm</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">&#xB1;</span></span></span></span> 10ms</li>
+<li>10ms <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#xB1;</mo></mrow><annotation encoding="application/x-tex">\pm</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">&#xB1;</span></span></span></span> 10ms</li>
 </ul>
 </li>
 <li>
@@ -365,18 +366,40 @@ pre[data-line] .line-highlight[data-end]:after {
 </pre><ul>
 <li>Waits for the specific joinable thread to terminate &amp; gets return value from it.</li>
 </ul>
-<p><strong>Note: Making threads joinable requires more memory <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&#x2234;</mo></mrow><annotation encoding="application/x-tex">\therefore</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mrel amsrm">&#x2234;</span></span></span></span>if not required, make threads detached</strong></p>
+<p><strong>Note: Making threads joinable requires more memory <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x2234;</mo></mrow><annotation encoding="application/x-tex">\therefore</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mrel amsrm">&#x2234;</span></span></span></span>if not required, make threads detached</strong></p>
 
       </div>
+      <div class="md-sidebar-toc"><ul>
+<li><a href="#lecture-2">Lecture 2</a>
+<ul>
+<li><a href="#measuring-speed">Measuring Speed</a></li>
+<li><a href="#posix-threads">Posix Threads</a></li>
+<li><a href="#basics-of-pthreads">Basics of <code>pthreads</code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+      <a id="sidebar-toc-btn">&#x2261;</a>
+    
+    
+    
+    
+    
+    
+    
+    
+<script>
+
+var sidebarTOCBtn = document.getElementById('sidebar-toc-btn')
+sidebarTOCBtn.addEventListener('click', function(event) {
+  event.stopPropagation()
+  if (document.body.hasAttribute('html-show-sidebar-toc')) {
+    document.body.removeAttribute('html-show-sidebar-toc')
+  } else {
+    document.body.setAttribute('html-show-sidebar-toc', true)
+  }
+})
+</script>
       
-      
-    
-    
-    
-    
-    
-    
-    
-    
   
     </body></html>

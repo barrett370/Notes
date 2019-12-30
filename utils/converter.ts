@@ -1,7 +1,7 @@
 import * as mume from "@shd101wyy/mume";
-import {engineConfig} from './config'
+import {MarkdownPreviewEnhancedConfig} from './config'
 
-
+let engineConfig = MarkdownPreviewEnhancedConfig.getCurrentConfig();
 async function main() {
     const myArgs = process.argv.slice(2);
     // await mume.init();
@@ -39,6 +39,6 @@ async function main() {
 
 }
 
-main().then(_ => {
-    console.log("Terminated");
+main().then(r => {
+    console.log(" Terminated");
 });

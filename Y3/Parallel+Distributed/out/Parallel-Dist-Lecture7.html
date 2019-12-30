@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-      <title>Lecture7</title>
+      <title>Parallel-Dist-Lecture7</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
@@ -602,7 +602,7 @@ StopWatchInterface <span class="token operator">*</span>timer <span class="token
 <span class="token function">sdkDeleteTimter</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>timer<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 </pre><ul>
-<li>The best way to time GPU code is to insert an <strong>event</strong> into the GPU execution stream before and after the code to time and get the elapsed time form them.</li>
+<li>The best way to time GPU code is to insert an <strong>event</strong> into the GPU execution stream before and after the code to time and get the elapsed time from them.</li>
 </ul>
 <pre data-role="codeBlock" data-info="c" class="language-c">cudaEvent_t start<span class="token punctuation">,</span> stop<span class="token punctuation">;</span>
 <span class="token keyword">float</span> m_secs<span class="token punctuation">;</span> 
@@ -621,15 +621,49 @@ StopWatchInterface <span class="token operator">*</span>timer <span class="token
 <span class="token function">cudaEventDestroy</span><span class="token punctuation">(</span>stop<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </pre>
       </div>
+      <div class="md-sidebar-toc"><ul>
+<li><a href="#lecture-7">Lecture 7</a>
+<ul>
+<li><a href="#2-types-of-parallelism">2 Types of Parallelism</a></li>
+<li><a href="#latency-vs-throughput">Latency vs. Throughput</a><br>
+- <a href="#fig-1-von-neumann-architecture">Fig. 1. Von Neumann Architecture</a><br>
+- <a href="#fig-2-von-neumann-architecture-for-gpu">Fig. 2. Von Neumann Architecture for GPU</a></li>
+<li><a href="#compiling-for-cuda">Compiling for CUDA</a></li>
+<li><a href="#vectoradd-trivial-example">VectorAdd - trivial example</a></li>
+<li><a href="#cpu-computational-unit-structure">CPU computational unit structure</a></li>
+<li><a href="#cuda-thread-issues">CUDA thread issues</a></li>
+<li><a href="#cuda-thread-organisation">CUDA thread organisation</a></li>
+<li><a href="#invoking-kernel-functions">Invoking Kernel Functions</a></li>
+<li><a href="#inside-kernel-functions">Inside Kernel Functions</a></li>
+<li><a href="#grid-and-block-dimensionalities">Grid and Block Dimensionalities</a></li>
+<li><a href="#device-global-memory">Device Global Memory</a></li>
+<li><a href="#cuda-error-handling">CUDA Error Handling</a></li>
+<li><a href="#timing-host-code-with-host-timers">TIming Host Code with Host Timers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+      <a id="sidebar-toc-btn">&#x2261;</a>
+    
+    
+    
+    
+    
+    
+    
+    
+<script>
+
+var sidebarTOCBtn = document.getElementById('sidebar-toc-btn')
+sidebarTOCBtn.addEventListener('click', function(event) {
+  event.stopPropagation()
+  if (document.body.hasAttribute('html-show-sidebar-toc')) {
+    document.body.removeAttribute('html-show-sidebar-toc')
+  } else {
+    document.body.setAttribute('html-show-sidebar-toc', true)
+  }
+})
+</script>
       
-      
-    
-    
-    
-    
-    
-    
-    
-    
   
     </body></html>

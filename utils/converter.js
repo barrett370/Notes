@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 var mume = require("@shd101wyy/mume");
 var config_1 = require("./config");
+var engineConfig = config_1.MarkdownPreviewEnhancedConfig.getCurrentConfig();
 function main() {
     return __awaiter(this, void 0, void 0, function () {
         var myArgs, fp, dp, engine;
@@ -45,9 +46,6 @@ function main() {
             switch (_a.label) {
                 case 0:
                     myArgs = process.argv.slice(2);
-                    return [4 /*yield*/, mume.init()];
-                case 1:
-                    _a.sent();
                     fp = '';
                     dp = '';
                     switch (myArgs[0]) {
@@ -61,15 +59,17 @@ function main() {
                     if (fp != '') {
                         console.log("Creating engine with fp " + fp + " " + typeof fp);
                         engine = new mume.MarkdownEngine({
+                            projectDirectoryPath: "",
                             filePath: fp,
-                            config: config_1.engineConfig
+                            config: engineConfig
                         });
                     }
                     else if (dp != '') {
                         console.log("Creating engine with dp, " + dp + " " + typeof dp);
                         engine = new mume.MarkdownEngine({
+                            filePath: "",
                             projectDirectoryPath: dp,
-                            config: config_1.engineConfig
+                            config: engineConfig
                         });
                     }
                     else {
@@ -77,13 +77,13 @@ function main() {
                         return [2 /*return*/];
                     }
                     return [4 /*yield*/, engine.htmlExport({ offline: false, runAllCodeChunks: true })];
-                case 2:
+                case 1:
                     _a.sent();
                     return [2 /*return*/];
             }
         });
     });
 }
-main().then(function (_) {
-    console.log("Terminated");
+main().then(function (r) {
+    console.log(" Terminated");
 });
