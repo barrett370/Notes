@@ -1,7 +1,7 @@
 sd=$(pwd)
-tsc "$sd"/utils/converter.ts
+tsc "$sd"/converter.ts
 echo $sd
-cd Y3 || exit
+cd ../Y3 || exit
 CHANGED_MD=$(git diff-index --name-only HEAD -- | grep '.md')
 #echo $CHANGED_MD
 for D in $(find . -type d); do
@@ -10,9 +10,8 @@ for D in $(find . -type d); do
       for item in "${CHANGED_MD[@]}"; do
         str1="${F:2}"
         str2="${item#Y3/}"
-        [ "$str1" = "$str2" ] && node "$sd"/utils/converter.js -f "$F"
+        [ "$str1" = "$str2" ] && node "$sd"/converter.js -f "$F"
       done
-      #      node "$sd"/utils/converter.js -f "$F"
     done
     mv "$D"/*.html "$D"/../out/
   fi

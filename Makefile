@@ -1,7 +1,7 @@
 .PHONY all:
 all:
-	zsh ./utils/compile-all.sh
+	cd utils && zsh compile-all.sh
 
 .PHONY diff:
 diff:
-	zsh ./utils/diff-compile-all.sh
+	cd utils && zsh diff-compile-all.sh

@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@shd101wyy/mume": "^0.4.7"
+    "@shd101wyy/mume": "^0.4.7",
+    "@types/node": "^13.1.1"
   }
 }
