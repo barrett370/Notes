@@ -1,15 +1,28 @@
+---
+html:
+  embed_local_images: false
+  embed_svg: true
+  offline: false
+  toc: undefined
+#   path: ../out/
+
+export_on_save:
+  html: true
+---
+
 # Lecture 8
 
 ## Repetition: Gradient Descent
 
-In gradient descent we have an input of a cost function, $\mathcal{J}$ and a learning rate, $\varepsilon$.
+In gradient descent we have an input of a cost function, $\mathcal{J}$ and a learning rate, $\varepsilon$
 
 $$
 \mathcal{J} : \R^m \rightarrow \R
 $$
 
-The pseudo-code for conventional gradient decent is as follows: 
+The pseudo-code for conventional gradient decent is as follows:
 
+foo
 
 $$
 x\leftarrow \text{some initial point in } \R^m \\
@@ -21,7 +34,7 @@ $$
 ### Impact of learning rate $\varepsilon$ on Stochastic Gradient Descent
 
 - Learning rate in SGD can have a marked impact on the optimisation time of a network
-- Often necessary to vary/ adjust the learning rate according to the specific model you are training 
+- Often necessary to vary/ adjust the learning rate according to the specific model you are training.
 
 - If a learning rate that is too high is used then the model parameters vary wildly causing a large variance in the value of the loss function, $\mathcal{J}$
 
@@ -43,7 +56,7 @@ $$
 
 Conceptually, we can think of momentum in this context the same as in physics:
 
-> A Ball with position $\Theta$ and a velocity $v$ influenced by two forces, one which pushes the ball in the opposite direction of the current gradient, and a viscous drag determined by a parameter $\alpha < 1 $
+> A Ball with position $\Theta$ and a velocity $v$ influenced by two forces, one which pushes the ball in the opposite direction of the current gradient, and a     viscous drag determined by a parameter $\alpha < 1 $
 
 The momentum *smooths out* the update steps. The size of the updates is proportional to how similar the previous gradients are.
 

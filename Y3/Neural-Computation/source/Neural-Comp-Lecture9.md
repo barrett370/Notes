@@ -1,3 +1,16 @@
+---
+html:
+  embed_local_images: false
+  embed_svg: true
+  offline: false
+  toc: undefined
+  path: ../out/
+
+export_on_save:
+  html: true
+---
+
+
 # Lecture 9
 
 Previously, we looked at different optimisation algorithms.
@@ -6,7 +19,7 @@ Previously, we looked at different optimisation algorithms.
 
 Hypothesis:
 
-> Neural Networks generalise from the training data, i.e. by learning the inherent structure in the data
+> Neural Networks generalise from the training data, i.e. by learning the inherent structure in the data.
  
 Test of Hypothesis: removing structure should reduce network performance
 
