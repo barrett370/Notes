@@ -1,0 +1,3 @@
+[submodule "notes/themes/sam"]
+	path = notes/themes/sam
+	url = https://github.com/victoriadrake/hugo-theme-sam.git
