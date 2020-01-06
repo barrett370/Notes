@@ -22,7 +22,7 @@ katex 			 = true
     title                = "Notes"
 
 [[params.mainMenu]]
-    link = "/modules/neural-computation"
+    link = "/modules/neural-computation/"
     text = "Neural Computation"
 
 [imaging]
