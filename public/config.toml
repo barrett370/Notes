@@ -24,6 +24,13 @@ katex 			 = true
 [[params.mainMenu]]
     link = "/modules/neural-computation/"
     text = "Neural Computation"
+[[params.mainMenu]]
+    link = "/modules/machine-learning/"
+    text = "Machine Learning"
+
+[[params.mainMenu]]
+    link = "/modules/parallel-distributed/"
+    text = "Distributed and Parallel Computing"
 
 [imaging]
     quality = 75
