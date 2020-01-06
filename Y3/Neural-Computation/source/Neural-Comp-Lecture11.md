@@ -35,11 +35,11 @@ $$
 f(x) = \frac{1}{(1+e^{-x})}
 $$
 
-> True shape
-<iframe src="https://www.desmos.com/calculator/fdapg26pwh?embed" width="500px" height="500px" style="border: 1px solid #ccc" frameborder=0></iframe>
+<!-- > True shape -->
+<iframe src="https://www.desmos.com/calculator/mspmujvsgi?embed" width="500px" height="500px" style="border: 1px solid #ccc" frameborder=0></iframe>
 
-> Illustration
-@import "../resources/sigmoidfunc.png"
+<!-- > Illustration
+@import "../resources/sigmoidfunc.png" -->
 
 - The sigmoid function normalises numbers to the range [0,1]
 - As x varies from 0 the gradient of the function tends towards 0, this is a major drawback as it makes it much more difficult/ slower for your network to *learn*
@@ -50,11 +50,11 @@ $$
 $$
 f(x) = \tanh(x)
 $$
-> True shape
-<iframe src="https://www.desmos.com/calculator/o4unj6p4sv?embed" width="500px" height="500px" style="border: 1px solid #ccc" frameborder=0></iframe>
+<!-- > True shape -->
+<iframe src="https://www.desmos.com/calculator/srw2rd3opp?embed" width="500px" height="500px" style="border: 1px solid #ccc" frameborder=0></iframe>
 
-> Illustration
-@import "../resources/tanhfunc.png"
+<!-- > Illustration
+@import "../resources/tanhfunc.png" -->
 
 - This function normalises values to [-1,1]
 - This suffers from the same issue as the sigmoid due to the fact that its gradient also tends to 0 meaning in some cases learning can come to a halt.
@@ -65,7 +65,7 @@ $$
 f(x) = \max(0,x)
 $$
 
->True shape
+<!-- >True shape -->
 <iframe src="https://www.desmos.com/calculator/ickbylfkrq?embed" width="500px" height="500px" style="border: 1px solid #ccc" frameborder=0></iframe>
 
 - Solves the issue of saturation leading to slowed or halted learning, but **only** in the positive region. 
@@ -79,11 +79,11 @@ $$
 $$
 f(x) = \max(0.01x,x)
 $$
-> true shape
-<iframe src="https://www.desmos.com/calculator/xrjuxeujmo?embed" width="500px" height="500px" style="border: 1px solid #ccc" frameborder=0></iframe>
+<!-- > true shape -->
+<iframe src="https://www.desmos.com/calculator/i1sao0xykc?embed" width="500px" height="500px" style="border: 1px solid #ccc" frameborder=0></iframe>
 
-> Illustration
-@import "../resources/leakyrelufunc.png"
+<!-- > Illustration
+@import "../resources/leakyrelufunc.png" -->
 
 - Avoids saturation in both positive and negative regions, i.e. will not produce a 0 gradient in any scenario
 - Similar speed to that of standard ReLU
