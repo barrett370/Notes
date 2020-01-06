@@ -37,6 +37,7 @@ Please follow the following links for lecture notes.
 - [Lecture 5](Y3/Parallel+Distributed/out/Parallel-Dist-Lecture5.html)
 - ...
 - [Lecture 7](Y3/Parallel+Distributed/out/Parallel-Dist-Lecture7.html)
+- [Lecture 8](Y3/Parallel+Distributed/out/Parallel-Dist-Lecture8.html)
 
 #### Labs
 
