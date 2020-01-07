@@ -22,14 +22,14 @@ katex 			 = true
     title                = "Notes"
 
 [[params.mainMenu]]
-    link = "/modules/neural-computation/"
+    link = "/Notes/modules/neural-computation/"
     text = "Neural Computation"
 [[params.mainMenu]]
-    link = "/modules/machine-learning/"
+    link = "/Notes/modules/machine-learning/"
     text = "Machine Learning"
 
 [[params.mainMenu]]
-    link = "/modules/parallel-distributed/"
+    link = "/Notes/modules/parallel-distributed/"
     text = "Distributed and Parallel Computing"
 
 [imaging]
