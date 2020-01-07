@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="My University Notes Site.">
+<title>
+ - Welcome to my Notes Repo!
+</title>
+
+
+
+
+<link rel="shortcut icon" href="/Notes/sam.ico">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/Notes/css/main.min.81bbafc4df93b11c1c3e2449464373c384aa4903731b4fc7a77dfcdd979e184f.css" integrity="sha256-gbuvxN&#43;TsRwcPiRJRkNzw4SqSQNzG0/Hp3383ZeeGE8=" crossorigin="anonymous" media="screen">
+
+
+
+ 
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Didact+Gothic">
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://sam-barrett.codes/Notes/tn.png"/>
+
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Lecture 10 Common CUDA Programming Errors  malloc, cudaMalloc and cudaMemcpy take arguments specified in bytes
+ Make sure you read kernel code, i.e code specified as __global__ or __shared__ as if it is being run mutiple times concurrently
+ Read/Write race conditions, e.g if the following code is being run on multiple threads at the same time
+__global__ kern(int *A, int len){ int i = blockDim.x * blockIdx.x &#43; threadIdx."/>
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="Lecture 10 Common CUDA Programming Errors  malloc, cudaMalloc and cudaMemcpy take arguments specified in bytes
+ Make sure you read kernel code, i.e code specified as __global__ or __shared__ as if it is being run mutiple times concurrently
+ Read/Write race conditions, e.g if the following code is being run on multiple threads at the same time
+__global__ kern(int *A, int len){ int i = blockDim.x * blockIdx.x &#43; threadIdx." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture10/" />
+
+<meta property="og:image" content="https://sam-barrett.codes/Notes/tn.png" />
+<meta property="og:site_name" content="Notes" />
+
+
+    
+
+    
+    
+    
+    <title>
+        
+        
+        
+    </title>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="section" id="title"></div>
+
+        <div class="section" id="content">
+
+<h1 id="lecture-10">Lecture 10</h1>
+
+<h2 id="common-cuda-programming-errors">Common CUDA Programming Errors</h2>
+
+<ul>
+<li><p><code>malloc</code>, <code>cudaMalloc</code> and <code>cudaMemcpy</code> take arguments specified in <strong>bytes</strong></p></li>
+
+<li><p>Make sure you read kernel code, i.e code specified as <code>__global__</code> or <code>__shared__</code> as if it is being run mutiple times concurrently</p></li>
+
+<li><p>Read/Write race conditions, e.g if the following code is being run on multiple threads at the same time</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">__global__  <span style="color:#a6e22e">kern</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>A, <span style="color:#66d9ef">int</span> len){
+<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> blockDim.x <span style="color:#f92672">*</span> blockIdx.x <span style="color:#f92672">+</span> threadIdx.x
+<span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> i <span style="color:#f92672">&lt;</span> len){
+    A[i] <span style="color:#f92672">+=</span> A[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>];
+}
+}
+</code></pre></div></li>
+
+<li><p>If both thread $i$ and $i-1$ are writing to A at the same time we do not know what value either will deal with as it is a <strong>race condition</strong></p>
+
+<ul>
+<li>One way to solve this is to use double-buffering</li>
+</ul></li>
+
+<li><p>Accessing past the end (or before the beginning) of an allocated array</p></li>
+
+<li><p>Omitting necessary barrier synchronisations</p></li>
+
+<li><p>Confusion in <code>cudaMemcpy</code>, only ever use to copy from host $\rightarrow$ device or from device $\rightarrow$ host.</p></li>
+
+<li><p>Roundoff errors</p></li>
+</ul>
+
+<h2 id="atomic-operations">Atomic Operations</h2>
+
+<p>We often need to implement a read-modify-write operation in parallel:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">A[index] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>; 
+</code></pre></div>
+<p>If multiple threads might be trying to do such an operation on the same memory location, then we have to avoid read/write races
+To achieve this we can:</p>
+
+<ul>
+<li><p>Restructure our code and use <code>__syncthreads()</code> to enforce serial memory access</p></li>
+
+<li><p>Restructure code to that different threads maintain their own changes locally then have a single thread collate all results and update the target memory location.</p></li>
+
+<li><p>Use an <em>atomic operation</em> <code>atomicAdd(&amp;A[index],1)</code></p>
+
+<ul>
+<li>give the address of the location and the value you want to add.</li>
+<li>This will essentially lose you your parallelism</li>
+<li>However, if this is a very uncommon occurrence, then this may be a sensible solution, but the opportunities are rare.</li>
+</ul></li>
+</ul>
+
+<h2 id="coalesced-global-memory-access">Coalesced Global Memory Access</h2>
+
+<p>Global memory accesses occur in <em>memory transactions</em> or <em>bursts</em> of size 32, 64 or 128 bytes</p>
+
+<ul>
+<li>Each memory transactions takes $\approx$ the same time</li>
+<li>Therefore, reading/writing 8, 16 or 32 words takes about the same amount of time as for a single word</li>
+<li>So long as the threads in a warp read a set of consecutive words, only 1 memory transaction is required</li>
+<li>If consecutive threads read non-consecutive words, then each read required a separate memory transaction, this is called <strong>strided access</strong> and is much worse than consecutive access</li>
+<li>Array of Structs (AoS) vs Struct of Arrays (SoA)</li>
+
+<li><p>Specially important for 2 or 3 dimensional arrays. E.g. let $i$ be the thread ID:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">struct</span> { <span style="color:#66d9ef">int</span> a ; <span style="color:#66d9ef">int</span> b } X[LEN] ; <span style="color:#75715e">// X[i].a = X[i].b strided access
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> {<span style="color:#66d9ef">int</span> a[LEN] ; <span style="color:#66d9ef">int</span> b[LEN] } X ; <span style="color:#75715e">// X.a[i] = X.b[i] consecutive access
+</span></code></pre></div></li>
+
+<li><p>Although, intuitively, the first approach seems nicer it causes strided access as the Xs are stored consecutively with their corresponding as and bs, meaning threads accessing as or bs require multiple reads from memory.</p></li>
+
+<li><p>Whereas, the second struct stores all as and bs consecutively allowing for much faster parallel access.</p></li>
+</ul>
+
+<p>Global memory is partitioned in <strong>burst sections</strong></p>
+
+<ul>
+<li>Whenever a location in global memory is accessed, al, other locations in the same section are also delivered</li>
+<li>Burst sections can be 128 bytes +</li>
+<li>When a warp executes a load or store, the number of DRAM requests issues and serialised is the number of different burst sections addressed.</li>
+<li>E.g. with a warp size of 4, a burst size of 16, stride =2, therefore, 2 memory transactions required.</li>
+</ul>
+
+<h2 id="shared-memory-banks">Shared Memory Banks</h2>
+
+<p>Shared memory accesses are $\approx$ 2 orders of magnitude faster than global memory accesses</p>
+
+<ul>
+<li>Shared memory in GPUs of compute capability 2.0 or better is dived into 32 equally sized banks</li>
+<li>Shared memory is organised so that 32 consecutive memory word accesses are spread over all 32 banks, one word from each</li>
+<li>Devices with compute capability 3.0 + can optionally have banks organised by double, instead of single word.</li>
+<li>Simultaneous access (by different threads in same warp) to different banks can be serviced simultaneously. However, simultaneous access to the <strong>same bank</strong> must be serialised
+
+<ul>
+<li><strong>Exception:</strong> simultaneous read of the same address by all threads in a warp can be served simultaneously through a process called a <em>broadcast</em></li>
+<li><strong>Exception:</strong> simultaneious read of the same address by some number of threads in a warp can eb serviced simultaneously on devices with compute capability 2.0+ by a process called <em>multicast</em></li>
+</ul></li>
+</ul>
+
+<p>Shared memory banks are structured into <strong>banks</strong></p>
+
+<ul>
+<li>Modern GPUs have 32 4-byte word banks but an be configured as 32 8-byte double word banks</li>
+<li>The bank used for a word address is the remainder when you dived the word address by the number of banks</li>
+<li>Shared memory can deliver/accept 1 word simultaneously from each bank in a single read/write transaction</li>
+<li>Multiple accesses to the same bank are serialised</li>
+</ul>
+
+<p>In global memory you should strive for consecutive memory addressing, the same for shared but if that is not possible shared memory should be optimised for as few threads hitting the same banks.</p>
+
+<h3 id="shared-memory-allocation">Shared Memory Allocation</h3>
+
+<p>We have been using one approach to shared memory allocation in our GPU kernels</p>
+
+<p>To run a kernel as follows:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++">kernel1<span style="color:#f92672">&lt;&lt;&lt;</span>gridDim, blockDim<span style="color:#f92672">&gt;&gt;&gt;</span>(in,out,len);
+</code></pre></div>
+<p>The kernel is written as:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++">__global__ <span style="color:#a6e22e">kernel1</span>(<span style="color:#66d9ef">int</span>[] in, <span style="color:#66d9ef">int</span>[] out, <span style="color:#66d9ef">int</span> len){
+    __shared__ <span style="color:#66d9ef">int</span> XY[BLOCK_SIZE] ; <span style="color:#75715e">// where BLOCK_SIZE is defined globally outside of the kernel, not a variable
+</span><span style="color:#75715e"></span>    ...
+}
+</code></pre></div>
+<p>An alternative approach allows for a <em>runtime</em> parameter in the kernel invocation:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++">kernel2<span style="color:#f92672">&lt;&lt;&lt;</span>gridDim, blockDim, sharedBytes<span style="color:#f92672">&gt;&gt;&gt;</span>(in,out,len);
+
+
+__global__ <span style="color:#a6e22e">kernel2</span>(<span style="color:#66d9ef">int</span>[] in, <span style="color:#66d9ef">int</span>[] out, <span style="color:#66d9ef">int</span> len){
+    <span style="color:#66d9ef">extern</span> __shared__ <span style="color:#66d9ef">int</span> XY[]
+    ...
+}
+</code></pre></div>
+<p>This allocates, at kernel invocation, a certain number of shared bytes for you shared memory data structures.</p>
+
+<ul>
+<li><strong>Note: you cannot use a hybrid approach</strong></li>
+</ul>
+
+<p>Advantage: you can choose the amount of shared memory per block at runtime.</p>
+
+<p>However, you can only specify one block of shared memory per block in the kernel invocation
+If you want multiple shared items dynamically allocated you have to do something like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++">__global__ <span style="color:#a6e22e">kernel2</span>(<span style="color:#66d9ef">int</span>[] in, <span style="color:#66d9ef">int</span>[] out, <span style="color:#66d9ef">int</span> len){
+    <span style="color:#66d9ef">extern</span> __shared__ <span style="color:#66d9ef">double</span> data[]
+    
+    <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>d1 <span style="color:#f92672">=</span> (<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>data[<span style="color:#ae81ff">0</span>];
+    <span style="color:#66d9ef">double</span> <span style="color:#f92672">*</span>d2 <span style="color:#f92672">=</span> (<span style="color:#66d9ef">double</span> <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>data[<span style="color:#ae81ff">4</span>];
+    <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>d3 <span style="color:#f92672">=</span> (<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>data[<span style="color:#ae81ff">12</span>];
+     
+}
+</code></pre></div>
+<ul>
+<li><strong>Watch out for memory alignment</strong></li>
+</ul>
+
+<h2 id="multi-dimensional-kernels">Multi-Dimensional Kernels</h2>
+
+<ul>
+<li><p>CUDA supports 2 and 3 dimensional kernels to help with inherently 2 and 3 dimensional problems</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++">dim3 <span style="color:#a6e22e">dimGrid2</span>(GRID_WIDTH, GRID_HEIGHT); <span style="color:#75715e">//dim3 is the structure but can be used for 2d kernels
+</span><span style="color:#75715e"></span>dim3 <span style="color:#a6e22e">dimBlock2</span>(BLOCK_WIDTH, BLOCK_HEIGHT);
+my2d_kernel<span style="color:#f92672">&lt;&lt;&lt;</span>dimGrid2, dimBlock2<span style="color:#f92672">&gt;&gt;&gt;</span>(...);
+...
+dim3 dimGrid3(GRID_WIDTH, GRID_HEIGHT, GRID_DEPTH);
+dim3 <span style="color:#a6e22e">dimBlock3</span>(BLOCK_WIDTH, BLOCK_HEIGHT, BLOCK_DEPTH);
+my3d_kernel<span style="color:#f92672">&lt;&lt;&lt;</span>dimGrid3, dimBlock3<span style="color:#f92672">&gt;&gt;&gt;</span>(...);
+</code></pre></div></li>
+
+<li><p><code>dim3</code> is a <code>struct</code> of x,y and z fields can take 1, 2 or 3 integer parameters in its constructor (missing params are set to 1)</p></li>
+
+<li><p>The grids and blocks can have different dimensionalities</p></li>
+</ul>
+
+<p>Each thread has access to a number of variables, <code>dim3</code> and <code>uint3</code> struct, where <code>uint3</code> is like <code>dim3</code> but without constructors</p>
+
+<ul>
+<li><code>gridDim: dim3</code> is the dimensions of the grid</li>
+<li><code>blockDim: dim3</code> is the dimensions of the block</li>
+<li><code>blockIdx : uint3</code> is the block index within the grid</li>
+<li><code>threadIdx : uint3</code> is the thread index within the block</li>
+</ul>
+
+<h3 id="memory-layout">Memory Layout</h3>
+
+<ul>
+<li>Multi-dimensional arrays, <code>A[k][j][i]</code> are ordered by their inner index, outwards</li>
+</ul>
+
+<h4 id="multi-dimensional-indexing">Multi-Dimensional Indexing</h4>
+
+<p>Even when working multidimensionally, we often have to explicitly apply threads to 2 or 3D structure of dimensionality equal to our problem domain.</p>
+
+<p>e.g. given a data structure $D$ of dimension $N \times N$ and the block dimensionality of size $K \times K$ we can have access as follows :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> blockIdx.x <span style="color:#f92672">*</span> K <span style="color:#f92672">+</span> threadIdx.x;
+<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> blockIdx.y <span style="color:#f92672">*</span> K <span style="color:#f92672">+</span> threadIdx.y;
+
+<span style="color:#75715e">// D is just a pointer to a block of memory
+</span><span style="color:#75715e"></span>... D[i <span style="color:#f92672">+</span> j <span style="color:#f92672">*</span> N] ...
+
+<span style="color:#75715e">// D is a declared 2d C array
+</span><span style="color:#75715e"></span>
+... D[j][i] ...
+</code></pre></div>
+<p>You should still pay attention to memory indexing in relation to memory coalescing. i.e make sure you index as above <code>D[i + j *N]</code> if $i$ is the fastest changing index.</p>
+
+<h3 id="transpose">Transpose</h3>
+
+<p>$$\forall i,j \in N \ M \in N\times N \ \text{ swap } M[i][j] \text{ with } M[j][i]$$</p>
+
+<p>Serial on host:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#75715e">// for a  NxN matrix
+</span><span style="color:#75715e"></span><span style="color:#75715e">#define N 1024
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">transpose_HOST</span>(<span style="color:#66d9ef">int</span>[] in, <span style="color:#66d9ef">int</span>[] out){
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> N ; j<span style="color:#f92672">++</span>){ <span style="color:#75715e">//loop over rows
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> ; i <span style="color:#f92672">&lt;</span> N; i<span style="color:#f92672">++</span>){ <span style="color:#75715e">//loop over columns 
+</span><span style="color:#75715e"></span>            out[j <span style="color:#f92672">+</span> i <span style="color:#f92672">*</span>N] <span style="color:#f92672">=</span> in[i<span style="color:#f92672">+</span>j<span style="color:#f92672">*</span>N]
+        }
+    }
+}
+</code></pre></div>
+<p>Serial 1 device thread:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#75715e">#define N 1024
+</span><span style="color:#75715e"></span>
+__global__ <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">transpose_serial</span>(<span style="color:#66d9ef">int</span>[] in, <span style="color:#66d9ef">int</span>[] out){
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> N ; j<span style="color:#f92672">++</span>){ <span style="color:#75715e">//loop over rows
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> ; i <span style="color:#f92672">&lt;</span> N; i<span style="color:#f92672">++</span>){ <span style="color:#75715e">//loop over columns 
+</span><span style="color:#75715e"></span>            out[j <span style="color:#f92672">+</span> i <span style="color:#f92672">*</span>N] <span style="color:#f92672">=</span> in[i<span style="color:#f92672">+</span>j<span style="color:#f92672">*</span>N]
+        }
+    }
+}
+...
+
+    transpose_serial<span style="color:#f92672">&lt;&lt;&lt;</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;&gt;&gt;</span>(d_in, d_out);
+</code></pre></div>
+<blockquote>
+<p>for notes on how to use nsight profiler, see slide deck</p>
+</blockquote>
+
+<p>This serial execution code performs very poorly as there is no shared memory usage, only a single thread of execution and poorly optimised global memory accesses</p>
+
+<p>1 Thread per row</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++">__global__ <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">transpose_thread_per_row</span>(<span style="color:#66d9ef">int</span>[] in, <span style="color:#66d9ef">int</span>[] out){
+    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> threadIdx.x;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> ; j <span style="color:#f92672">&lt;</span> N; j<span style="color:#f92672">++</span>){
+        out[j <span style="color:#f92672">+</span> i <span style="color:#f92672">*</span>N] <span style="color:#f92672">=</span> in[ i <span style="color:#f92672">+</span> j <span style="color:#f92672">*</span>N];
+    }
+}
+ 
+...
+    transpose_thread_per_row<span style="color:#f92672">&lt;&lt;&lt;</span><span style="color:#ae81ff">1</span>,N<span style="color:#f92672">&gt;&gt;&gt;</span>(d_in,d_out);
+</code></pre></div>
+<p>This approach performs better with high warp execution efficiency, global load efficiency and better occupancy. However the lack of use of shared memory and non-coalesced column access loses performance.</p>
+
+<p>1 Thread per elements</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#75715e">#define N 1024
+</span><span style="color:#75715e">#define K 32
+</span><span style="color:#75715e"></span>
+__global__ <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">transpose_thread_per_element</span>(<span style="color:#66d9ef">int</span>[] in, <span style="color:#66d9ef">int</span>[] out){
+    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> blockIdx.x <span style="color:#f92672">*</span> K <span style="color:#f92672">+</span> threadIdx.x;
+    <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> blockIdx.y <span style="color:#f92672">*</span> K <span style="color:#f92672">+</span> threadIdx.y;
+    out [j<span style="color:#f92672">+</span>i<span style="color:#f92672">*</span>N] <span style="color:#f92672">=</span> in[i<span style="color:#f92672">+</span>j<span style="color:#f92672">*</span>N];
+}
+...
+    dim3 blocks(N<span style="color:#f92672">/</span>K, N<span style="color:#f92672">/</span>K);
+    dim3 <span style="color:#a6e22e">threads</span>(K,K);
+    transpose_thread_per_element<span style="color:#f92672">&lt;&lt;&lt;</span>blocks,threads<span style="color:#f92672">&gt;&gt;&gt;</span>(d_in,d_out);
+</code></pre></div>
+<ul>
+<li>There is no race condition, therefore no <code>__syncthreads()</code></li>
+</ul>
+
+<p>This approach is <strong>much</strong> faster than the previous attempts (58$\mu$s)</p>
+
+<p><strong>The remainder of the lecture is better delivered via the slide deck</strong></p>
+</div>
+
+        
+        <div class="section bottom-menu">
+<hr />
+<p>
+
+
+    
+
+    
+        
+            <a href="/Notes/modules/neural-computation/">Neural Computation</a>
+        
+    
+    
+        
+            &#183; 
+            <a href="/Notes/modules/machine-learning/">Machine Learning</a>
+        
+            &#183; 
+            <a href="/Notes/modules/parallel-distributed/">Distributed and Parallel Computing</a>
+        
+    
+    &#183; 
+    <a href="https://sam-barrett.codes/Notes/">
+        main
+    </a>
+
+</p></div>
+        
+
+        <div class="section footer"></div>
+    </div>
+</body>
+
+</html>
