@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="My University Notes Site.">
+<title>
+ - Welcome to my Notes Repo!
+</title>
+
+
+
+
+<link rel="shortcut icon" href="/Notes/sam.ico">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/Notes/css/main.min.81bbafc4df93b11c1c3e2449464373c384aa4903731b4fc7a77dfcdd979e184f.css" integrity="sha256-gbuvxN&#43;TsRwcPiRJRkNzw4SqSQNzG0/Hp3383ZeeGE8=" crossorigin="anonymous" media="screen">
+
+
+
+ 
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Didact+Gothic">
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://sam-barrett.codes/Notes/tn.png"/>
+
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Lecture 2 Measuring Speed  Most CPU clocks can&rsquo;t be more accurate than 10ms At 3GHz, 10ms = 30,000,000 cycles  ~1$\rightarrow$5 cycles per instruction $\therefore$ 10ms $\approx$ 10,000,000 instructions  Code that takes 15ms is reported as having taken 10 or 20 ms
+ Large inaccuracy 10ms $\pm$ 10ms  Instead, run it 100 times, 1500 ms reported as either 1490, 1500 or 1510
+ lower relative inaccuracy  Issue: compilers are too smart, and will attempt to optimise re-runs, therefore, subsequent runs may be much faster than initial"/>
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="Lecture 2 Measuring Speed  Most CPU clocks can&rsquo;t be more accurate than 10ms At 3GHz, 10ms = 30,000,000 cycles  ~1$\rightarrow$5 cycles per instruction $\therefore$ 10ms $\approx$ 10,000,000 instructions  Code that takes 15ms is reported as having taken 10 or 20 ms
+ Large inaccuracy 10ms $\pm$ 10ms  Instead, run it 100 times, 1500 ms reported as either 1490, 1500 or 1510
+ lower relative inaccuracy  Issue: compilers are too smart, and will attempt to optimise re-runs, therefore, subsequent runs may be much faster than initial" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture2/" />
+
+<meta property="og:image" content="https://sam-barrett.codes/Notes/tn.png" />
+<meta property="og:site_name" content="Notes" />
+
+
+    
+
+    
+    
+    
+    <title>
+        
+        
+        
+    </title>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="section" id="title"></div>
+
+        <div class="section" id="content">
+
+<h1 id="lecture-2">Lecture 2</h1>
+
+<h2 id="measuring-speed">Measuring Speed</h2>
+
+<ul>
+<li>Most CPU clocks can&rsquo;t be more accurate than 10ms</li>
+<li>At 3GHz, 10ms = 30,000,000 cycles
+
+<ul>
+<li>~1$\rightarrow$5 cycles per instruction</li>
+<li>$\therefore$ 10ms $\approx$ 10,000,000 instructions</li>
+</ul></li>
+
+<li><p>Code that takes 15ms is reported as having taken 10 or 20 ms</p>
+
+<ul>
+<li>Large inaccuracy</li>
+<li>10ms $\pm$ 10ms</li>
+</ul></li>
+
+<li><p>Instead, run it 100 times, 1500 ms reported as either 1490, 1500 or 1510</p>
+
+<ul>
+<li>lower relative inaccuracy</li>
+</ul></li>
+
+<li><p><strong>Issue:</strong> compilers are <em>too</em> smart, and will attempt to optimise re-runs, therefore, subsequent runs may be much faster than initial</p>
+
+<ul>
+<li>This can be mostly negated by flushing caches between each run</li>
+<li>Alternatively, ignore initial run.</li>
+</ul></li>
+
+<li><p><strong>Do not include I/O in your timings</strong></p>
+
+<ul>
+<li>remove delay statements / logging</li>
+</ul></li>
+</ul>
+
+<h2 id="posix-threads">Posix Threads</h2>
+
+<ul>
+<li>language independent parallel execution model (Currently only implemented in C)
+
+<ul>
+<li>Thread management</li>
+<li>Mutexes</li>
+<li>Mutually exclusive lock on a variable</li>
+<li>Condition variables</li>
+<li>lock until condition becomes <code>True</code></li>
+<li>Read/ Write locks</li>
+<li>Allows multiple readers <u>or</u> a single writer</li>
+<li>Barriers</li>
+<li>Threads whicb hit the barrier (code location) have to wait until all threads in the group also reach that barrier.</li>
+<li>Allows thread groups to syncronise</li>
+</ul></li>
+</ul>
+
+<h2 id="basics-of-pthreads">Basics of <code>pthreads</code></h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">pthread_attr_init()</code></pre></div>
+<p>Gets default thread attributes  &amp; stores ina  <code>pthread_attr_t</code> struct</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">pthread_attr_setdetachstate()</code></pre></div>
+<p>Sets the detach state value.</p>
+
+<ul>
+<li>Joinable</li>
+
+<li><p>Detachable</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">pthread_create()</code></pre></div></li>
+
+<li><p>Creates a new thread with attributes defined in a <code>pthread_attr_t</code> struct</p></li>
+
+<li><p>Starts running on the function specified with the specified argument &amp; stores thread id in a specific variable</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">pthread_exit()</code></pre></div></li>
+
+<li><p>Terminates the current thread</p>
+
+<ul>
+<li>if joinable:</li>
+
+<li><p>its return value is available to any other thread that calls <code>pthread_join()</code> on this thread&rsquo;s id</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">pthread_join()</code></pre></div></li>
+</ul></li>
+
+<li><p>Waits for the specific joinable thread to terminate &amp; gets return value from it.</p></li>
+</ul>
+
+<p><strong>Note: Making threads joinable requires more memory $\therefore$if not required, make threads detached</strong></p>
+</div>
+
+        
+        <div class="section bottom-menu">
+<hr />
+<p>
+
+
+    
+
+    
+        
+            <a href="/Notes/modules/neural-computation/">Neural Computation</a>
+        
+    
+    
+        
+            &#183; 
+            <a href="/Notes/modules/machine-learning/">Machine Learning</a>
+        
+            &#183; 
+            <a href="/Notes/modules/parallel-distributed/">Distributed and Parallel Computing</a>
+        
+    
+    &#183; 
+    <a href="https://sam-barrett.codes/Notes/">
+        main
+    </a>
+
+</p></div>
+        
+
+        <div class="section footer"></div>
+    </div>
+</body>
+
+</html>

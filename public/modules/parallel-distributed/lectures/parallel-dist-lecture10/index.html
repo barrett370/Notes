@@ -1,0 +1,561 @@
+<!DOCTYPE html><html><head>
+      <title>Parallel-Dist-Lecture10</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css">
+      
+      
+
+      
+      
+      
+      
+      
+      
+      
+
+      <style>
+       
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+ 
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+   
+  border-radius: 3px;
+   
+  background: #f5f5f5;
+}
+
+ 
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+ 
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+ 
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+ 
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+ 
+.language-ruby .token.function {
+  color: #333;
+}
+
+ 
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+ 
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+ 
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+ 
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+ 
+ 
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="lecture-10">Lecture 10</h1>
+
+<h2 class="mume-header" id="common-cuda-programming-errors">Common CUDA Programming Errors</h2>
+
+<ul>
+<li>
+<p><code>malloc</code>, <code>cudaMalloc</code> and <code>cudaMemcpy</code> take arguments specified in <strong>bytes</strong></p>
+</li>
+<li>
+<p>Make sure you read kernel code, i.e code specified as <code>__global__</code> or <code>__shared__</code> as if it is being run mutiple times concurrently</p>
+</li>
+<li>
+<p>Read/Write race conditions, e.g if the following code is being run on multiple threads at the same time</p>
+</li>
+</ul>
+<pre data-role="codeBlock" data-info="c++" class="language-cpp">__global__  <span class="token function">kern</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>A<span class="token punctuation">,</span> <span class="token keyword">int</span> len<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">int</span> i <span class="token operator">=</span> blockDim<span class="token punctuation">.</span>x <span class="token operator">*</span> blockIdx<span class="token punctuation">.</span>x <span class="token operator">+</span> threadIdx<span class="token punctuation">.</span>x
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&gt;</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> i <span class="token operator">&lt;</span> len<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        A<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+=</span> A<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</pre><ul>
+<li>
+<p>If both thread <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>&#x2212;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">i-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.74285em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">&#x2212;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> are writing to A at the same time we do not know what value either will deal with as it is a <strong>race condition</strong></p>
+<ul>
+<li>One way to solve this is to use double-buffering</li>
+</ul>
+</li>
+<li>
+<p>Accessing past the end (or before the beginning) of an allocated array</p>
+</li>
+<li>
+<p>Omitting necessary barrier synchronisations</p>
+</li>
+<li>
+<p>Confusion in <code>cudaMemcpy</code>, only ever use to copy from host <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x2192;</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">&#x2192;</span></span></span></span> device or from device <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x2192;</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">&#x2192;</span></span></span></span> host.</p>
+</li>
+<li>
+<p>Roundoff errors</p>
+</li>
+</ul>
+<h2 class="mume-header" id="atomic-operations">Atomic Operations</h2>
+
+<p>We often need to implement a read-modify-write operation in parallel:</p>
+<pre data-role="codeBlock" data-info="c++" class="language-cpp">A<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span><span class="token punctuation">;</span> 
+</pre><p>If multiple threads might be trying to do such an operation on the same memory location, then we have to avoid read/write races<br>
+To achieve this we can:</p>
+<ul>
+<li>
+<p>Restructure our code and use <code>__syncthreads()</code> to enforce serial memory access</p>
+</li>
+<li>
+<p>Restructure code to that different threads maintain their own changes locally then have a single thread collate all results and update the target memory location.</p>
+</li>
+<li>
+<p>Use an <em>atomic operation</em> <code>atomicAdd(&amp;A[index],1)</code></p>
+<ul>
+<li>give the address of the location and the value you want to add.</li>
+<li>This will essentially lose you your parallelism</li>
+<li>However, if this is a very uncommon occurrence, then this may be a sensible solution, but the opportunities are rare.</li>
+</ul>
+</li>
+</ul>
+<h2 class="mume-header" id="coalesced-global-memory-access">Coalesced Global Memory Access</h2>
+
+<p>Global memory accesses occur in <em>memory transactions</em> or <em>bursts</em> of size 32, 64 or 128 bytes</p>
+<ul>
+<li>Each memory transactions takes <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x2248;</mo></mrow><annotation encoding="application/x-tex">\approx</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.48312em;vertical-align:0em;"></span><span class="mrel">&#x2248;</span></span></span></span> the same time</li>
+<li>Therefore, reading/writing 8, 16 or 32 words takes about the same amount of time as for a single word</li>
+<li>So long as the threads in a warp read a set of consecutive words, only 1 memory transaction is required</li>
+<li>If consecutive threads read non-consecutive words, then each read required a separate memory transaction, this is called <strong>strided access</strong> and is much worse than consecutive access</li>
+<li>Array of Structs (AoS) vs Struct of Arrays (SoA)</li>
+<li>Specially important for 2 or 3 dimensional arrays. E.g. let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span> be the thread ID:</li>
+</ul>
+<pre data-role="codeBlock" data-info="c++" class="language-cpp"><span class="token keyword">struct</span> <span class="token punctuation">{</span> <span class="token keyword">int</span> a <span class="token punctuation">;</span> <span class="token keyword">int</span> b <span class="token punctuation">}</span> X<span class="token punctuation">[</span>LEN<span class="token punctuation">]</span> <span class="token punctuation">;</span> <span class="token comment">// X[i].a = X[i].b strided access</span>
+<span class="token keyword">struct</span> <span class="token punctuation">{</span><span class="token keyword">int</span> a<span class="token punctuation">[</span>LEN<span class="token punctuation">]</span> <span class="token punctuation">;</span> <span class="token keyword">int</span> b<span class="token punctuation">[</span>LEN<span class="token punctuation">]</span> <span class="token punctuation">}</span> X <span class="token punctuation">;</span> <span class="token comment">// X.a[i] = X.b[i] consecutive access</span>
+</pre><ul>
+<li>Although, intuitively, the first approach seems nicer it causes strided access as the Xs are stored consecutively with their corresponding as and bs, meaning threads accessing as or bs require multiple reads from memory.</li>
+<li>Whereas, the second struct stores all as and bs consecutively allowing for much faster parallel access.</li>
+</ul>
+<p>Global memory is partitioned in <strong>burst sections</strong></p>
+<ul>
+<li>Whenever a location in global memory is accessed, al, other locations in the same section are also delivered</li>
+<li>Burst sections can be 128 bytes +</li>
+<li>When a warp executes a load or store, the number of DRAM requests issues and serialised is the number of different burst sections addressed.</li>
+<li>E.g. with a warp size of 4, a burst size of 16, stride =2, therefore, 2 memory transactions required.</li>
+</ul>
+<h2 class="mume-header" id="shared-memory-banks">Shared Memory Banks</h2>
+
+<p>Shared memory accesses are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x2248;</mo></mrow><annotation encoding="application/x-tex">\approx</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.48312em;vertical-align:0em;"></span><span class="mrel">&#x2248;</span></span></span></span> 2 orders of magnitude faster than global memory accesses</p>
+<ul>
+<li>Shared memory in GPUs of compute capability 2.0 or better is dived into 32 equally sized banks</li>
+<li>Shared memory is organised so that 32 consecutive memory word accesses are spread over all 32 banks, one word from each</li>
+<li>Devices with compute capability 3.0 + can optionally have banks organised by double, instead of single word.</li>
+<li>Simultaneous access (by different threads in same warp) to different banks can be serviced simultaneously. However, simultaneous access to the <strong>same bank</strong> must be serialised
+<ul>
+<li><strong>Exception:</strong> simultaneous read of the same address by all threads in a warp can be served simultaneously through a process called a <em>broadcast</em></li>
+<li><strong>Exception:</strong> simultaneious read of the same address by some number of threads in a warp can eb serviced simultaneously on devices with compute capability 2.0+ by a process called <em>multicast</em></li>
+</ul>
+</li>
+</ul>
+<p>Shared memory banks are structured into <strong>banks</strong></p>
+<ul>
+<li>Modern GPUs have 32 4-byte word banks but an be configured as 32 8-byte double word banks</li>
+<li>The bank used for a word address is the remainder when you dived the word address by the number of banks</li>
+<li>Shared memory can deliver/accept 1 word simultaneously from each bank in a single read/write transaction</li>
+<li>Multiple accesses to the same bank are serialised</li>
+</ul>
+<p>In global memory you should strive for consecutive memory addressing, the same for shared but if that is not possible shared memory should be optimised for as few threads hitting the same banks.</p>
+<h3 class="mume-header" id="shared-memory-allocation">Shared Memory Allocation</h3>
+
+<p>We have been using one approach to shared memory allocation in our GPU kernels</p>
+<p>To run a kernel as follows:</p>
+<pre data-role="codeBlock" data-info="C++" class="language-cpp">kernel1<span class="token operator">&lt;&lt;</span><span class="token operator">&lt;</span>gridDim<span class="token punctuation">,</span> blockDim<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>in<span class="token punctuation">,</span>out<span class="token punctuation">,</span>len<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre><p>The kernel is written as:</p>
+<pre data-role="codeBlock" data-info="C++" class="language-cpp">__global__ <span class="token function">kernel1</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> in<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> out<span class="token punctuation">,</span> <span class="token keyword">int</span> len<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    __shared__ <span class="token keyword">int</span> XY<span class="token punctuation">[</span>BLOCK_SIZE<span class="token punctuation">]</span> <span class="token punctuation">;</span> <span class="token comment">// where BLOCK_SIZE is defined globally outside of the kernel, not a variable</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+</pre><p>An alternative approach allows for a <em>runtime</em> parameter in the kernel invocation:</p>
+<pre data-role="codeBlock" data-info="C++" class="language-cpp">kernel2<span class="token operator">&lt;&lt;</span><span class="token operator">&lt;</span>gridDim<span class="token punctuation">,</span> blockDim<span class="token punctuation">,</span> sharedBytes<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>in<span class="token punctuation">,</span>out<span class="token punctuation">,</span>len<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+__global__ <span class="token function">kernel2</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> in<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> out<span class="token punctuation">,</span> <span class="token keyword">int</span> len<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">extern</span> __shared__ <span class="token keyword">int</span> XY<span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+</pre><p>This allocates, at kernel invocation, a certain number of shared bytes for you shared memory data structures.</p>
+<ul>
+<li><strong>Note: you cannot use a hybrid approach</strong></li>
+</ul>
+<p>Advantage: you can choose the amount of shared memory per block at runtime.</p>
+<p>However, you can only specify one block of shared memory per block in the kernel invocation<br>
+If you want multiple shared items dynamically allocated you have to do something like:</p>
+<pre data-role="codeBlock" data-info="C++" class="language-cpp">__global__ <span class="token function">kernel2</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> in<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> out<span class="token punctuation">,</span> <span class="token keyword">int</span> len<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">extern</span> __shared__ <span class="token keyword">double</span> data<span class="token punctuation">[</span><span class="token punctuation">]</span>
+    
+    <span class="token keyword">float</span> <span class="token operator">*</span>d1 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">float</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>data<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">double</span> <span class="token operator">*</span>d2 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">double</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>data<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> <span class="token operator">*</span>d3 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>data<span class="token punctuation">[</span><span class="token number">12</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+     
+<span class="token punctuation">}</span>
+</pre><ul>
+<li><strong>Watch out for memory alignment</strong></li>
+</ul>
+<h2 class="mume-header" id="multi-dimensional-kernels">Multi-Dimensional Kernels</h2>
+
+<ul>
+<li>CUDA supports 2 and 3 dimensional kernels to help with inherently 2 and 3 dimensional problems</li>
+</ul>
+<pre data-role="codeBlock" data-info="C++" class="language-cpp">dim3 <span class="token function">dimGrid2</span><span class="token punctuation">(</span>GRID_WIDTH<span class="token punctuation">,</span> GRID_HEIGHT<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//dim3 is the structure but can be used for 2d kernels</span>
+dim3 <span class="token function">dimBlock2</span><span class="token punctuation">(</span>BLOCK_WIDTH<span class="token punctuation">,</span> BLOCK_HEIGHT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+my2d_kernel<span class="token operator">&lt;&lt;</span><span class="token operator">&lt;</span>dimGrid2<span class="token punctuation">,</span> dimBlock2<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+dim3 <span class="token function">dimGrid3</span><span class="token punctuation">(</span>GRID_WIDTH<span class="token punctuation">,</span> GRID_HEIGHT<span class="token punctuation">,</span> GRID_DEPTH<span class="token punctuation">)</span><span class="token punctuation">;</span>
+dim3 <span class="token function">dimBlock3</span><span class="token punctuation">(</span>BLOCK_WIDTH<span class="token punctuation">,</span> BLOCK_HEIGHT<span class="token punctuation">,</span> BLOCK_DEPTH<span class="token punctuation">)</span><span class="token punctuation">;</span>
+my3d_kernel<span class="token operator">&lt;&lt;</span><span class="token operator">&lt;</span>dimGrid3<span class="token punctuation">,</span> dimBlock3<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre><ul>
+<li><code>dim3</code> is a <code>struct</code> of x,y and z fields can take 1, 2 or 3 integer parameters in its constructor (missing params are set to 1)</li>
+<li>The grids and blocks can have different dimensionalities</li>
+</ul>
+<p>Each thread has access to a number of variables, <code>dim3</code> and <code>uint3</code> struct, where <code>uint3</code> is like <code>dim3</code> but without constructors</p>
+<ul>
+<li><code>gridDim: dim3</code> is the dimensions of the grid</li>
+<li><code>blockDim: dim3</code> is the dimensions of the block</li>
+<li><code>blockIdx : uint3</code> is the block index within the grid</li>
+<li><code>threadIdx : uint3</code> is the thread index within the block</li>
+</ul>
+<h3 class="mume-header" id="memory-layout">Memory Layout</h3>
+
+<ul>
+<li>Multi-dimensional arrays, <code>A[k][j][i]</code> are ordered by their inner index, outwards</li>
+</ul>
+<h4 class="mume-header" id="multi-dimensional-indexing">Multi-Dimensional Indexing</h4>
+
+<p>Even when working multidimensionally, we often have to explicitly apply threads to 2 or 3D structure of dimensionality equal to our problem domain.</p>
+<p>e.g. given a data structure <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span></span></span></span> of dimension <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>&#xD7;</mo><mi>N</mi></mrow><annotation encoding="application/x-tex">N \times N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">&#xD7;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span> and the block dimensionality of size <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>&#xD7;</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">K \times K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">&#xD7;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">K</span></span></span></span> we can have access as follows :</p>
+<pre data-role="codeBlock" data-info="c++" class="language-cpp"><span class="token keyword">int</span> i <span class="token operator">=</span> blockIdx<span class="token punctuation">.</span>x <span class="token operator">*</span> K <span class="token operator">+</span> threadIdx<span class="token punctuation">.</span>x<span class="token punctuation">;</span>
+<span class="token keyword">int</span> j <span class="token operator">=</span> blockIdx<span class="token punctuation">.</span>y <span class="token operator">*</span> K <span class="token operator">+</span> threadIdx<span class="token punctuation">.</span>y<span class="token punctuation">;</span>
+
+<span class="token comment">// D is just a pointer to a block of memory</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> D<span class="token punctuation">[</span>i <span class="token operator">+</span> j <span class="token operator">*</span> N<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+<span class="token comment">// D is a declared 2d C array</span>
+
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> D<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+</pre><p>You should still pay attention to memory indexing in relation to memory coalescing. i.e make sure you index as above <code>D[i + j *N]</code> if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span> is the fastest changing index.</p>
+<h3 class="mume-header" id="transpose">Transpose</h3>
+
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">&#x2200;</mi><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo>&#x2208;</mo><mi>N</mi><mspace linebreak="newline"></mspace><mi>M</mi><mo>&#x2208;</mo><mi>N</mi><mo>&#xD7;</mo><mi>N</mi><mspace linebreak="newline"></mspace><mtext>&#xA0;swap&#xA0;</mtext><mi>M</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mtext>&#xA0;with&#xA0;</mtext><mi>M</mi><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">\forall i,j \in N \\ M \in N\times N \\ \text{ swap } M[i][j] \text{ with } M[j][i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord">&#x2200;</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&#x2208;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&#x2208;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.76666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">&#xD7;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">&#xA0;swap&#xA0;</span></span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mord text"><span class="mord">&#xA0;with&#xA0;</span></span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span></span></span></span></span></p>
+<p>Serial on host:</p>
+<pre data-role="codeBlock" data-info="C++" class="language-cpp"><span class="token comment">// for a  NxN matrix</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> N 1024</span>
+
+<span class="token keyword">void</span> <span class="token function">transpose_HOST</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> in<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> out<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> N <span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token comment">//loop over rows</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span> <span class="token punctuation">;</span> i <span class="token operator">&lt;</span> N<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token comment">//loop over columns </span>
+            out<span class="token punctuation">[</span>j <span class="token operator">+</span> i <span class="token operator">*</span>N<span class="token punctuation">]</span> <span class="token operator">=</span> in<span class="token punctuation">[</span>i<span class="token operator">+</span>j<span class="token operator">*</span>N<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</pre><p>Serial 1 device thread:</p>
+<pre data-role="codeBlock" data-info="C++" class="language-cpp"><span class="token macro property">#<span class="token directive keyword">define</span> N 1024</span>
+
+__global__ <span class="token keyword">void</span> <span class="token function">transpose_serial</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> in<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> out<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> N <span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token comment">//loop over rows</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span> <span class="token punctuation">;</span> i <span class="token operator">&lt;</span> N<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token comment">//loop over columns </span>
+            out<span class="token punctuation">[</span>j <span class="token operator">+</span> i <span class="token operator">*</span>N<span class="token punctuation">]</span> <span class="token operator">=</span> in<span class="token punctuation">[</span>i<span class="token operator">+</span>j<span class="token operator">*</span>N<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+    transpose_serial<span class="token operator">&lt;&lt;</span><span class="token operator">&lt;</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>d_in<span class="token punctuation">,</span> d_out<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre><blockquote>
+<p>for notes on how to use nsight profiler, see slide deck</p>
+</blockquote>
+<p>This serial execution code performs very poorly as there is no shared memory usage, only a single thread of execution and poorly optimised global memory accesses</p>
+<p>1 Thread per row</p>
+<pre data-role="codeBlock" data-info="C++" class="language-cpp">__global__ <span class="token keyword">void</span> <span class="token function">transpose_thread_per_row</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> in<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> out<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">int</span> i <span class="token operator">=</span> threadIdx<span class="token punctuation">.</span>x<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span> <span class="token punctuation">;</span> j <span class="token operator">&lt;</span> N<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        out<span class="token punctuation">[</span>j <span class="token operator">+</span> i <span class="token operator">*</span>N<span class="token punctuation">]</span> <span class="token operator">=</span> in<span class="token punctuation">[</span> i <span class="token operator">+</span> j <span class="token operator">*</span>N<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+ 
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    transpose_thread_per_row<span class="token operator">&lt;&lt;</span><span class="token operator">&lt;</span><span class="token number">1</span><span class="token punctuation">,</span>N<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>d_in<span class="token punctuation">,</span>d_out<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre><p>This approach performs better with high warp execution efficiency, global load efficiency and better occupancy. However the lack of use of shared memory and non-coalesced column access loses performance.</p>
+<p>1 Thread per elements</p>
+<pre data-role="codeBlock" data-info="C++" class="language-cpp"><span class="token macro property">#<span class="token directive keyword">define</span> N 1024</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> K 32</span>
+
+__global__ <span class="token keyword">void</span> <span class="token function">transpose_thread_per_element</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> in<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> out<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">int</span> i <span class="token operator">=</span> blockIdx<span class="token punctuation">.</span>x <span class="token operator">*</span> K <span class="token operator">+</span> threadIdx<span class="token punctuation">.</span>x<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> j <span class="token operator">=</span> blockIdx<span class="token punctuation">.</span>y <span class="token operator">*</span> K <span class="token operator">+</span> threadIdx<span class="token punctuation">.</span>y<span class="token punctuation">;</span>
+    out <span class="token punctuation">[</span>j<span class="token operator">+</span>i<span class="token operator">*</span>N<span class="token punctuation">]</span> <span class="token operator">=</span> in<span class="token punctuation">[</span>i<span class="token operator">+</span>j<span class="token operator">*</span>N<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    dim3 <span class="token function">blocks</span><span class="token punctuation">(</span>N<span class="token operator">/</span>K<span class="token punctuation">,</span> N<span class="token operator">/</span>K<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    dim3 <span class="token function">threads</span><span class="token punctuation">(</span>K<span class="token punctuation">,</span>K<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    transpose_thread_per_element<span class="token operator">&lt;&lt;</span><span class="token operator">&lt;</span>blocks<span class="token punctuation">,</span>threads<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>d_in<span class="token punctuation">,</span>d_out<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</pre><ul>
+<li>There is no race condition, therefore no <code>__syncthreads()</code></li>
+</ul>
+<p>This approach is <strong>much</strong> faster than the previous attempts (58<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>&#x3BC;</mi></mrow><annotation encoding="application/x-tex">\mu</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">&#x3BC;</span></span></span></span>s)</p>
+<p><strong>The remainder of the lecture is better delivered via the slide deck</strong></p>
+
+      </div>
+      <div class="md-sidebar-toc"><ul>
+<li><a href="#lecture-10">Lecture 10</a>
+<ul>
+<li><a href="#common-cuda-programming-errors">Common CUDA Programming Errors</a></li>
+<li><a href="#atomic-operations">Atomic Operations</a></li>
+<li><a href="#coalesced-global-memory-access">Coalesced Global Memory Access</a></li>
+<li><a href="#shared-memory-banks">Shared Memory Banks</a>
+<ul>
+<li><a href="#shared-memory-allocation">Shared Memory Allocation</a></li>
+</ul>
+</li>
+<li><a href="#multi-dimensional-kernels">Multi-Dimensional Kernels</a>
+<ul>
+<li><a href="#memory-layout">Memory Layout</a>
+<ul>
+<li><a href="#multi-dimensional-indexing">Multi-Dimensional Indexing</a></li>
+</ul>
+</li>
+<li><a href="#transpose">Transpose</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+      <a id="sidebar-toc-btn">&#x2261;</a>
+    
+    
+    
+    
+    
+    
+    
+    
+<script>
+
+var sidebarTOCBtn = document.getElementById('sidebar-toc-btn')
+sidebarTOCBtn.addEventListener('click', function(event) {
+  event.stopPropagation()
+  if (document.body.hasAttribute('html-show-sidebar-toc')) {
+    document.body.removeAttribute('html-show-sidebar-toc')
+  } else {
+    document.body.setAttribute('html-show-sidebar-toc', true)
+  }
+})
+</script>
+      
+  
+    </body></html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="My University Notes Site.">
+<title>
+ - Welcome to my Notes Repo!
+</title>
+
+
+
+
+<link rel="shortcut icon" href="/Notes/sam.ico">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/Notes/css/main.min.81bbafc4df93b11c1c3e2449464373c384aa4903731b4fc7a77dfcdd979e184f.css" integrity="sha256-gbuvxN&#43;TsRwcPiRJRkNzw4SqSQNzG0/Hp3383ZeeGE8=" crossorigin="anonymous" media="screen">
+
+
+
+ 
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Didact+Gothic">
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://sam-barrett.codes/Notes/tn.png"/>
+
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Lecture 2: Model Bias &amp; Variance Noisy Data &amp; Overfitting Data can introduce challenges into our model fitting algorithms. Given a model that is too expressive ,i.e. too high dimensionality, our model may overfit and instead of just capturing the underlying pattern/ equation, it may also fit the noise.
+To show this we will use the equation
+(1) $$y(x) = \sin(2\pi x)$$
+Clearly if we were to set our basis functions to $\phi = {sin(2\pi x)}$ we could easily fit with one dimension $w_0 = 1$ resulting in $f(\textbf{w},x)= w_0\sin(2\pi x)$ However, we will look at a more generalised approach as in most practical applications we would not have, $a)$ such an obvious underlying function or $b)$ the underlying function known to us."/>
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="Lecture 2: Model Bias &amp; Variance Noisy Data &amp; Overfitting Data can introduce challenges into our model fitting algorithms. Given a model that is too expressive ,i.e. too high dimensionality, our model may overfit and instead of just capturing the underlying pattern/ equation, it may also fit the noise.
+To show this we will use the equation
+(1) $$y(x) = \sin(2\pi x)$$
+Clearly if we were to set our basis functions to $\phi = {sin(2\pi x)}$ we could easily fit with one dimension $w_0 = 1$ resulting in $f(\textbf{w},x)= w_0\sin(2\pi x)$ However, we will look at a more generalised approach as in most practical applications we would not have, $a)$ such an obvious underlying function or $b)$ the underlying function known to us." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sam-barrett.codes/Notes/modules/machine-learning/source/ml-lecture2/" />
+
+<meta property="og:image" content="https://sam-barrett.codes/Notes/tn.png" />
+<meta property="og:site_name" content="Notes" />
+
+
+    
+
+    
+    
+    
+    <title>
+        
+        
+        
+    </title>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="section" id="title"></div>
+
+        <div class="section" id="content">
+
+<h1 id="lecture-2-model-bias-variance">Lecture 2: Model Bias &amp; Variance</h1>
+
+<h2 id="noisy-data-overfitting">Noisy Data &amp; Overfitting</h2>
+
+<p>Data can introduce challenges into our model fitting algorithms. Given a model that is <em>too expressive</em> ,i.e. too high dimensionality, our model may overfit and instead of just capturing the underlying pattern/ equation, it may also fit the noise.</p>
+
+<p>To show this we will use the equation</p>
+
+<h6 id="1">(1)</h6>
+
+<p>$$y(x) = \sin(2\pi x)$$</p>
+
+<p>Clearly if we were to set our basis functions to $\phi = {sin(2\pi x)}$ we could easily fit with one dimension $w_0 = 1$ resulting in $f(\textbf{w},x)= w_0\sin(2\pi x)$ However, we will look at a more generalised approach as in most practical applications we would not have, $a)$ such an obvious underlying function or $b)$ the underlying function known to us.</p>
+
+<p>Instead we seek to find a good approximation using the polynomial basis set. Formally we wish to <em>solve</em> the following</p>
+
+<h6 id="2">(2)</h6>
+
+<p>$$\sin(2\pi x) = \sum_{i=0}^{M-1} w_ix^i$$</p>
+
+<p>We know that such an approximation is possible via the <em>Maclaurin series</em>, $\sin(ax) = ax - \frac{a^3x^3}{3!} + \frac{a^5x^5}{5!} + \frac{a^7x^7}{7!}+ \cdots$ where, in our case with $a = 2\pi$, $\textbf{w} \approx ( 0, 6.28, − 41.34, 0, 81.61, 0, − 76.7, 0, 42.1, \cdots)$</p>
+
+<p><sub>*<em>These notes were heavily influenced by those of Dr. Iain Styles, University of Birmingham, School of Computer Science</em></sub></p>
+</div>
+
+        
+        <div class="section bottom-menu">
+<hr />
+<p>
+
+
+    
+
+    
+        
+            <a href="/Notes/modules/neural-computation/">Neural Computation</a>
+        
+    
+    
+        
+            &#183; 
+            <a href="/Notes/modules/machine-learning/">Machine Learning</a>
+        
+            &#183; 
+            <a href="/Notes/modules/parallel-distributed/">Distributed and Parallel Computing</a>
+        
+    
+    &#183; 
+    <a href="https://sam-barrett.codes/Notes/">
+        main
+    </a>
+
+</p></div>
+        
+
+        <div class="section footer"></div>
+    </div>
+</body>
+
+</html>

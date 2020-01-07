@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="My University Notes Site.">
+<title>
+ - Welcome to my Notes Repo!
+</title>
+
+
+
+
+<link rel="shortcut icon" href="/Notes/sam.ico">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/Notes/css/main.min.81bbafc4df93b11c1c3e2449464373c384aa4903731b4fc7a77dfcdd979e184f.css" integrity="sha256-gbuvxN&#43;TsRwcPiRJRkNzw4SqSQNzG0/Hp3383ZeeGE8=" crossorigin="anonymous" media="screen">
+
+
+
+ 
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Didact+Gothic">
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://sam-barrett.codes/Notes/tn.png"/>
+
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Lecture 1 Moore&rsquo;s Law &ldquo;The number of transistors in a dense integrated circuit will double exponentially every 2 years&rdquo; -Gordon Moore 1965
+ Not technically a &ldquo;law&rdquo; but an observation $\rightarrow$ prediction. True more-or-less until 2012, now slowing down. Processor clock rates stopped increasing in the early 2010s due to heat dispersion issues. As we cannot increase performance via clock rate, we instead increase transistor count to put multiple processors on the same chip to ger more work done via parallelism."/>
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="Lecture 1 Moore&rsquo;s Law &ldquo;The number of transistors in a dense integrated circuit will double exponentially every 2 years&rdquo; -Gordon Moore 1965
+ Not technically a &ldquo;law&rdquo; but an observation $\rightarrow$ prediction. True more-or-less until 2012, now slowing down. Processor clock rates stopped increasing in the early 2010s due to heat dispersion issues. As we cannot increase performance via clock rate, we instead increase transistor count to put multiple processors on the same chip to ger more work done via parallelism." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture1/" />
+
+<meta property="og:image" content="https://sam-barrett.codes/Notes/tn.png" />
+<meta property="og:site_name" content="Notes" />
+
+
+    
+
+    
+    
+    
+    <title>
+        
+        
+        
+    </title>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="section" id="title"></div>
+
+        <div class="section" id="content">
+
+<h1 id="lecture-1">Lecture 1</h1>
+
+<h2 id="moore-s-law">Moore&rsquo;s Law</h2>
+
+<p><em>&ldquo;The number of transistors in a dense integrated circuit will double exponentially every 2 years&rdquo; -Gordon Moore 1965</em></p>
+
+<ul>
+<li>Not technically a &ldquo;law&rdquo; but an observation $\rightarrow$ prediction.</li>
+<li>True more-or-less until 2012, now slowing down.</li>
+<li>Processor clock rates stopped increasing in the early 2010s due to heat dispersion issues.</li>
+<li>As we cannot increase performance via clock rate, we instead increase transistor count to put multiple processors on the same chip to ger more work done via parallelism.
+
+<ul>
+<li>e.g.</li>
+<li>Intel i9 Extreme i9-7980XE: 18 cores, 36 threads</li>
+<li>AND Ryzen Threadruipper 2990WX: 32 cores, 64 threads</li>
+</ul></li>
+</ul>
+
+<h2 id="cores-vs-hyper-threads">Cores vs (Hyper)threads</h2>
+
+<ul>
+<li>A core contains an ALU, FPU, several caches + misc. registers</li>
+<li>There are enough transistors on a modern chip that we can double up registers &amp; program counter on a core, while sharing the ALU and FPU. This, therefore, allows 2 &lsquo;threads&rsquo; of execution on the same core.</li>
+<li>Caches
+
+<ul>
+<li>Muli-level</li>
+<li>L1 is closest to the core, shared between 2 threads</li>
+<li>L2 can be shared between 2 cores</li>
+<li>L3 is shared by <strong>all</strong> cores</li>
+</ul></li>
+</ul>
+
+<h2 id="measuring-parallel-speedup">Measuring Parallel Speedup</h2>
+
+<ul>
+<li>Latency: Time from initiation $\rightarrow$ computation.</li>
+<li>Work: a measure of what has to be done for a particular task.</li>
+<li>Throughput: Work done per unit time</li>
+</ul>
+
+<h2 id="speedup-efficiency">Speedup &amp; Efficiency</h2>
+
+<ul>
+<li><p>Speedup$_p$, $S_p$ : ratio of latency for solving a problem with 1 hardware unit to latency of solving with $P$ hardware units.</p>
+
+<ul>
+<li>$S_p = \frac{T_1}{T_p}$</li>
+<li>Perfect linear speedup = $S_p = p$</li>
+</ul></li>
+
+<li><p>Efficiency$_p$, $E_p$ : Ratio of latency for solving a problem with 1 hardware unit to $P$ times the latency of solving it on $P$ hardware units.</p>
+
+<ul>
+<li>Measures how well the individual hardware units are contributing to the overall solution.</li>
+<li>$E_p = \frac{T_1}{p \times T_p} = \frac{S_p}{p}$</li>
+</ul></li>
+</ul>
+
+<h3 id="interpreting-speedup-efficiency">Interpreting Speedup &amp; Efficiency</h3>
+
+<ul>
+<li>Sub-linear speedup and efficiency is <strong>normal</strong> due to overhead in parallelising a problem.</li>
+<li>Super-linear speedup is possible, but usually due to special conditions.
+
+<ul>
+<li>e.g. serial problem doesn&rsquo;t dit in a CPU cache, but parallelised versions do.</li>
+</ul></li>
+<li>Important to compare the <strong>best</strong> serial solution to the parallel version.</li>
+</ul>
+
+<h2 id="strong-scalability">Strong Scalability</h2>
+
+<h3 id="amdahl-s-law">Amdahl&rsquo;s Law</h3>
+
+<ul>
+<li>Gene Amdahl, in 1967 argued that the time to execute a program is comprised of:
+
+<ul>
+<li>Time doing non-parallelisable work +</li>
+<li>Time doing parallelisable work</li>
+<li>$T<em>1 = T</em>{ser} + T_{par}$</li>
+<li>Therefore, if speedup on $P$ units of the parallel part is $S$</li>
+<li>$T<em>p = T</em>{ser} + \frac{T_{par}}{S}$</li>
+<li>Therefore, overall speedup, given the speedup of the parallel part is $S$ is:</li>
+<li>$S<em>p = \frac{T</em>{ser}+T<em>{par}}{T</em>{ser}+\frac{T_{ser}}{S}}$</li>
+<li>If let let $f$ be te function of the program that is parallelisable then:</li>
+<li>$T<em>{ser} = (1-f)T</em>{par} $   &amp;   $ T_{par} = fT_1$</li>
+<li>$\therefore$</li>
+</ul></li>
+</ul>
+
+<p>$$S_p = \frac{(1-f)T_1 + fT_1}{(1-f)T_1+\frac{fT_1}{S}} = \frac{1}{1-f+\frac{f}{S}}$$</p>
+
+<ul>
+<li>This law says that there is a limit to parallel speedup</li>
+</ul>
+
+<p>$$ \lim_{S\rightarrow\infin}\frac{1}{1-f+\frac{f}{S}}= \frac{1}{1-f}$$</p>
+
+<p>or alternatively,</p>
+
+<p>$$\lim_{S\rightarrow\infin}\frac{T_1}{T<em>p} = \frac{1}{1-f}\implies \lim</em>{S\rightarrow\infin} T<em>p = T</em>{ser}$$
+- Assuming $P \rightarrow \infin \implies S \rightarrow \infin$</p>
+
+<h2 id="weak-scalability">Weak Scalability</h2>
+
+<ul>
+<li>John Gustafson &amp; Edwin Barsis, in 1988, argued that Amdahl&rsquo;s law did not give the whole picture
+
+<ul>
+<li>Amdahl kept the task fixed and considered how much you could shorten the processing time by running in parallel.</li>
+<li>Gustafson &amp; Barsis kept the processing time fixed and considered how much larger a task one could handle in that time by running in parallel</li>
+<li>This approach was motivated by observing that as computers increase in power, the problems that they are applied to also increase in size.</li>
+</ul></li>
+</ul>
+
+<h3 id="gustafson-barsis-law">Gustafson - Barsis Law</h3>
+
+<ul>
+<li><p>Assume that $W$ is the workload that can be executed without parallelism in time $T$. If $f$ is the fraction of $W$ that is parallelisable then:</p>
+
+<ul>
+<li>$W = (1-f)W+fW$</li>
+</ul></li>
+
+<li><p>With speedup, $S$, we can run $S$ times the parallelisable part in the same time, although, we don&rsquo;t change the amount of work done in the non-parallelisable part:</p>
+
+<ul>
+<li>$W_s = (1-f)W + SfW$</li>
+</ul></li>
+
+<li><p>If we do $W_S$ in time $T$, we are, on average, doing $W$ amount of work in time $\frac{TW}{W_S} \therefore$ the total speedup is:</p></li>
+</ul>
+
+<p>$$S_S = \frac{\frac{T}{TW}}{W_s} = \frac{W_s}{W} = 1-f+fS$$</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<ul>
+<li>Both Amdahl &amp; Gustafson$\cdot$Barsis are <u>correct</u></li>
+
+<li><p>Together, they give guidance on which tasks can benefit from parallelisation &amp; how</p></li>
+
+<li><p>You can only go so much faster ona fixed problem using parallelisation, <strong>one cannot avoid Amdahl&rsquo;s limit on fixed problem size</strong></p></li>
+
+<li><p>However, when growing the size of the task, you can increase te size of the parallelised part of the problem faster than you increase the size of the non-parallelisable part, then Gustafson-Barsis gives opportunities for speedups that are not available otherwise.</p></li>
+</ul>
+</div>
+
+        
+        <div class="section bottom-menu">
+<hr />
+<p>
+
+
+    
+
+    
+        
+            <a href="/Notes/modules/neural-computation/">Neural Computation</a>
+        
+    
+    
+        
+            &#183; 
+            <a href="/Notes/modules/machine-learning/">Machine Learning</a>
+        
+            &#183; 
+            <a href="/Notes/modules/parallel-distributed/">Distributed and Parallel Computing</a>
+        
+    
+    &#183; 
+    <a href="https://sam-barrett.codes/Notes/">
+        main
+    </a>
+
+</p></div>
+        
+
+        <div class="section footer"></div>
+    </div>
+</body>
+
+</html>

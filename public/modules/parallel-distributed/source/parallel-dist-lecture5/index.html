@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="My University Notes Site.">
+<title>
+ - Welcome to my Notes Repo!
+</title>
+
+
+
+
+<link rel="shortcut icon" href="/Notes/sam.ico">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/Notes/css/main.min.81bbafc4df93b11c1c3e2449464373c384aa4903731b4fc7a77dfcdd979e184f.css" integrity="sha256-gbuvxN&#43;TsRwcPiRJRkNzw4SqSQNzG0/Hp3383ZeeGE8=" crossorigin="anonymous" media="screen">
+
+
+
+ 
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Didact+Gothic">
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://sam-barrett.codes/Notes/tn.png"/>
+
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Lecture 5 Mutual Exclusion Events  An event $a_0$ of thread $A$ is  Instantaneous Even if two events attempt to execute at exactly the same moment in time, one will execute before the other. Has no simultaneous events    A thread $A$ is a sequence, $(a_0,\cdots)$ of events  $a_0 \prec a_1$ indicates order or precedence    Thread events include the following:  Assign to shared variable Assign to local variable Method invocation Method return  Essentially every low level operation is a thread event."/>
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="Lecture 5 Mutual Exclusion Events  An event $a_0$ of thread $A$ is  Instantaneous Even if two events attempt to execute at exactly the same moment in time, one will execute before the other. Has no simultaneous events    A thread $A$ is a sequence, $(a_0,\cdots)$ of events  $a_0 \prec a_1$ indicates order or precedence    Thread events include the following:  Assign to shared variable Assign to local variable Method invocation Method return  Essentially every low level operation is a thread event." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture5/" />
+
+<meta property="og:image" content="https://sam-barrett.codes/Notes/tn.png" />
+<meta property="og:site_name" content="Notes" />
+
+
+    
+
+    
+    
+    
+    <title>
+        
+        
+        
+    </title>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="section" id="title"></div>
+
+        <div class="section" id="content">
+
+<h1 id="lecture-5">Lecture 5</h1>
+
+<h2 id="mutual-exclusion">Mutual Exclusion</h2>
+
+<h3 id="events">Events</h3>
+
+<ul>
+<li>An event $a_0$ of thread $A$ is
+
+<ul>
+<li>Instantaneous</li>
+<li>Even if two events attempt to execute at <strong>exactly</strong> the same moment in time, one will execute before the other.</li>
+<li>Has no simultaneous events</li>
+</ul></li>
+</ul>
+
+<p><img src="../resources/l5d1.png" alt="Fig. 1." /></p>
+
+<ul>
+<li>A <em>thread</em> $A$ is a sequence, $(a_0,\cdots)$ of events
+
+<ul>
+<li>$a_0 \prec a_1$ indicates order or precedence</li>
+</ul></li>
+</ul>
+
+<p><img src="../resources/l5d2.png" alt="Fig. 2." /></p>
+
+<ul>
+<li>Thread events include the following:
+
+<ul>
+<li>Assign to shared variable</li>
+<li>Assign to local variable</li>
+<li>Method invocation</li>
+<li>Method return</li>
+</ul></li>
+
+<li><p>Essentially every low level operation is a thread event.</p></li>
+
+<li><p>Threads can be represented as state machines/ finite state automata</p>
+
+<ul>
+<li>Thread State</li>
+<li>Program counter</li>
+<li>(Thread) Local variables</li>
+<li>System State</li>
+<li>Shared variables</li>
+<li>Union of thread states</li>
+</ul></li>
+</ul>
+
+<h3 id="concurrency">Concurrency</h3>
+
+<ul>
+<li>Two or more threads executing at the same time.</li>
+<li>Their execution is <em>interleaved</em> on the timeline</li>
+<li>They are not necessarily independent as they may be interacting during the course of execution.</li>
+</ul>
+
+<p><img src="../resources/l5d3.png" alt="Fig. 3." />
+Where yellow shows events from thread $A$ and green shows events from thread $B$</p>
+
+<h4 id="intervals">Intervals</h4>
+
+<ul>
+<li>An <strong>interval</strong> $A_0 = (a_0,a_1)$ represents the time between events $a_0$ and $a_1$</li>
+
+<li><p>Intervals may overlap or be disjoint.</p>
+
+<ul>
+<li>In critial sections we want them to be disjoint.</li>
+</ul></li>
+
+<li><p>We can define precedence of intervals as</p>
+
+<ul>
+<li>$A_0 \prec B_0$ iff</li>
+<li>The end of event $A_0$ is before the start of event $B_0$</li>
+</ul></li>
+</ul>
+
+<h5 id="precedence-ordering">Precedence Ordering</h5>
+
+<ul>
+<li><p>A precedence order is a <strong>partial order</strong></p></li>
+
+<li><p>Partial orders have the following properties:</p>
+
+<ul>
+<li>Irreflexive</li>
+<li>Never true that $A\prec A$</li>
+<li>Antisymmetric</li>
+<li>$A\prec B \implies B \nprec A$</li>
+<li>Transitive</li>
+<li>$(A \prec B) \cap (B \prec C) \implies A \prec C$</li>
+</ul></li>
+
+<li><p>Interestingly, $A\prec B$ and $B \prec A$ can <strong>both</strong> be false, this is what makes it a <em>partial order</em></p></li>
+
+<li><p>Total orders on the other hand are:</p>
+
+<ul>
+<li>Irreflexive</li>
+<li>Antisymmetric</li>
+<li>Transitive</li>
+<li>Except that $\forall A,B, A\neq B, (A\prec B) \cup (B \prec A)$ <strong>Trichotomy</strong></li>
+</ul></li>
+</ul>
+
+<h4 id="repeated-events">Repeated events</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">while</span> (mumble){
+    a_0 ; a_1
+}</code></pre></div>
+<p>Here we have to distinguish between each run of the same events
+i.e. $a_0^k$ representing the $k^{th}$ occurrence of event $a_0$ and $A_0^k$ is the $k^{th}$ occurrence of interval $A_0 = (a_0,a_1)$</p>
+
+<p>We make variables <em>indivisible</em> using locks, i.e. able to withstand attempted concurrent accesses.</p>
+
+<h3 id="locks">Locks</h3>
+
+<p>In Java, we can use the <code>Lock</code> interface</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">interface</span> Lock {
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">void</span> lock();
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">void</span> unlock();
+}</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">class</span> Counter {
+    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">long</span> value;
+    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">Lock</span> lock;
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">long</span> getAndIncrement() {
+        lock.<span style="color:#a6e22e">lock</span>();
+        <span style="color:#66d9ef">try</span>{
+            value <span style="color:#f92672">++</span>;
+        }<span style="color:#66d9ef">finally</span>{
+            lock.<span style="color:#a6e22e">unlock</span>();
+        }
+        <span style="color:#66d9ef">return</span> temp;
+    }
+}</code></pre></div>
+<h4 id="desired-properties-of-locks">Desired Properties of Locks</h4>
+
+<p>Mutual Exclusion:</p>
+
+<ul>
+<li>Let $CS_i^k$ be the thread $i$&rsquo;s $k^{th}$ critical section execution</li>
+<li>Let $CS_j^m$ be $j$&rsquo;s $m^{th}$ execution</li>
+<li>Then either $CS_i^K \prec CS_j^m$ or $CS_j^m \prec CS_i^k$</li>
+</ul>
+
+<p>Deadlock Free:</p>
+
+<ul>
+<li>If <strong>any</strong> thread calls <code>lock()</code> then <strong>some</strong> thread will acquire it.</li>
+<li>If some thread calls <code>lock()</code>
+
+<ul>
+<li>And never returns</li>
+<li>then other threads must be completing <code>lock()</code> and <code>unlock()</code> calls infinitely often.</li>
+</ul></li>
+<li>System as a whole makes progress
+
+<ul>
+<li>even if individuals starve</li>
+</ul></li>
+</ul>
+
+<p>Starvation Free:</p>
+
+<ul>
+<li>If some thread calls <code>lock()</code>
+
+<ul>
+<li>it will eventually return</li>
+</ul></li>
+<li>Individual threads make progress</li>
+</ul>
+
+<h4 id="lockone-for-2-threads">LockOne, for 2 threads</h4>
+
+<p><strong>Note: $i$ is the current thread and $j$ is the <em>other</em> thread</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LockOne</span> <span style="color:#66d9ef">implements</span> <span style="color:#a6e22e">Lock</span> {
+    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">boolean</span>[] flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">boolean</span>[2]
+    <span style="color:#a6e22e">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">lock</span>(){
+        <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> ThreadID.<span style="color:#a6e22e">get</span>();
+        <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> 1<span style="color:#f92672">-</span>i;
+        flag[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+        <span style="color:#66d9ef">while</span> (flag[j]) {<span style="color:#75715e">/*wait*/</span>}
+    }
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">void</span> unlock(){
+        <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> ThreadID.<span style="color:#a6e22e">get</span>();
+        flag[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+    }
+}</code></pre></div>
+<h5 id="proof-lockone-satisfies-mutual-exclusion">Proof <code>LockOne</code> Satisfies Mutual Exclusion</h5>
+
+<ul>
+<li>Assume $CS_A^j$ overlaps with $CS_B^k$</li>
+<li>Consider each thread&rsquo;s last read and write in the <code>lock()</code> method before entering the critical section.</li>
+</ul>
+
+<p>From the code:</p>
+
+<p>$$write_A(flag[A]=true)^{[6]} \prec read_A(flag[B]==false)^{[7]} \prec CS_A$$</p>
+
+<p>$$write_B(flag[B]=true)^{[2]} \prec read_B(flag[A]==false)^{[3]} \prec CS_B$$</p>
+
+<p>From our assumption:</p>
+
+<p>$$read_A(flag[B]==false)^{[8]} \prec write_B(flag[B]=true)^{[1]}$$</p>
+
+<p>$$read_B(flag[A]==false)^{[4]} \prec write_A(flag[A]=true)^{[5]}$$</p>
+
+<p>We can then see a cycle form between $[1],[2],[3],[4],[5], [6], [7] \text{and} [8]$, therefore such a series of events is impossible due to it being a partial order.</p>
+
+<h5 id="proof-lockone-satisfies-deadlock-freedom">Proof <code>LockOne</code> Satisfies Deadlock Freedom</h5>
+
+<ul>
+<li>LockOne fails deadlock freedom as concurrent execution can deadlock.</li>
+
+<li><p>i.e. if both threads attempt access at the same time, both of the following occur:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">flag[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+<span style="color:#66d9ef">while</span>(flag[j]){}</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">flag[j] <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+<span style="color:#66d9ef">while</span>(flag[i]){}</code></pre></div></li>
+</ul>
+
+<h4 id="locktwo-for-2-threads">LockTwo for 2 threads</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">class</span> LockTwo <span style="color:#a6e22e">implements</span> Lock { 
+    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">int</span> victim; 
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">void</span> lock() {
+        victim <span style="color:#f92672">=</span> i;
+        <span style="color:#66d9ef">while</span> (victim <span style="color:#f92672">==</span> i){<span style="color:#75715e">/* wait */</span>}
+    }
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">void</span> unlock(){}
+}</code></pre></div>
+<ul>
+<li><p>This lock works by allowing another thread to go before it, eventually another thread gives it permission to go and begins to wait itself.</p></li>
+
+<li><p>LockTwo satisfies mutual exclusion</p>
+
+<ul>
+<li>if thread $i$ is in the CS then the victim = $j$, due to boolean cannot be both 0 and 1.</li>
+</ul></li>
+
+<li><p>It is not deadlock free</p>
+
+<ul>
+<li>sequential execution deadlocks</li>
+<li>i.e. no other thread tries to get the lock, the waiting thread is never released</li>
+<li>Concurrent execution does not.</li>
+</ul></li>
+</ul>
+
+<h4 id="peterson-s-algorithm">Peterson&rsquo;s Algorithm</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">void</span> lock(){
+    flag[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+    victim <span style="color:#f92672">=</span> i;
+    <span style="color:#66d9ef">while</span> (flag[j] <span style="color:#f92672">&amp;&amp;</span> victim <span style="color:#f92672">==</span> i){<span style="color:#75715e">/* wait */</span>}
+}
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">void</span> unlock(){
+    flag[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+}</code></pre></div>
+<ul>
+<li>In this lock the <code>flag</code> variable is used to signify <em>interest</em> in entering the CS.</li>
+<li>The <code>victim</code> again is used to defer access to another thread.</li>
+<li>The thread then waits while it is both interested and the victim</li>
+<li>To unlock the thread just removes the sign of interest</li>
+</ul>
+
+<h5 id="mutual-exclusion-for-peterson-s-algorithm">Mutual Exclusion for Peterson&rsquo;s Algorithm</h5>
+
+<p>From the code:</p>
+
+<h6 id="1">(1)</h6>
+
+<p>$$write_B(flag[B]=true) \prec write_B(victim=B)$$</p>
+
+<h6 id="2">(2)</h6>
+
+<p>$$write_A(victim=A) \prec read_A(flag[B]) \prec read_A(victim)$$</p>
+
+<p>Assumption:</p>
+
+<h6 id="3">(3)</h6>
+
+<p>$$write_B(victim=B)\prec write_A(victim=A)$$</p>
+
+<ul>
+<li>Assume thread $A$ is the last thread to write to <code>victim</code></li>
+</ul>
+
+<p>Combining these results in <a href="#1">[1]</a> $\rightarrow$ <a href="#3">[3]</a> $\rightarrow$ <a href="#2">[2]</a></p>
+
+<ul>
+<li>From the end of <a href="#2">[2]</a> you can see that if $A$ reds <code>flag[B] == true</code> and <code>victim==A</code> then it could not have entered the critical section. <em>quod erat demonstrandum</em></li>
+</ul>
+
+<h5 id="deadlock-freedom-for-peterson-s-lock">Deadlock Freedom for Peterson&rsquo;s Lock</h5>
+
+<ul>
+<li>Thread blocked
+
+<ul>
+<li>only at <code>while</code> loop</li>
+<li>only if other thread&rsquo;s flag is <code>true</code></li>
+<li>only if it is the victim</li>
+</ul></li>
+</ul>
+
+<h5 id="starvation-freedom-for-peterson-s-lock">Starvation Freedom for Peterson&rsquo;s Lock</h5>
+
+<ul>
+<li>Thread $i$ blocked only if $j$ repeatedly re-enters so that <code>flag[j] == true &amp;&amp; victim=1</code></li>
+<li>When $j$ re-enters, it sets the <code>victim</code> to $j$ so $i$ enters</li>
+</ul>
+
+<p><strong>All of these proofs have only been for 2 threads, what about the $n$ thread case?</strong></p>
+
+<h4 id="filter-algorithm-for-n-threads">Filter Algorithm for $n$ Threads</h4>
+
+<ul>
+<li>There are $n-1$ <em>waiting rooms</em> called <em>levels</em></li>
+<li>At each level
+
+<ul>
+<li>at least one thread enters</li>
+<li>at least one thread is blocked at that level if many try to move to the next</li>
+</ul></li>
+<li>Only one thread makes it through a level at a time</li>
+
+<li><p>A thread at level $j$ is also at level $j-1,\cdots,0$</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Filter</span> <span style="color:#66d9ef">implements</span> <span style="color:#a6e22e">Lock</span>{
+<span style="color:#66d9ef">int</span>[] <span style="color:#a6e22e">level</span>;
+<span style="color:#66d9ef">int</span>[] <span style="color:#a6e22e">victim</span>;
+
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Filter</span>(<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">n</span>){
+    level <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>[n];
+    victim <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>[n];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> 1; i<span style="color:#f92672">&lt;</span>n; i<span style="color:#f92672">++</span>){
+        level[i] <span style="color:#f92672">=</span> 0;
+    }
+} 
+    
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">void</span> lock(){
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">L</span> <span style="color:#f92672">=</span> 1; L <span style="color:#f92672">&lt;</span> n; L<span style="color:#f92672">++</span>){
+        level[i] <span style="color:#f92672">=</span> L;
+        victim[L] <span style="color:#f92672">=</span> i;
+        <span style="color:#66d9ef">while</span> (there <span style="color:#a6e22e">is</span> a <span style="color:#a6e22e">thread</span> at <span style="color:#a6e22e">the</span> same <span style="color:#a6e22e">or</span> a <span style="color:#a6e22e">higher</span> level <span style="color:#a6e22e">and</span> I <span style="color:#a6e22e">am</span> the <span style="color:#a6e22e">victim</span>){<span style="color:#75715e">/*wait*/</span>}
+    }
+}
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">void</span> unlock(){
+    level[i] <span style="color:#f92672">=</span> 0;
+}
+}</code></pre></div></li>
+</ul>
+
+<h5 id="claim-of-filter-algorithm">Claim of Filter Algorithm</h5>
+
+<ul>
+<li>If you start at level $L=0$</li>
+<li>At most $n-L$ threads enter $L$</li>
+<li>Mutual exclusion at level $L=n-1$</li>
+</ul>
+
+<h5 id="induction-hypothesis">Induction Hypothesis</h5>
+
+<ul>
+<li>No more than $n-(L-1)$ threads at level $L-1$</li>
+<li>Induction step: by contradition
+
+<ul>
+<li>Assume all at level $L-1$ enter level $L$</li>
+<li>$A$ is last to write <code>victim[L]</code></li>
+<li>$B$ is any other thread at level $L$</li>
+</ul></li>
+<li>Show that $A$ must have <em>seen</em> $B$ in <code>level[L]</code> and since <code>victim[L] == A</code>, it could not have entered</li>
+</ul>
+
+<p>From the code:</p>
+
+<h6 id="4">(4)</h6>
+
+<p>$$write_B(level[B]=L) \prec write_B(victim[L]=B)$$</p>
+
+<h6 id="5">(5)</h6>
+
+<p>$$write_A(victim[L]=A) \prec read_A(level[B]) \prec read_A(victim[L])$$</p>
+
+<p>By assumption that thread $A$ is last to write <code>victim[L]</code>:</p>
+
+<h6 id="6">(6)</h6>
+
+<p>$$write_B(victim[L]=B) \prec write_A(victim[L]=A)$$</p>
+
+<ul>
+<li>Combining these yields: <a href="#4">[4]</a> $\rightarrow$ <a href="#6">[6]</a> $\rightarrow$ <a href="#7">[7]</a></li>
+<li>$A$ read <code>level[B] &gt;= L</code> and <code>victim[L]=A</code> therefore, A could not have entered $L$</li>
+</ul>
+
+<h5 id="filter-starvation-free">Filter Starvation Free</h5>
+
+<ul>
+<li>Filter lock satisfies this property just as Peterson does</li>
+<li>However, it is not very fair as threads can be overtaken by others</li>
+</ul>
+
+<h5 id="bounded-waiting">Bounded Waiting</h5>
+
+<ul>
+<li>We want to enforce stronger fairness guarantees</li>
+<li>Thread not <em>overtaken</em> too often</li>
+
+<li><p>if $A$ starts before $B$, then $A$ should enter the CS before $B$</p>
+
+<ul>
+<li>What does <em>start</em> mean?</li>
+</ul></li>
+
+<li><p>Divide <code>lock()</code> method into 2 parts</p>
+
+<ul>
+<li>Doorway interval</li>
+<li>Denoted $D_A$</li>
+<li>Always finished in a finite number of steps</li>
+<li>Waiting interval</li>
+<li>Denoted $W_A$</li>
+<li>May take unbounded number of steps</li>
+</ul></li>
+</ul>
+
+<h5 id="first-come-first-served">First-Come-First-Served</h5>
+
+<ul>
+<li>For threads $A$ and $B$:
+
+<ul>
+<li>if $D_A^k \prec D_B^j$</li>
+<li>$A$&rsquo;s $k^{th}$ doorway precedes $B$&rsquo;s $j^{th}$ doorway</li>
+<li>Then, $CS_A^k \prec CS_B^j$</li>
+<li>$A$&rsquo;s $k^{th}$ critical section precedes $B$&rsquo;s $j^{th}$ critical section</li>
+<li>$B$ cannot overtake $A$</li>
+</ul></li>
+</ul>
+
+<h5 id="fairness-of-filter-lock">Fairness of Filter Lock</h5>
+
+<ul>
+<li>The Filter Lock satisfies properties:
+
+<ul>
+<li>No one starves</li>
+<li>But very weak fairness</li>
+<li>a waiting thread can be overtaken an arbitrary number of times</li>
+</ul></li>
+</ul>
+
+<h4 id="bakery-algorithm">Bakery Algorithm</h4>
+
+<ul>
+<li>Provides fairness via the First-Come-First-Served topology</li>
+<li>It does this by assigning each waiting thread a number adn the current lowest waiting number is served next</li>
+
+<li><p>Lexicographic order</p>
+
+<ul>
+<li>$(a,i) &gt; (b,j)$</li>
+
+<li><p>if $a&gt;b$ or $(a=b)\cap(i&gt;j)$</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bakery</span> <span style="color:#66d9ef">implements</span> <span style="color:#a6e22e">Lock</span>{
+<span style="color:#66d9ef">boolean</span>[] <span style="color:#a6e22e">flag</span>;
+Label[] <span style="color:#a6e22e">label</span>;
+
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Bakery</span>(<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">n</span>){
+flag <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">boolean</span>[n];
+label; <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Label[n];
+
+<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> 0; i<span style="color:#f92672">&lt;</span>n; i<span style="color:#f92672">++</span>){
+    flag[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+    label[i] <span style="color:#f92672">=</span> 0;
+}
+}
+
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">void</span> lock(){
+flag[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+label[i] <span style="color:#f92672">=</span> max(label[0],...,label[n<span style="color:#f92672">-</span>1])<span style="color:#f92672">+</span>1
+<span style="color:#a6e22e">while</span> (there <span style="color:#a6e22e">exist</span> another <span style="color:#a6e22e">waiting</span> thread <span style="color:#a6e22e">and</span> that <span style="color:#a6e22e">thread</span><span style="color:#960050;background-color:#1e0010">&#39;</span>s <span style="color:#a6e22e">label</span> is <span style="color:#a6e22e">less</span> than <span style="color:#a6e22e">mine</span>){<span style="color:#75715e">/*wait*/</span>}
+}
+
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">void</span> unlock(){
+flag[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+}
+}</code></pre></div></li>
+</ul></li>
+
+<li><p>This algorithm has no deadlock as there is always a thread with the earliest label</p></li>
+
+<li><p>First-Come-First-Served can be demonstrated by:</p>
+
+<ul>
+<li>if $D_A \prec D_B$ then</li>
+<li>$A$&rsquo;s label is smaller</li>
+<li>And</li>
+<li>$write_A(label[A])\prec \ read_B(label[A]) \prec \ write_B(label[B]) \prec read_B(flag[A])$</li>
+<li>So $B$ sees</li>
+<li>smaller label for $A$</li>
+<li>locked out while <code>flag[A]</code> is true.</li>
+</ul></li>
+
+<li><p>Mutual Exclusion can be shown by:</p>
+
+<ul>
+<li>Suppose $A$ and $B$ are in the CS together</li>
+<li>Suppose $A$ has the earlier label</li>
+<li>When $B$ entered it must have seen:</li>
+<li><code>flag[A] == false</code> or <code>label[A] &gt; label[B]</code></li>
+<li>But labels are strictly increasing so $B$ must have seen <code>flag[A] == false</code>
+
+<ul>
+<li>$Labeling_B \prec read_B(flag[A]) \prec write_A(flag[A]) \prec Labeling_A$</li>
+<li>Which contradict the assumption that $A$ has the earlier label $\therefore$ impossible, $\therefore$ Bakery satisfies mutual exclusion.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h5 id="impracticality-of-the-bakery-algorithm">Impracticality of the Bakery Algorithm</h5>
+
+<p>The Bakery Algorithm isn&rsquo;t widely used due to its impracticality stemming from its need for $N$ Distinct variables</p>
+
+<h5 id="shared-memory">Shared Memory</h5>
+
+<p>Shared read/write memory locations called <strong>Registers</strong>. Here we assume that all reads and writes are <em>atomic</em></p>
+
+<p>There are different types of registers:</p>
+
+<ul>
+<li>Multi-Reader-Single-Writer (<strong>MRSW</strong>)</li>
+<li>Multi-Reader-Multi-Writer (<strong>MRMW</strong>)</li>
+<li>There are also SRMW and SRSW but they are not pertinent</li>
+</ul>
+
+<hr />
+
+<p><strong>Theorem</strong></p>
+
+<p>At least $N$ MRSW registers are needed to solve $N$-thread deadlock-free mutual exclusion</p>
+
+<hr />
+
+<p><strong>Proof</strong></p>
+
+<p>Without $N$-MRSW registers, with N threads at least one thread won&rsquo;t be able to express intent to enter the CS, diagrammatically:</p>
+
+<p>@import &ldquo;../resources/pd.l5.1.png&rdquo;</p>
+
+<p>We cannot tell if $A$ is in the Critical Section</p>
+
+<hr />
+
+<p>The bakery algorithm actually uses $2N$ MRSW registers</p>
+
+<p>What if we use MRMW registers instead?</p>
+
+<hr />
+
+<p><strong>Bad News Theorem</strong></p>
+
+<p>At least $N$ MRMW registers are needed to solve deadlock-free mutual exclusion</p>
+
+<hr />
+
+<p>i.e. it doesn&rsquo;t help us</p>
+
+<hr />
+
+<p><strong>Theorem, $N=2$</strong></p>
+
+<p>Deadlock-free mutual exclusion for $2$ threads requires at least $2$ MRMW registers</p>
+
+<hr />
+
+<p><strong>Proof</strong></p>
+
+<p>assume one register suffices &amp; derive contradiction</p>
+
+<hr />
+</div>
+
+        
+        <div class="section bottom-menu">
+<hr />
+<p>
+
+
+    
+
+    
+        
+            <a href="/Notes/modules/neural-computation/">Neural Computation</a>
+        
+    
+    
+        
+            &#183; 
+            <a href="/Notes/modules/machine-learning/">Machine Learning</a>
+        
+            &#183; 
+            <a href="/Notes/modules/parallel-distributed/">Distributed and Parallel Computing</a>
+        
+    
+    &#183; 
+    <a href="https://sam-barrett.codes/Notes/">
+        main
+    </a>
+
+</p></div>
+        
+
+        <div class="section footer"></div>
+    </div>
+</body>
+
+</html>
