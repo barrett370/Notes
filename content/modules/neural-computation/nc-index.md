@@ -14,3 +14,4 @@ aliases: ["/modules/neural-computation/"]
 - [Lecture 8]({{< relref "lectures/neural-comp-lecture8/" >}})
 - [Lecture 9]({{< relref "lectures/neural-comp-lecture9/" >}})
 - [Lecture 10]({{< relref "lectures/neural-comp-lecture10/" >}})
+- [Lecture 11]({{< relref "lectures/neural-comp-lecture11/" >}})
