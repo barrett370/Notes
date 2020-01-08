@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="My University Notes Site.">
+<title>
+ - Welcome to my Notes Repo!
+</title>
+
+
+
+
+<link rel="shortcut icon" href="../../../sam.ico">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="../../../css/main.min.81bbafc4df93b11c1c3e2449464373c384aa4903731b4fc7a77dfcdd979e184f.css" integrity="sha256-gbuvxN&#43;TsRwcPiRJRkNzw4SqSQNzG0/Hp3383ZeeGE8=" crossorigin="anonymous" media="screen">
+
+
+
+ 
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Didact+Gothic">
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://sam-barrett.codes/Notes/tn.png"/>
+
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Lecture 4  So far we have only looked at models with 1 parameter  (1) $$ J(\Theta) = \mathbb{E}{\mathcal{X,Y}\sim \mathcal{D}}-\log{Pmodel}(\mathcal{Y | X; \Theta)}$$
+ We will nw look at models with many variables  Functions of multiple variables Vectors  Vectors are &ldquo;arrays&rdquo; of numbers e.g.  (2) $$\vec{v} = \langle v_1, \cdots, v_n \rangle \in \R^n$$
+ We can consider a vector as a point i a $n$ dimensional space where each point $v_i$ gives the coordinate along the $i^{th}$ axis."/>
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="Lecture 4  So far we have only looked at models with 1 parameter  (1) $$ J(\Theta) = \mathbb{E}{\mathcal{X,Y}\sim \mathcal{D}}-\log{Pmodel}(\mathcal{Y | X; \Theta)}$$
+ We will nw look at models with many variables  Functions of multiple variables Vectors  Vectors are &ldquo;arrays&rdquo; of numbers e.g.  (2) $$\vec{v} = \langle v_1, \cdots, v_n \rangle \in \R^n$$
+ We can consider a vector as a point i a $n$ dimensional space where each point $v_i$ gives the coordinate along the $i^{th}$ axis." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sam-barrett.codes/Notes/modules/neural-computation/source/neural-comp-lecture4.html" />
+
+<meta property="og:image" content="https://sam-barrett.codes/Notes/tn.png" />
+<meta property="og:site_name" content="Notes" />
+
+
+    
+
+    
+    
+    
+    <title>
+        
+        
+        
+    </title>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="section" id="title"></div>
+
+        <div class="section" id="content">
+
+<h1 id="lecture-4">Lecture 4</h1>
+
+<ul>
+<li>So far we have only looked at models with 1 parameter</li>
+</ul>
+
+<h6 id="1">(1)</h6>
+
+<p>$$ J(\Theta) = \mathbb{E}<em>{\mathcal{X,Y}\sim \mathcal{D}}-\log</em>{Pmodel}(\mathcal{Y | X; \Theta)}$$</p>
+
+<ul>
+<li>We will nw look at models with many variables</li>
+</ul>
+
+<h2 id="functions-of-multiple-variables">Functions of multiple variables</h2>
+
+<h3 id="vectors">Vectors</h3>
+
+<ul>
+<li>Vectors are &ldquo;arrays&rdquo; of numbers e.g.</li>
+</ul>
+
+<h6 id="2">(2)</h6>
+
+<p>$$\vec{v} = \langle v_1, \cdots, v_n \rangle \in \R^n$$</p>
+
+<ul>
+<li>We can consider a vector as a point i a $n$ dimensional space where each point $v_i$ gives the coordinate along the $i^{th}$ axis.</li>
+</ul>
+
+<p><img src="../resources/VectorDiagram.jpg" alt="2D Vector Diagram" /></p>
+
+<h4 id="properties-of-vectors">Properties of vectors</h4>
+
+<ul>
+<li>Norms: assigns <em>&ldquo;length&rdquo;</em> to vectors</li>
+<li>The $L^{p}$-norm of a vector $\vec{v}\in \R^n$ is</li>
+</ul>
+
+<h6 id="3">(3)</h6>
+
+<p>$$|\vec{v}|<em>p = (\sum</em>{i=1}^{n}|v_i|^p)^{\frac{j}{p}}$$</p>
+
+<ul>
+<li>The special case where $p=2$, $L^2$-norm is the <em>euclidean norm/ distance</em> denoted $|\vec{v}| = |\vec{v}|_2$</li>
+</ul>
+
+<h4 id="operations-on-vectors">Operations on vectors</h4>
+
+<p>$$\forall a \in \R, \ \vec{u} \in \langle u_1, \cdots , u_m \rangle \in \R^m <br />
+                 \vec{v} \in  \langle v_1, \cdots, v_m \rangle \in \R^m $$</p>
+
+<ul>
+<li>$a \cdot \vec{u} = \langle au_1, \cdots, au_m \rangle \leftarrow$ <em>Scalar Multiplication</em></li>
+<li>$\vec{v} + \vec{u} = \langle v_1 + u_1, \cdots , v_n+u_n \rangle \leftarrow$ <em>Vector addition</em></li>
+<li>$\vec{v}\cdot\vec{u} = \sum_{i=1}^{m} v_iu_i \leftarrow$ <em>Dot product</em></li>
+</ul>
+
+<h3 id="theorem-geometric-interpretation-of-dot-product">Theorem: Geometric interpretation of dot-product</h3>
+
+<ul>
+<li>Given the 2 vectors $\vec{u}, \vec{v}$, defined above, if the angle between them is $\theta$:</li>
+</ul>
+
+<h6 id="4">(4)</h6>
+
+<p>$$\vec{u}\cdot\vec{v} = |\vec{u}| \cdot |\vec{v}|\cdot\cos\theta$$</p>
+
+<p><img src="../resources/Geolnterpretation.jpg" alt="Figure showing Theorem" /></p>
+
+<h3 id="partial-differentiation">Partial Differentiation</h3>
+
+<ul>
+<li>The partial derivative of the function $f(x_1,\cdots,x_n)$ in the direction of the variable $x_i$ at the point $\vec{u} = \langle u_1, \cdots, u_n \rangle$ is</li>
+</ul>
+
+<h6 id="5">(5)</h6>
+
+<p>$$\frac{\delta f}{\delta x_i}(u_1,\cdots,u<em>n) = \lim</em>{h\rightarrow 0} \frac{f(u_1,\cdots,u_i+h,\cdots,u_n)-f(u_1,\cdots, u_n)}{h}$$</p>
+
+<h3 id="gradient">Gradient</h3>
+
+<ul>
+<li>The gradient of function $f(x_1,\cdots, x_n)$ is</li>
+</ul>
+
+<h6 id="6">(6)</h6>
+
+<p>$$\nabla f := (\frac{\delta f}{\delta x_1},\cdots, \frac{\delta f}{\delta x_n})$$</p>
+
+<ul>
+<li>And iff $f: \R^n \rightarrow \R$, then $\nabla f : \R^n \rightarrow \R^n$
+
+<ul>
+<li>i.e. the gradient is a vector-valued function</li>
+</ul></li>
+</ul>
+
+<h3 id="chain-rule-special-case">Chain Rule (Special Case)</h3>
+
+<table>
+<thead>
+<tr>
+<th>For 1D functions</th>
+<th>For higher dimensional functions</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>if $y=f(u)$ and $u = g(x)$ $\$ then $\$ $\frac{\delta y}{\delta x}= \frac{\delta y}{\delta u} \cdot \frac{\delta u}{\delta x}$</td>
+<td>If $y=f(u_1,\cdots, u_m)$ and $u_i = g(x_1,\cdots,x_m)$ for $i \in {1,\cdots,m}$ $\$ then $\$ $\frac{\delta y}{\delta x<em>i} = \sum</em>{j=1}^m \frac{\delta y}{\delta u_j}\cdot \frac{\delta u_j}{\delta x_i}$</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="directional-derivative">Directional Derivative</h3>
+
+<h4 id="definition">Definition</h4>
+
+<ul>
+<li>Given a function:</li>
+</ul>
+
+<h6 id="7">(7)</h6>
+
+<p>$$f : \R^m \rightarrow \R$$</p>
+
+<ul>
+<li>And a vector</li>
+</ul>
+
+<h6 id="8">(8)</h6>
+
+<p>$$\vec{v} = \langle v_1,\cdots,v_m\rangle \mid |\vec{v}| = 1$$</p>
+
+<ul>
+<li>The directional derivative of $f$ at $\vec{x} = \langle x_1, \cdots, x_m \rangle$  along <a href="#8">the vector $\vec{v}$</a> is</li>
+</ul>
+
+<h6 id="9">(9)</h6>
+
+<p>$$\nabla<em>{\vec{v}} f(\vec{x}) := \lim</em>{\alpha \rightarrow 0} \frac{f(\vec{x}+ \alpha \vec{v}) - f(\vec{x})}{\alpha}$$
+$$= \lim_{\alpha \rightarrow 0} \frac{f(x_1+ \alpha v_1 , \cdots, x_m + \alpha v_m)- f(x_1,\cdots, x_m)}{\alpha}$$</p>
+
+<h4 id="computing-the-directional-derivative">Computing the Directional Derivative</h4>
+
+<ul>
+<li>The following theorem implies that if we know the gradient $\nabla f$, then we can compute the derivative in any direction, $\vec{v}$</li>
+</ul>
+
+<h5 id="theorem">Theorem</h5>
+
+<h6 id="10">(10)</h6>
+
+<p>$$\nabla_{\vec{v}}f(x) = \nabla f(x)\cdot\vec{v}$$</p>
+
+<ul>
+<li>Where:
+
+<ul>
+<li>$\nabla_{\vec{v}}f(x) \leftarrow$ is the directional derivative</li>
+<li>$\nabla f(x) \leftarrow$ is the gradient</li>
+</ul></li>
+</ul>
+
+<h5 id="proof">Proof</h5>
+
+<ul>
+<li>Define the function</li>
+</ul>
+
+<h6 id="11">(11)</h6>
+
+<p>$$h(\alpha) := f(u_1,\cdots,u_m)$$</p>
+
+<ul>
+<li>Where:
+
+<ul>
+<li>$u_i := x_i + \alpha v_i, \forall i \in {1,\cdots,m}$</li>
+<li>Note that $h : \R \rightarrow \R$, i.e. $h$ is a 1D real-valued function</li>
+</ul></li>
+</ul>
+
+<h6 id="12">(12)</h6>
+
+<p>$$\nabla<em>{\vec{v}} f(\vec{x}) := \lim</em>{\alpha \rightarrow 0} \frac{f(\vec{x}+ \alpha \vec{v}) - f(\vec{x})}{\alpha}$$</p>
+
+<ul>
+<li><a href="#9">From definition of $\nabla_{\vec{v}}f$</a></li>
+</ul>
+
+<p>$$=\lim_{\alpha\rightarrow 0} \frac{h(0+\alpha)=h(0)}{\alpha}$$</p>
+
+<ul>
+<li><a href="#chain-rule-special-case">By definition of $g$</a></li>
+</ul>
+
+<h6 id="13">(13)</h6>
+
+<p>$$= h&rsquo;(0)$$</p>
+
+<ul>
+<li><p>By definition of Derivative</p></li>
+
+<li><p>Using the Chain Rule, we have:</p></li>
+</ul>
+
+<h6 id="14">(14)</h6>
+
+<p>$$h&rsquo;(\alpha) = \frac{\delta h}{\delta \alpha} = \sum_{i=1}^m \frac{\delta u<em>i}{\delta \alpha} = \sum</em>{i=1}^m \frac{\delta f}{\delta u_i}\cdot v_i$$</p>
+
+<ul>
+<li>Note that for $\alpha = 0$, we have:</li>
+</ul>
+
+<h6 id="15">(15)</h6>
+
+<p>$$u_i = x_i + 0 \cdot v_i = x_i$$</p>
+
+<ul>
+<li>Using <a href="#13">(13)</a>, <a href="#14">(14)</a> and <a href="#15">(15)</a>, we get:</li>
+</ul>
+
+<h6 id="16">(16)</h6>
+
+<p>$$\nabla<em>{\vec{v}}f(\vec{x}) = h&rsquo;(0) = \sum</em>{i=1}^m \frac{\delta f}{\delta x_i}\cdot v_i = \nabla f(x)\cdot \vec{v}$$</p>
+
+<h3 id="the-gradient-points-towards-the-steepest-ascent">The Gradient Points Towards the Steepest Ascent</h3>
+
+<ul>
+<li>The vector $\vec{v}$ along which $f$ has steepest ascent is:</li>
+</ul>
+
+<h6 id="17">(17)</h6>
+
+<p>$$\argmax<em>{\vec{v} , |\vec{v}|=1} \nabla</em>{\vec{v}}f(\vec{x})$$</p>
+
+<p>$$= \argmax_{\vec{v} , |\vec{v}|=1} \nabla f(\vec{x}) \cdot \vec{v}$$</p>
+
+<p>$$= \argmax_{\vec{v} , |\vec{v}|=1} |\nabla f(\vec{x})||\vec{v}|\cdot \cos\theta$$</p>
+
+<p>$$ = \argmax_{\vec{v} , |\vec{v}|=1} |\nabla f(\vec{x}) |\cdot \cos\theta$$</p>
+
+<ul>
+<li><p>Where $\cos\theta$ is the angle between $\vec{v}$ and $\nabla f(\vec{x})$</p></li>
+
+<li><p>$\implies$ The vector $\vec{v}$ which gives the <strong>steepest ascent</strong> is the vector that has angle $\theta=0$ to $\nabla f$, i.e. the vector $\vec{v}$ which points in the same direction as $\nabla f$</p></li>
+</ul>
+
+<h3 id="method-of-gradient-descent">Method of Gradient Descent</h3>
+
+<p>*<strong>Input:</strong> cost function: $J : \R^m \rightarrow \R$*
+<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; learning rate: $\epsilon \in \R, \epsilon &gt; 0$</em></p>
+
+<p><em>$\vec{x} \leftarrow$ Some initial point in $\R^m$</em>
+<em>while termination condition not met {</em>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $\vec{x}\leftarrow \vec{x} - \epsilon \cdot \nabla J(\vec{x})$
+<em>}</em></p>
+</div>
+
+        
+        <div class="section bottom-menu">
+<hr />
+<p>
+
+
+    
+
+    
+        
+            <a href="../../../modules/neural-computation/">Neural Computation</a>
+        
+    
+    
+        
+            &#183; 
+            <a href="../../../modules/machine-learning/">Machine Learning</a>
+        
+            &#183; 
+            <a href="../../../modules/parallel-distributed/">Distributed and Parallel Computing</a>
+        
+    
+    &#183; 
+    <a href="https://sam-barrett.codes/Notes/">
+        main
+    </a>
+
+</p></div>
+        
+
+        <div class="section footer"></div>
+    </div>
+</body>
+
+</html>

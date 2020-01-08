@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="My University Notes Site.">
+<title>
+ - Welcome to my Notes Repo!
+</title>
+
+
+
+
+<link rel="shortcut icon" href="../../../sam.ico">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="../../../css/main.min.81bbafc4df93b11c1c3e2449464373c384aa4903731b4fc7a77dfcdd979e184f.css" integrity="sha256-gbuvxN&#43;TsRwcPiRJRkNzw4SqSQNzG0/Hp3383ZeeGE8=" crossorigin="anonymous" media="screen">
+
+
+
+ 
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Didact+Gothic">
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://sam-barrett.codes/Notes/tn.png"/>
+
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Lecture 2 Linear Regression Models Cat Hearts example: Experience $E$  The dataset consists of $n$ data points  $((x_1,y_1),&hellip;,(x_n,y_n)\in \R^d\times \R)$ $x_i \in \R^d$ is the &ldquo;input&rdquo; for the $i^{th}$ data point as a feature vector with $d$ elements, $d$ being the # of dimensions in the feature space, in this case 1. $y_i \in \R$ is the &ldquo;output&rdquo; for the $i^{th}$ data point, in this case the weight of the corresponding cat heart."/>
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="Lecture 2 Linear Regression Models Cat Hearts example: Experience $E$  The dataset consists of $n$ data points  $((x_1,y_1),&hellip;,(x_n,y_n)\in \R^d\times \R)$ $x_i \in \R^d$ is the &ldquo;input&rdquo; for the $i^{th}$ data point as a feature vector with $d$ elements, $d$ being the # of dimensions in the feature space, in this case 1. $y_i \in \R$ is the &ldquo;output&rdquo; for the $i^{th}$ data point, in this case the weight of the corresponding cat heart." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sam-barrett.codes/Notes/modules/neural-computation/source/neural-comp-lecture2.html" />
+
+<meta property="og:image" content="https://sam-barrett.codes/Notes/tn.png" />
+<meta property="og:site_name" content="Notes" />
+
+
+    
+
+    
+    
+    
+    <title>
+        
+        
+        
+    </title>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="section" id="title"></div>
+
+        <div class="section" id="content">
+
+<h1 id="lecture-2">Lecture 2</h1>
+
+<h2 id="linear-regression-models">Linear Regression Models</h2>
+
+<p><img src="../resources/ML-supervised-l2.png" alt="High level representation of ML" /></p>
+
+<h3 id="cat-hearts-example">Cat Hearts example:</h3>
+
+<h4 id="experience-e">Experience $E$</h4>
+
+<ul>
+<li>The dataset consists of $n$ data points
+
+<ul>
+<li>$((x_1,y_1),&hellip;,(x_n,y_n)\in \R^d\times \R)$</li>
+<li>$x_i \in \R^d$ is the <em>&ldquo;input&rdquo;</em> for the $i^{th}$ data point as a feature vector with $d$ elements, $d$ being the # of dimensions in the feature space, in this case 1.</li>
+<li>$y_i \in \R$ is the <em>&ldquo;output&rdquo;</em> for the $i^{th}$ data point, in this case the weight of the corresponding cat heart.</li>
+</ul></li>
+</ul>
+
+<h4 id="learning-task-t">Learning Task, $T$</h4>
+
+<ul>
+<li>In this example, our task is: <strong>Linear Regression</strong></li>
+<li>Find a <em>&ldquo;model&rdquo;</em>, i.e. a function:
+
+<ul>
+<li>$f : \R^d \rightarrow \R$</li>
+</ul></li>
+<li>s.t. our future observations produce output <em>&ldquo;close to&rdquo;</em> the true output.</li>
+</ul>
+
+<h5 id="linear-regression-model">Linear Regression Model</h5>
+
+<ul>
+<li>A linear regression model has the form:
+
+<ul>
+<li>$f(x) = (\sum_{i=1}^{d}w_i \cdot x_i)+ b$</li>
+<li>where:</li>
+<li>$x \in \R^d$ is the input vector (feature)</li>
+<li>$w \in \R^d$ is the weight vector (parameters)</li>
+<li>$b \in \R$ is a bias (parameter)</li>
+<li>$f(x) \in \R$ is the predicted output</li>
+</ul></li>
+</ul>
+
+<hr />
+
+<ul>
+<li>In our cat example we have:
+
+<ul>
+<li>$d=1$ as &ldquo;body weight&rdquo; is our only feature</li>
+<li>$b=0$ as from intuition we expect a cat of 0 weight to have a heart of 0 weight.</li>
+<li>Our model has one parameter: $w$</li>
+</ul></li>
+</ul>
+
+<h4 id="performance-measure-p">Performance Measure, $P$</h4>
+
+<ul>
+<li>Want a function, $J(w)$ which quantifies the error in the predictions for a given parameter $w$</li>
+</ul>
+
+<p><img src="../resources/y=x-notes.jpg" alt="Graph showing predicted vs actual values" /></p>
+
+<ul>
+<li>The following empirical loss function, $J$ takes into account the errors $\forall n$ data points.
+
+<ul>
+<li>$J(w) = (1/2N)\sum_{i=1}^N(y_i-wx_i)^2$</li>
+<li>where the summation term is squared so that:</li>
+<li>we ignore the sign</li>
+<li>we penalise large errors more</li>
+</ul></li>
+<li>To find the optimum weight, solve:
+
+<ul>
+<li>$\frac{\delta J}{\delta w}$ = 0</li>
+</ul></li>
+</ul>
+
+<h4 id="unconstrained-optimisation-minimisation">Unconstrained Optimisation (Minimisation)</h4>
+
+<p>Given a continuous function:</p>
+
+<ul>
+<li>$f: \R^d \rightarrow \R$ , as our <em>loss function</em></li>
+<li>an element $x \in \R^d$ is called:
+
+<ul>
+<li>A <strong>global</strong> minimum of $f$ iff:</li>
+<li>$\forall y \in \R^d, f(x) \leq f(y) $</li>
+<li>A <strong>local</strong> minimum of $f$ iff:</li>
+<li>$\exists \epsilon &gt; 0, \forall y \in \R^d$ if $\forall i \in {1,&hellip;,d} , | x_i - y_i | &lt; \epsilon \implies f(x) \leq f(y)$</li>
+</ul></li>
+</ul>
+
+<p><img src="../resources/local-minima.jpg" alt="Graph showing local vs global minima" /></p>
+
+<hr />
+
+<p><strong>Theorem:
+For any continous function, $f: \R \rightarrow \R$, if $x$ is a local optimum, $f&rsquo;(x) = 0$</strong></p>
+
+<hr />
+
+<p><strong>Definition:
+The $1^{st}$ derivative of a function $f: \R \rightarrow \R$ is
+$f&rsquo;(x) = \lim_{\Delta x \rightarrow 0}\frac{f(x+\Delta x) - f(x)}{\Delta x}$</strong></p>
+
+<h5 id="differentiation-rules">Differentiation Rules</h5>
+
+<ol>
+<li>$(cf(x))&rsquo; = cf&rsquo;(x)$</li>
+<li>$(x^k)&lsquo;$ = $kx^{k-1}$, if $k \neq 0$</li>
+<li>$(f(x)+g(x))&rsquo; = f&rsquo;(x) + g&rsquo;(x)$</li>
+<li>$(f(g(x))&rsquo;  = f&rsquo;(g(x))g&rsquo;(x))$ $\leftarrow$ <strong>chain rule</strong></li>
+</ol>
+
+<h5 id="approach-1-ordinary-least-squares">Approach 1: Ordinary least squares</h5>
+
+<ul>
+<li>Optimise $J$ by solving $J&rsquo;(w) = 0$
+
+<ul>
+<li>$J(w) = \frac{1}{2N}\sum_{i=1}^N(y_i - wx_i)^2$</li>
+<li>$J&rsquo;(w) = \frac{1}{N}\sum_{i=1}^{N}(wx_i - y_i)x_i$</li>
+<li>$J&rsquo;(w) = 0$</li>
+<li>$\frac{1}{N}\sum_{i=1}^{N}(wx_i - y_i)x_i = 0$</li>
+<li>$w\sum_{i=1}^{N}(x<em>i)^2 = \sum</em>{i=1}^{N}x_iy_i$</li>
+<li>$w = \frac{\sum_{i=1}^{N}x_iy<em>i}{\sum</em>{i=1}^{N}x_i^2}$
+
+<ul>
+<li>This only has one solution $\therefore$ a global minimum.</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h5 id="approach-2-gradient-descent">Approach 2: Gradient descent</h5>
+
+<ul>
+<li>Often difficult / impossible to solve $J&rsquo;(w) = 0$ for non-linear models with many parameters</li>
+</ul>
+
+<p><strong>Idea:</strong></p>
+
+<ul>
+<li>Start with an initial guess</li>
+
+<li><p>While $J&rsquo;(w) \neq 0$:</p>
+
+<ul>
+<li>move <em>slightly</em> in the <em>right direction</em></li>
+</ul></li>
+
+<li><p>To make this viable we need to define:</p>
+
+<ul>
+<li><em>&ldquo;what is the right direction?&rdquo;</em></li>
+<li><em>&ldquo;what is slightly?&rdquo;</em>
+<img src="../resources/GradientDescent&amp;#32;.jpg" alt="Graph of gradient descent" /></li>
+</ul></li>
+</ul>
+
+<h6 id="attempt-1-failed">Attempt 1 <strong>(failed)</strong></h6>
+
+<p>$ w \leftarrow initial \ weight $
+repeat:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if $J&rsquo;(w) &lt; 0 $
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $  w \leftarrow w + \epsilon $
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; elseif $J&rsquo;(w) &gt; 0$
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $w \leftarrow w - \epsilon$</p>
+
+<ul>
+<li>where $\epsilon$ is the learning rate set manually. <strong>(hyper-parameter)</strong></li>
+</ul>
+
+<p><strong>Issue with this attempt:</strong></p>
+
+<ul>
+<li>w may oscillate in the interval $[w<em>{opt} - \epsilon, w</em>{opt}+ \epsilon]$</li>
+<li>w fails to converge</li>
+</ul>
+
+<h6 id="attempt-2-gradient-descent-1d">Attempt 2: Gradient Descent (1D)</h6>
+
+<p>$ w \leftarrow initial \ weight $
+repeat:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if $J&rsquo;(w) &lt; 0 $
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $  w \leftarrow w - \epsilon \cdot J&rsquo;(w)$</p>
+</div>
+
+        
+        <div class="section bottom-menu">
+<hr />
+<p>
+
+
+    
+
+    
+        
+            <a href="../../../modules/neural-computation/">Neural Computation</a>
+        
+    
+    
+        
+            &#183; 
+            <a href="../../../modules/machine-learning/">Machine Learning</a>
+        
+            &#183; 
+            <a href="../../../modules/parallel-distributed/">Distributed and Parallel Computing</a>
+        
+    
+    &#183; 
+    <a href="https://sam-barrett.codes/Notes/">
+        main
+    </a>
+
+</p></div>
+        
+
+        <div class="section footer"></div>
+    </div>
+</body>
+
+</html>

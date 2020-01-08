@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="My University Notes Site.">
+<title>
+ - Welcome to my Notes Repo!
+</title>
+
+
+
+
+<link rel="shortcut icon" href="../../../sam.ico">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="../../../css/main.min.81bbafc4df93b11c1c3e2449464373c384aa4903731b4fc7a77dfcdd979e184f.css" integrity="sha256-gbuvxN&#43;TsRwcPiRJRkNzw4SqSQNzG0/Hp3383ZeeGE8=" crossorigin="anonymous" media="screen">
+
+
+
+ 
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Didact+Gothic">
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://sam-barrett.codes/Notes/tn.png"/>
+
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Lecture 12 GPU Sorting Merge sort on NVidia GPUs In order to make good use of the hardware we consider 3 stages:
+ Many small sequences  Each less than one block size Here there are many small merges to do Each thread can do 1 merge Each block handles many merges Memory coalescing: better &hellip;   Bitonic Sort  A comparitor is a function that swaps two elements if they are in th wrong order A monotonic increasing/decreasing sequence is one where very element is equal to or greater/less than every preceding element A bitonic sequence is a sequence which changes order direct at most once, or a circular shift of such a sequence."/>
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="Lecture 12 GPU Sorting Merge sort on NVidia GPUs In order to make good use of the hardware we consider 3 stages:
+ Many small sequences  Each less than one block size Here there are many small merges to do Each thread can do 1 merge Each block handles many merges Memory coalescing: better &hellip;   Bitonic Sort  A comparitor is a function that swaps two elements if they are in th wrong order A monotonic increasing/decreasing sequence is one where very element is equal to or greater/less than every preceding element A bitonic sequence is a sequence which changes order direct at most once, or a circular shift of such a sequence." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture12.html" />
+
+<meta property="og:image" content="https://sam-barrett.codes/Notes/tn.png" />
+<meta property="og:site_name" content="Notes" />
+
+
+    
+
+    
+    
+    
+    <title>
+        
+        
+        
+    </title>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="section" id="title"></div>
+
+        <div class="section" id="content">
+
+<h1 id="lecture-12">Lecture 12</h1>
+
+<h2 id="gpu-sorting">GPU Sorting</h2>
+
+<h3 id="merge-sort-on-nvidia-gpus">Merge sort on NVidia GPUs</h3>
+
+<p>In order to make good use of the hardware we consider 3 stages:</p>
+
+<ol>
+<li>Many small sequences
+
+<ul>
+<li>Each less than one <em>block size</em></li>
+<li>Here there are many small merges to do</li>
+<li>Each thread can do 1 merge</li>
+<li>Each block handles many merges</li>
+<li>Memory coalescing: better &hellip;</li>
+</ul></li>
+</ol>
+
+<h3 id="bitonic-sort">Bitonic Sort</h3>
+
+<ul>
+<li>A comparitor is a function that swaps two elements if they are in th wrong order</li>
+<li>A monotonic increasing/decreasing sequence is one where very element is equal to or greater/less than every preceding element</li>
+<li>A bitonic sequence is a sequence which changes order direct at most once, or a circular shift of such a sequence.
+
+<ul>
+<li>Circular shift means that we can take the sequence 1,2,10,11,9,4 which is bitonic and write it as 9,4,1,2,10,11 and it is still bitonic</li>
+</ul></li>
+</ul>
+
+<p>The central idea behind Bitonic sort:</p>
+
+<ul>
+<li>A simple parallel arrangement of comparators can split a bitonic sequence into two bitonic sequences where all elements of the first are less than all elements of the second</li>
+</ul>
+</div>
+
+        
+        <div class="section bottom-menu">
+<hr />
+<p>
+
+
+    
+
+    
+        
+            <a href="../../../modules/neural-computation/">Neural Computation</a>
+        
+    
+    
+        
+            &#183; 
+            <a href="../../../modules/machine-learning/">Machine Learning</a>
+        
+            &#183; 
+            <a href="../../../modules/parallel-distributed/">Distributed and Parallel Computing</a>
+        
+    
+    &#183; 
+    <a href="https://sam-barrett.codes/Notes/">
+        main
+    </a>
+
+</p></div>
+        
+
+        <div class="section footer"></div>
+    </div>
+</body>
+
+</html>

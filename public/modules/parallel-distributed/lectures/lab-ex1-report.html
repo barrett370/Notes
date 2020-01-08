@@ -1,0 +1,527 @@
+<!DOCTYPE html><html><head>
+      <title>REPORT</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css">
+      
+      
+
+      
+      
+      
+      
+      
+      
+      
+
+      <style>
+       
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+ 
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+   
+  border-radius: 3px;
+   
+  background: #f5f5f5;
+}
+
+ 
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+ 
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+ 
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+ 
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+ 
+.language-ruby .token.function {
+  color: #333;
+}
+
+ 
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+ 
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+ 
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+ 
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+ 
+ 
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="exercise-1-report">Exercise 1 Report</h1>
+
+<h2 class="mume-header" id="machine-specs">Machine Specs</h2>
+
+<h3 class="mume-header" id="cpu">CPU</h3>
+
+<pre data-role="codeBlock" data-info="bash" class="language-bash">     *-cpu
+          description: CPU
+          product: Intel<span class="token punctuation">(</span>R<span class="token punctuation">)</span> Core<span class="token punctuation">(</span>TM<span class="token punctuation">)</span> i7-7700HQ CPU @ 2.80GHz
+          bus info: cpu@0
+          version: Intel<span class="token punctuation">(</span>R<span class="token punctuation">)</span> Core<span class="token punctuation">(</span>TM<span class="token punctuation">)</span> i7-7700HQ CPU @ 2.80GHz
+          capabilities: <span class="token punctuation">..</span>.
+</pre><h3 class="mume-header" id="gpu">GPU</h3>
+
+<pre data-role="codeBlock" data-info="bash" class="language-bash"><span class="token punctuation">..</span>/DeviceQuery/Debug/deviceQuery Starting<span class="token punctuation">..</span>.
+
+ CUDA Device Query <span class="token punctuation">(</span>Runtime API<span class="token punctuation">)</span> version <span class="token punctuation">(</span>CUDART static linking<span class="token punctuation">)</span>
+
+Detected 2 CUDA Capable device<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+
+Device 0: <span class="token string">&quot;GeForce RTX 2070&quot;</span>
+  CUDA Driver Version / Runtime Version          10.1 / 10.1
+  CUDA Capability Major/Minor version number:    7.5
+  Total amount of global memory:                 7982 MBytes <span class="token punctuation">(</span>8370061312 bytes<span class="token punctuation">)</span>
+  <span class="token punctuation">(</span>36<span class="token punctuation">)</span> Multiprocessors, <span class="token punctuation">(</span> 64<span class="token punctuation">)</span> CUDA Cores/MP:     2304 CUDA Cores
+  GPU Max Clock rate:                            1710 MHz <span class="token punctuation">(</span>1.71 GHz<span class="token punctuation">)</span>
+  Memory Clock rate:                             7001 Mhz
+  Memory Bus Width:                              256-bit
+  L2 Cache Size:                                 4194304 bytes
+  Maximum Texture Dimension Size <span class="token punctuation">(</span>x,y,z<span class="token punctuation">)</span>         1D<span class="token operator">=</span><span class="token punctuation">(</span>131072<span class="token punctuation">)</span>, 2D<span class="token operator">=</span><span class="token punctuation">(</span>131072, 65536<span class="token punctuation">)</span>, 3D<span class="token operator">=</span><span class="token punctuation">(</span>16384, 16384, 16384<span class="token punctuation">)</span>
+  Maximum Layered 1D Texture Size, <span class="token punctuation">(</span>num<span class="token punctuation">)</span> layers  1D<span class="token operator">=</span><span class="token punctuation">(</span>32768<span class="token punctuation">)</span>, 2048 layers
+  Maximum Layered 2D Texture Size, <span class="token punctuation">(</span>num<span class="token punctuation">)</span> layers  2D<span class="token operator">=</span><span class="token punctuation">(</span>32768, 32768<span class="token punctuation">)</span>, 2048 layers
+  Total amount of constant memory:               65536 bytes
+  Total amount of shared memory per block:       49152 bytes
+  Total number of registers available per block: 65536
+  Warp size:                                     32
+  Maximum number of threads per multiprocessor:  1024
+  Maximum number of threads per block:           1024
+  Max dimension size of a thread block <span class="token punctuation">(</span>x,y,z<span class="token punctuation">)</span>: <span class="token punctuation">(</span>1024, 1024, 64<span class="token punctuation">)</span>
+  Max dimension size of a grid size    <span class="token punctuation">(</span>x,y,z<span class="token punctuation">)</span>: <span class="token punctuation">(</span>2147483647, 65535, 65535<span class="token punctuation">)</span>
+  Maximum memory pitch:                          2147483647 bytes
+  Texture alignment:                             512 bytes
+  Concurrent copy and kernel execution:          Yes with 3 copy engine<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+  Run <span class="token function">time</span> limit on kernels:                     No
+  Integrated GPU sharing Host Memory:            No
+  Support <span class="token function">host</span> page-locked memory mapping:       Yes
+  Alignment requirement <span class="token keyword">for</span> Surfaces:            Yes
+  Device has ECC support:                        Disabled
+  Device supports Unified Addressing <span class="token punctuation">(</span>UVA<span class="token punctuation">)</span>:      Yes
+  Device supports Compute Preemption:            Yes
+  Supports Cooperative Kernel Launch:            Yes
+  Supports MultiDevice Co-op Kernel Launch:      Yes
+  Device PCI Domain ID / Bus ID / location ID:   0 / 11 / 0
+  Compute Mode:
+     <span class="token operator">&lt;</span> Default <span class="token punctuation">(</span>multiple <span class="token function">host</span> threads can use ::cudaSetDevice<span class="token punctuation">(</span><span class="token punctuation">)</span> with device simultaneously<span class="token punctuation">)</span> <span class="token operator">&gt;</span>
+
+Device 1: <span class="token string">&quot;GeForce GTX 1050&quot;</span>
+  CUDA Driver Version / Runtime Version          10.1 / 10.1
+  CUDA Capability Major/Minor version number:    6.1
+  Total amount of global memory:                 4042 MBytes <span class="token punctuation">(</span>4238737408 bytes<span class="token punctuation">)</span>
+  <span class="token punctuation">(</span> 5<span class="token punctuation">)</span> Multiprocessors, <span class="token punctuation">(</span>128<span class="token punctuation">)</span> CUDA Cores/MP:     640 CUDA Cores
+  GPU Max Clock rate:                            1493 MHz <span class="token punctuation">(</span>1.49 GHz<span class="token punctuation">)</span>
+  Memory Clock rate:                             3504 Mhz
+  Memory Bus Width:                              128-bit
+  L2 Cache Size:                                 524288 bytes
+  Maximum Texture Dimension Size <span class="token punctuation">(</span>x,y,z<span class="token punctuation">)</span>         1D<span class="token operator">=</span><span class="token punctuation">(</span>131072<span class="token punctuation">)</span>, 2D<span class="token operator">=</span><span class="token punctuation">(</span>131072, 65536<span class="token punctuation">)</span>, 3D<span class="token operator">=</span><span class="token punctuation">(</span>16384, 16384, 16384<span class="token punctuation">)</span>
+  Maximum Layered 1D Texture Size, <span class="token punctuation">(</span>num<span class="token punctuation">)</span> layers  1D<span class="token operator">=</span><span class="token punctuation">(</span>32768<span class="token punctuation">)</span>, 2048 layers
+  Maximum Layered 2D Texture Size, <span class="token punctuation">(</span>num<span class="token punctuation">)</span> layers  2D<span class="token operator">=</span><span class="token punctuation">(</span>32768, 32768<span class="token punctuation">)</span>, 2048 layers
+  Total amount of constant memory:               65536 bytes
+  Total amount of shared memory per block:       49152 bytes
+  Total number of registers available per block: 65536
+  Warp size:                                     32
+  Maximum number of threads per multiprocessor:  2048
+  Maximum number of threads per block:           1024
+  Max dimension size of a thread block <span class="token punctuation">(</span>x,y,z<span class="token punctuation">)</span>: <span class="token punctuation">(</span>1024, 1024, 64<span class="token punctuation">)</span>
+  Max dimension size of a grid size    <span class="token punctuation">(</span>x,y,z<span class="token punctuation">)</span>: <span class="token punctuation">(</span>2147483647, 65535, 65535<span class="token punctuation">)</span>
+  Maximum memory pitch:                          2147483647 bytes
+  Texture alignment:                             512 bytes
+  Concurrent copy and kernel execution:          Yes with 2 copy engine<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+  Run <span class="token function">time</span> limit on kernels:                     Yes
+  Integrated GPU sharing Host Memory:            No
+  Support <span class="token function">host</span> page-locked memory mapping:       Yes
+  Alignment requirement <span class="token keyword">for</span> Surfaces:            Yes
+  Device has ECC support:                        Disabled
+  Device supports Unified Addressing <span class="token punctuation">(</span>UVA<span class="token punctuation">)</span>:      Yes
+  Device supports Compute Preemption:            Yes
+  Supports Cooperative Kernel Launch:            Yes
+  Supports MultiDevice Co-op Kernel Launch:      Yes
+  Device PCI Domain ID / Bus ID / location ID:   0 / 1 / 0
+  Compute Mode:
+     <span class="token operator">&lt;</span> Default <span class="token punctuation">(</span>multiple <span class="token function">host</span> threads can use ::cudaSetDevice<span class="token punctuation">(</span><span class="token punctuation">)</span> with device simultaneously<span class="token punctuation">)</span> <span class="token operator">&gt;</span>
+<span class="token operator">&gt;</span> Peer access from GeForce RTX 2070 <span class="token punctuation">(</span>GPU0<span class="token punctuation">)</span> -<span class="token operator">&gt;</span> GeForce GTX 1050 <span class="token punctuation">(</span>GPU1<span class="token punctuation">)</span> <span class="token keyword">:</span> No
+<span class="token operator">&gt;</span> Peer access from GeForce GTX 1050 <span class="token punctuation">(</span>GPU1<span class="token punctuation">)</span> -<span class="token operator">&gt;</span> GeForce RTX 2070 <span class="token punctuation">(</span>GPU0<span class="token punctuation">)</span> <span class="token keyword">:</span> No
+
+deviceQuery, CUDA Driver <span class="token operator">=</span> CUDART, CUDA Driver Version <span class="token operator">=</span> 10.1, CUDA Runtime Version <span class="token operator">=</span> 10.1, NumDevs <span class="token operator">=</span> 2
+Result <span class="token operator">=</span> PASS
+</pre><h2 class="mume-header" id="calculate-speedup">Calculate Speedup</h2>
+
+<h3 class="mume-header" id="256-threads-per-block">256 Threads per Block</h3>
+
+<pre data-role="codeBlock" data-info="bash" class="language-bash"><span class="token punctuation">[</span>Vector addition of 50000 elements<span class="token punctuation">]</span>
+Executed vector add of 50000 elements on the Host <span class="token keyword">in</span> <span class="token operator">=</span> 0.28000mSecs
+Copy input data from the <span class="token function">host</span> memory to the CUDA device
+Executed vector add of 50000 elements on the Device <span class="token keyword">in</span> a SINGLE THREAD <span class="token keyword">in</span> <span class="token operator">=</span> 36.34509mSecs
+Copy output data from the CUDA device to the <span class="token function">host</span> memory
+Test PASSED
+Launching the CUDA kernel with 196 blocks of 256 threads
+Executed vector add of 50000 elements on the Device <span class="token keyword">in</span> 196 blocks of 256 threads <span class="token keyword">in</span> <span class="token operator">=</span> 0.02950mSecs
+Speedup relative to Host 9.49024
+Speedup relative to single threaded device 1231.86987
+Copy output data from the CUDA device to the <span class="token function">host</span> memory
+Test PASSED
+Done
+</pre><h3 class="mume-header" id="140-threads-per-block">140 Threads per Block</h3>
+
+<pre data-role="codeBlock" data-info="bash" class="language-bash"><span class="token punctuation">[</span>Vector addition of 50000 elements<span class="token punctuation">]</span>
+Executed vector add of 50000 elements on the Host <span class="token keyword">in</span> <span class="token operator">=</span> 0.23800mSecs
+Copy input data from the <span class="token function">host</span> memory to the CUDA device
+Executed vector add of 50000 elements on the Device <span class="token keyword">in</span> a SINGLE THREAD <span class="token keyword">in</span> <span class="token operator">=</span> 36.34224mSecs
+Copy output data from the CUDA device to the <span class="token function">host</span> memory
+Test PASSED
+Launching the CUDA kernel with 358 blocks of 140 threads
+Executed vector add of 50000 elements on the Device <span class="token keyword">in</span> 358 blocks of 140 threads <span class="token keyword">in</span> <span class="token operator">=</span> 0.02099mSecs
+Speedup relative to Host 11.33765
+Speedup relative to single threaded device 1731.24243
+Copy output data from the CUDA device to the <span class="token function">host</span> memory
+Test PASSED
+Done
+</pre><h3 class="mume-header" id="1024-threads-per-block-gpu-maximum">1024 Threads per Block, GPU maximum</h3>
+
+<pre data-role="codeBlock" data-info="bash" class="language-bash"><span class="token punctuation">[</span>Vector addition of 50000 elements<span class="token punctuation">]</span>
+Executed vector add of 50000 elements on the Host <span class="token keyword">in</span> <span class="token operator">=</span> 0.24000mSecs
+Copy input data from the <span class="token function">host</span> memory to the CUDA device
+Executed vector add of 50000 elements on the Device <span class="token keyword">in</span> a SINGLE THREAD <span class="token keyword">in</span> <span class="token operator">=</span> 36.34560mSecs
+Copy output data from the CUDA device to the <span class="token function">host</span> memory
+Test PASSED
+Launching the CUDA kernel with 49 blocks of 1024 threads
+Executed vector add of 50000 elements on the Device <span class="token keyword">in</span> 49 blocks of 1024 threads <span class="token keyword">in</span> <span class="token operator">=</span> 0.03059mSecs
+Speedup relative to Host 7.84519
+Speedup relative to single threaded device 1188.07532
+Copy output data from the CUDA device to the <span class="token function">host</span> memory
+Test PASSED
+Done
+</pre><ul>
+<li>We see that for 50000 elements, the smaller value of Threads per Block is preferable</li>
+</ul>
+<h3 class="mume-header" id="table-of-results">Table of Results</h3>
+
+<table>
+<thead>
+<tr>
+<th>Threads Per Block</th>
+<th>Speedup vs Host</th>
+<th>Speedup vs Single Thread</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1024</td>
+<td>7.85</td>
+<td>1188.08</td>
+</tr>
+<tr>
+<td>140</td>
+<td>11.33</td>
+<td>1731.24</td>
+</tr>
+<tr>
+<td>256</td>
+<td>9.49</td>
+<td>1231.86</td>
+</tr>
+<tr>
+<td>512</td>
+<td>7.50</td>
+<td>1069.56</td>
+</tr>
+<tr>
+<td>64</td>
+<td>7.11</td>
+<td>1159.10</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The Range of acceptable <code>Threads Per Block</code> values for my system is 1 -&gt; 1024</li>
+</ul>
+<h2 class="mume-header" id="maximum-elements">Maximum Elements</h2>
+
+<ul>
+<li>Through experimentation and looking at device memory utilisation, I worked out that the max value for <code>numElements</code> on my system is <strong>686722110</strong></li>
+</ul>
+<h3 class="mume-header" id="256-threads-per-block-1">256 Threads per Block</h3>
+
+<pre data-role="codeBlock" data-info="bash" class="language-bash"><span class="token punctuation">[</span>Vector addition of 686722110 elements<span class="token punctuation">]</span>
+Executed vector add of 686722110 elements on the Host <span class="token keyword">in</span> <span class="token operator">=</span> 3439.10498mSecs
+Copy input data from the <span class="token function">host</span> memory to the CUDA device
+Executed vector add of 686722110 elements on the Device <span class="token keyword">in</span> a SINGLE THREAD <span class="token keyword">in</span> <span class="token operator">=</span> 381607.06250mSecs
+Copy output data from the CUDA device to the <span class="token function">host</span> memory
+Test PASSED
+Launching the CUDA kernel with 2682509 blocks of 256 threads
+Executed vector add of 686722110 elements on the Device <span class="token keyword">in</span> 2682509 blocks of 256 threads <span class="token keyword">in</span> <span class="token operator">=</span> 38.81689mSecs
+Speedup relative to Host 88.59815
+Speedup relative to single threaded device 9830.95312
+Copy output data from the CUDA device to the <span class="token function">host</span> memory
+Test PASSED
+Done
+</pre><h3 class="mume-header" id="140-threads-per-block-1">140 Threads per Block</h3>
+
+<pre data-role="codeBlock" data-info="bash" class="language-bash">~/git-repos/Parallel+Distributed/labs/CUDA master* 4m 9s
+&#x3BB; ./VectorAdd/Debug/VectorAdd         
+<span class="token punctuation">[</span>Vector addition of 686722110 elements<span class="token punctuation">]</span>
+Executed vector add of 686722110 elements on the Host <span class="token keyword">in</span> <span class="token operator">=</span> 3376.98291mSecs
+Copy input data from the <span class="token function">host</span> memory to the CUDA device
+Executed vector add of 686722110 elements on the Device <span class="token keyword">in</span> a SINGLE THREAD <span class="token keyword">in</span> <span class="token operator">=</span> 383470.78125mSecs
+Copy output data from the CUDA device to the <span class="token function">host</span> memory
+Test PASSED
+Launching the CUDA kernel with 4905158 blocks of 140 threads
+Executed vector add of 686722110 elements on the Device <span class="token keyword">in</span> 4905158 blocks of 140 threads <span class="token keyword">in</span> <span class="token operator">=</span> 47.15405mSecs
+Speedup relative to Host 71.61597
+Speedup relative to single threaded device 8132.29785
+Copy output data from the CUDA device to the <span class="token function">host</span> memory
+Test PASSED
+Done
+
+</pre><ul>
+<li>As we can see from the above results, the case with 256 Threads per Block has a higher speedup both compared with the host and compared to a single thread on the device.</li>
+</ul>
+<h3 class="mume-header" id="1024-threads-per-block-maximum">1024 Threads per Block (Maximum)</h3>
+
+<pre data-role="codeBlock" data-info="bash" class="language-bash">&#x3BB; ./VectorAdd/Debug/VectorAdd 686722110 1024
+You have entered 3 arguments:
+./VectorAdd/Debug/VectorAdd
+686722110
+1024
+<span class="token punctuation">[</span>Vector addition of 686722110 elements<span class="token punctuation">]</span>
+Executed vector add of 686722110 elements on the Host <span class="token keyword">in</span> <span class="token operator">=</span> 3434.57690mSecs
+Copy input data from the <span class="token function">host</span> memory to the CUDA device
+Executed vector add of 686722110 elements on the Device <span class="token keyword">in</span> a SINGLE THREAD <span class="token keyword">in</span> <span class="token operator">=</span> 379501.43750mSecs
+Copy output data from the CUDA device to the <span class="token function">host</span> memory
+Test PASSED
+Launching the CUDA kernel with 670628 blocks of 1024 threads
+Executed vector add of 686722110 elements on the Device <span class="token keyword">in</span> 670628 blocks of 1024 threads <span class="token keyword">in</span> <span class="token operator">=</span> 42.28717mSecs
+Speedup relative to Host 81.22031
+Speedup relative to single threaded device 8974.38770
+Copy output data from the CUDA device to the <span class="token function">host</span> memory
+Test PASSED
+Done
+</pre><ul>
+<li>Here we can see that 265 Threads per Block performs the best in terms of speedup and overall time to execute.</li>
+</ul>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

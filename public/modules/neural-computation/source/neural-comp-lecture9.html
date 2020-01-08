@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="My University Notes Site.">
+<title>
+ - Welcome to my Notes Repo!
+</title>
+
+
+
+
+<link rel="shortcut icon" href="../../../sam.ico">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="../../../css/main.min.81bbafc4df93b11c1c3e2449464373c384aa4903731b4fc7a77dfcdd979e184f.css" integrity="sha256-gbuvxN&#43;TsRwcPiRJRkNzw4SqSQNzG0/Hp3383ZeeGE8=" crossorigin="anonymous" media="screen">
+
+
+
+ 
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Didact+Gothic">
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://sam-barrett.codes/Notes/tn.png"/>
+
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Lecture 9 Previously, we looked at different optimisation algorithms.
+Generalisation in Neural Networks Hypothesis:
+ Neural Networks generalise from the training data, i.e. by learning the inherent structure in the data.
+ Test of Hypothesis: removing structure should reduce network performance
+Zhang et al. (ICLR 2017) trained a network over the CIFAR10 dataset with the following settings:
+ True labels, original training set (ground) Random labels: all labels are replaced with random ones Shuffle pixels: a random permutation of the pixels for each image Gaussian: A gaussian distribution is used to generate random pixels for each image   Deep neural networks easily fit random labels The effective capacity of neural networks is sufficient for memorising the entire dataset Training time increases only by a small constant factor  Perceptrons These were a very early form of artificial networks and are comparatively very weak to current approaches"/>
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="Lecture 9 Previously, we looked at different optimisation algorithms.
+Generalisation in Neural Networks Hypothesis:
+ Neural Networks generalise from the training data, i.e. by learning the inherent structure in the data.
+ Test of Hypothesis: removing structure should reduce network performance
+Zhang et al. (ICLR 2017) trained a network over the CIFAR10 dataset with the following settings:
+ True labels, original training set (ground) Random labels: all labels are replaced with random ones Shuffle pixels: a random permutation of the pixels for each image Gaussian: A gaussian distribution is used to generate random pixels for each image   Deep neural networks easily fit random labels The effective capacity of neural networks is sufficient for memorising the entire dataset Training time increases only by a small constant factor  Perceptrons These were a very early form of artificial networks and are comparatively very weak to current approaches" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sam-barrett.codes/Notes/modules/neural-computation/source/neural-comp-lecture9.html" />
+
+<meta property="og:image" content="https://sam-barrett.codes/Notes/tn.png" />
+<meta property="og:site_name" content="Notes" />
+
+
+    
+
+    
+    
+    
+    <title>
+        
+        
+        
+    </title>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="section" id="title"></div>
+
+        <div class="section" id="content">
+
+<h1 id="lecture-9">Lecture 9</h1>
+
+<p>Previously, we looked at different optimisation algorithms.</p>
+
+<h2 id="generalisation-in-neural-networks">Generalisation in Neural Networks</h2>
+
+<p>Hypothesis:</p>
+
+<blockquote>
+<p>Neural Networks generalise from the training data, i.e. by learning the inherent <em>structure</em> in the data.</p>
+</blockquote>
+
+<p>Test of Hypothesis: removing structure should reduce network performance</p>
+
+<p>Zhang et al. (ICLR 2017) trained a network over the CIFAR10 dataset with the following settings:</p>
+
+<ul>
+<li>True labels, original training set <strong>(ground)</strong></li>
+<li>Random labels: all labels are replaced with random ones</li>
+<li>Shuffle pixels: a random permutation of the pixels for each image</li>
+<li>Gaussian: A gaussian distribution is used to generate random pixels for each image</li>
+</ul>
+
+<p><img src="../resources/Zhang-et-al.png" alt="Results" /></p>
+
+<ul>
+<li>Deep neural networks easily fit random labels</li>
+<li>The effective capacity of neural networks is sufficient for memorising the entire dataset</li>
+<li>Training time increases only by a small constant factor</li>
+</ul>
+
+<h2 id="perceptrons">Perceptrons</h2>
+
+<p>These were a very early form of artificial networks and are comparatively very weak to current approaches</p>
+
+<p>$$
+f(x) = \text{sign}(w^Tx - b) <br />
+\text{where, }<br />
+\text{sign}(x) = \begin{cases} 1 &amp; \text{if} x &gt; 0 \ -1 &amp; \text{otherwise}\end{cases}
+$$</p>
+
+<h3 id="linear-decision-boundary">Linear decision Boundary</h3>
+
+<p>The boundary between positive and negative output of a single layer perceptron , can be described by a linear hyper-plane</p>
+
+<p>For example, in 2D we get:
+$$
+f(x_1,x_2) = \text{sign}(w_1x_1 + w_2x_2 - b)
+$$
+$$
+w_1x_1 + w_2x_2 - b &lt; 0 \implies x_2 &gt; \frac{b-w_1x_1}{w_2}
+$$</p>
+
+<p>@import &ldquo;../resources/l9graph.png&rdquo;</p>
+
+<h3 id="minsky-papet-1969">Minsky &amp; Papet (1969)</h3>
+
+<blockquote>
+<p><strong>A single layer perceptron cannot learn the XOR function</strong></p>
+</blockquote>
+
+<ul>
+<li>Caused controversy and led to the <em>&ldquo;AI Winter&rdquo;</em>
+$\implies$ Reduced research funding to Neural Network research
+$\implies$ Reduced interest among researchers</li>
+</ul>
+
+<h3 id="lebesgue-integration">Lebesgue Integration</h3>
+
+<p>THe <em>Lebesgue</em> Integral</p>
+
+<p>$$
+\int f(x) d\mu(x)
+$$</p>
+
+<p>This is an alternative to the <em>Riemann</em> Integram which is defined for more complex functions, $f$.
+It is defined with respect t a measurement $\mu$ which measures the <em>size</em> of subsets of the domain of $f$</p>
+
+<p>It can be defined as:</p>
+
+<p>Given $f: x \rightarrow \R$, let
+$$
+f^*(t) = \mu({x | f(x)&gt;t})
+$$
+then,</p>
+
+<p>$$
+\int f(x)d\mu(x) = \int_0^{\infin} f^*(t)d(t)
+$$</p>
+
+<p>where the LHS is the <em>Lebesgue</em> Integral and the RHS is the <em>Riemann</em> Integral</p>
+
+<h3 id="discriminatory-functions">Discriminatory Functions</h3>
+
+<p><u>Definition:</u></p>
+
+<p>$\sigma : \R \rightarrow \R$ is called discriminatory iff</p>
+
+<p>$$
+\int_{I_N} \sigma (y^{T}x+\Theta)\delta \mu(x) = 0 <br />
+\forall y \in \R^N \text{ and } \Theta \in \R \implies \mu =0
+$$</p>
+
+<p><u>Lemma</u></p>
+
+<p>Any function $\sigma: \R \rightarrow \R$ where:</p>
+
+<p>$$
+\sigma (x) = \begin{cases}
+    1 &amp; \text{for    } x\rightarrow \infin <br />
+    0 &amp; \text{for    } x \rightarrow -\infin
+\end{cases}
+$$</p>
+
+<p>is discriminatory</p>
+
+<p>For example, the Sigmoid function $\sigma(x) = \frac{1}{1+e^{-x}}$ is discriminatory</p>
+
+<h3 id="theorem-cybenko-1989">Theorem (Cybenko, 1989)</h3>
+
+<p>Let $\sigma$ be any continuous discriminatory function, then for any function $f \in C(I_N)$ i.e continuous function on $I_N = [0,1]^N$ and any $\varepsilon &gt; 0$ then there exists a finite sum of the form:</p>
+
+<p>$$
+G(x) = \sum_{j=1}^{M}\alpha_j\sigma(w_j^Tx + \Theta_j)
+$$</p>
+
+<p>s.t.</p>
+
+<p>$$
+|G(x) - f(x)| &lt; \epsilon, \forall x \in I_m
+$$</p>
+
+<p>@import &ldquo;../resources/l9theorem.png&rdquo;</p>
+
+<p><u> Definition: Normed Linear Space </u></p>
+
+<p>A Normed Linear Space is a vector space $X$ over $\R$ and a function $|.|: X \rightarrow \R$ satisfying the following:</p>
+
+<ol>
+<li>$| x| \geq 0, \forall x \in X$</li>
+<li>$|x| = 0, \iff x=0$</li>
+<li>$|\alpha x|= |\alpha|\cdot|x|, \forall \alpha \in \R \And x \in X$</li>
+<li>$| x+y| \leq |x| + |y|, \forall x,y \in X$</li>
+</ol>
+
+<p><u>Definition Supremum Norm </u></p>
+
+<p>$$
+| f| := \text{smp}{|f(x)|  \bigg\vert x\in X }
+$$</p>
+
+<p>We can now measure the <em>distance</em> between two functions $g$ and $f$ by</p>
+
+<p>$$
+| f-g|
+$$</p>
+
+<p><u> Closure </u></p>
+
+<p>Let $Y$ be a subset of a normed vector space $X$. The closure of $Y$, $\bar{Y}$, consists of all $x\in X$ s.t. for each $\varepsilon&gt;0$, we can find an element $y\in Y$ s.t.</p>
+
+<p>$$
+| y-x| &lt; \varepsilon
+$$</p>
+
+<p>For example the closure of the set of rational numbers, $\mathbb{Q}$, is the set of real numbers, $\R$.</p>
+
+<p><u> Defininition </u></p>
+
+<p>A linear function on a real vector space, $X$ is a function $L: X \rightarrow \R$ s.t.</p>
+
+<ol>
+<li>$L(x+y) = L(x) + L(y), \forall x,y\in X$</li>
+<li>$L(\alpha x) = \alpha L(x), \forall x\in X, \alpha \in \R$</li>
+</ol>
+
+<p><u>Theorem</u></p>
+
+<p>Let $(X, |.|)$ be a normed linear space, $Y$ can be a subspace of $X$ and $f\in X$</p>
+
+<p>if ??$t$?? does not belong to the closure of $Y$ then there exists a bounded linear functional $L:X\rightarrow \R$ s.t.</p>
+
+<p>$$
+L(x) =0 \text{ if } x\in Y, \text{and} <br />
+L(f) \neq 0
+$$</p>
+
+<p><u>Proof</u></p>
+
+<p>Let $\text{SCC}(I_N)$ be the set of functions that can be described on the form $k$.
+The statement of the theorem is equivalent to the claim that the closure of $S$ = $C(I_N)$
+Assume by contradiction that the closure of $S$ is a strict subset, $R$ of $C(I_N)$</p>
+
+<p>It follows by the previous theorem that there must exist a linear functional $L:C(I_N) \rightarrow \R$ s.t.</p>
+
+<p>$$
+L(g) = 0, \forall g\in R <br />
+L(h) \neq 0, \forall h \in C(I_N) \backslash R
+$$</p>
+
+<p>By the Riesz representation theorem, there exists a signed measure $\mu \neq 0$ s.t.</p>
+
+<p>$$
+L(f) = \int_{I_N} f(x) d\mu(x), \forall f\in C(I_N)
+$$</p>
+
+<p>Since $\sigma(w_j^Tx+\Theta_j)\in R, \forall w_j, \Theta_j$, we have:</p>
+
+<p>$$
+L(\sigma(w_j^Tx+\Theta<em>j)) = \int</em>{I_N} \sigma(w_j^Tx+\Theta_j)d\mu(x) =0
+$$</p>
+
+<p>However, this contradicts our assumption that $\sigma$ is discriminatory.
+The theorem now follows</p>
+
+<p>$$
+\square
+$$</p>
+
+<h3 id="the-power-of-depth">The power of depth</h3>
+
+<p>Cybenko&rsquo;s result does not tell us:</p>
+
+<ul>
+<li>how many units are needed in the hidden layer</li>
+<li>how difficult it is to tran the network to approximate the function</li>
+</ul>
+
+<p>However it <strong>does</strong> tell us:</p>
+
+<ul>
+<li>This proof shows us that we can approximate <strong>any</strong> continuous function with a single layer.</li>
+</ul>
+
+<h3 id="theorem-eldan-shamir-2016">Theorem (Eldan &amp; Shamir, 2016)</h3>
+
+<p>If the activation function $\sigma$ satisfies some weak assumptions, then there is a function $g: \R^N \rightarrow \R$ and a probability measure $\mu$ on $\R^N$ s.t.</p>
+
+<ol>
+<li>$g$ is &ldquo;expressible&rdquo; by a 3-layer network of width $O(n^{\frac{19}{4}})$</li>
+<li>Every function, $f$ expressed by a 2 layer netowrk of width at most $ce^{cn}$ satisfies:</li>
+</ol>
+
+<p>$$
+\mathop{\mathbb{E}}_{X\sim\mu}(f(x)-g(x))^2 \geq c
+$$</p>
+</div>
+
+        
+        <div class="section bottom-menu">
+<hr />
+<p>
+
+
+    
+
+    
+        
+            <a href="../../../modules/neural-computation/">Neural Computation</a>
+        
+    
+    
+        
+            &#183; 
+            <a href="../../../modules/machine-learning/">Machine Learning</a>
+        
+            &#183; 
+            <a href="../../../modules/parallel-distributed/">Distributed and Parallel Computing</a>
+        
+    
+    &#183; 
+    <a href="https://sam-barrett.codes/Notes/">
+        main
+    </a>
+
+</p></div>
+        
+
+        <div class="section footer"></div>
+    </div>
+</body>
+
+</html>
