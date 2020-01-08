@@ -11,7 +11,7 @@
 <meta name="referrer" content="no-referrer">
 <meta name="description" content="My University Notes Site.">
 <title>
- - Welcome to my Notes Repo!
+Distributed and Parallel Computing: Lecture 8 - Welcome to my Notes Repo!
 </title>
 
 
@@ -37,10 +37,10 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://sam-barrett.codes/Notes/tn.png"/>
 
-<meta name="twitter:title" content=""/>
+<meta name="twitter:title" content="Distributed and Parallel Computing: Lecture 8"/>
 <meta name="twitter:description" content="Lecture 8 SMs, Cores and Warps  A GPU has a number of Streaming Multiprocessors (SMs) which have a number of cores. Threads are scheduled in units of Warps Each SM has a number of resources  E.g 400-500 series Nvidia GPUs have: 2 Instruction despatch units  Each can start, on each clock cycle, processing on any 2 banks at a time. The 3 banks of 16 cores mean that 2 sequential instructions from one thread warp can be executing simultaneously if are not dependent on each other  3 banks of 16 cores (48 cores) 1 bank of 16 load store units  for calculating source and destination addresses  1 bank of 4 special functional units  hardware support for calculating $\sin$, $\cos$, reciprocals and square roots  1 bank of 4 texture units    GPU specs:  Global Memory and constant memory is the only GPU memory that you can copy into."/>
 
-<meta property="og:title" content="" />
+<meta property="og:title" content="Distributed and Parallel Computing: Lecture 8" />
 <meta property="og:description" content="Lecture 8 SMs, Cores and Warps  A GPU has a number of Streaming Multiprocessors (SMs) which have a number of cores. Threads are scheduled in units of Warps Each SM has a number of resources  E.g 400-500 series Nvidia GPUs have: 2 Instruction despatch units  Each can start, on each clock cycle, processing on any 2 banks at a time. The 3 banks of 16 cores mean that 2 sequential instructions from one thread warp can be executing simultaneously if are not dependent on each other  3 banks of 16 cores (48 cores) 1 bank of 16 load store units  for calculating source and destination addresses  1 bank of 4 special functional units  hardware support for calculating $\sin$, $\cos$, reciprocals and square roots  1 bank of 4 texture units    GPU specs:  Global Memory and constant memory is the only GPU memory that you can copy into." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture8.html" />
@@ -56,14 +56,14 @@
     
     <title>
         
-        
+        Distributed and Parallel Computing: Lecture 8
         
     </title>
 </head>
 
 <body>
     <div class="wrap">
-        <div class="section" id="title"></div>
+        <div class="section" id="title">Distributed and Parallel Computing: Lecture 8</div>
 
         <div class="section" id="content">
 
@@ -202,14 +202,115 @@
 <ul>
 <li>Warp 0 consists of threads 0 $\rightarrow$ 31</li>
 <li>Warp 1 consists of threads 32 $\rightarrow$ 63</li>
-<li>$\vdots$</li>
+<li>$\cdots$</li>
 </ul></li>
 
 <li><p>For threads in a mutli-dimensional block</p>
 
 <ul>
 <li>Mutlidimensional threads are linearised in a row-major order</li>
+<li>Within each group of threads with the same $z$ value, the threads are indexed by their $y$ values.</li>
+<li>Within each group of threads with the same $z$ and $y$ value the threads are indexed by their $x$ values</li>
 </ul></li>
+</ul>
+
+<h2 id="warp-execution-and-divergence">Warp Execution and divergence</h2>
+
+<p>A whole warp is handled by a single controller. Consider what happens if some threads $\bf{A}$ in a warp take one branch, $1$, of an <code>if</code> statement and others $\bf{B}$ take the other branch, $2$.</p>
+
+<ul>
+<li>All threads in the warp must execute the <strong>same</strong> instructions</li>
+<li>The first branch, $1$ : here <strong>all</strong> threads execute branch 1 instructions. However, the threads in group $\bf{B}$ are disabled (analogous to de-clutching a car)</li>
+<li>Then execute branch $2$: again, all threads execute the instructions but branch $\bf{A}$ threads are disabled.</li>
+<li>This is called <strong><em>divergence</em></strong><br /></li>
+<li>The whole warp execute the same branch $\implies$ <strong><em>NO Divergence</em></strong></li>
+</ul>
+
+<p>Loops where different threads in the warp execute different numbers of iterations also form divergences. I.e. the threads that conceptually execute the lowest number of iterations <strong>actually</strong> execute the same as the rest of the threads, conceptually the same as the threads executing the most iterations.</p>
+
+<h2 id="divergence-and-reduction">Divergence and Reduction</h2>
+
+<p>Now we will look at the consequences of divergence for the process of reducing a set of numbers to 1. E.g. $ \sum_{x=1}^{1024}x$</p>
+
+<ul>
+<li>Sequentially we would solve this by iterating through a vector, accumulating the sum in a variable</li>
+<li>In parallel, one approach would be to use a <em>binary tournament</em>:
+
+<ul>
+<li>Round 1:</li>
+<li>thread 0 executes <code>A[0] += A[1]</code></li>
+<li>thread 2 executes <code>A[2] += A[3]</code></li>
+<li>$\cdots$</li>
+<li>thread $2i$, where $0&lt;2i&lt;1024$, executes <code>A[2*i] += A[2*i+1]</code></li>
+<li>Round 2:</li>
+<li>thread $4i$, where $0&lt;4i&lt;1024$, executes <code>A[4*i] += A[4*i+2]</code></li>
+<li>$\cdots$</li>
+<li>Round $n$</li>
+<li>thread $2^ni$ executes <code>A[pow(2,n)*i] += A[pow(2,n)*i+pow(2,n-1)]</code></li>
+</ul></li>
+</ul>
+
+<p>Diagrammatically, this would look like:</p>
+
+<p>@import &ldquo;../resources/naive-parallel-reduction.png&rdquo;</p>
+
+<p>This could be implemented as follows:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">float</span> partialSum[];
+...
+uint t <span style="color:#f92672">=</span> threadIdx.x;
+<span style="color:#66d9ef">for</span> (uint stride <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> ; stride <span style="color:#f92672">&lt;</span> blockDim.x; stride <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span>){
+  __syncthreads()
+  <span style="color:#66d9ef">if</span> (t <span style="color:#f92672">%</span> (<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> stride) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+    partialSum[t] <span style="color:#f92672">+=</span> partialSum[t<span style="color:#f92672">+</span>stride];
+  }
+}
+</code></pre></div>
+<ul>
+<li>Assume <code>blockDim.x = 1024</code></li>
+<li><code>__syncthreads()</code> is required to make sure all threads have completed the previous stage before continuing</li>
+<li>In first pass, all warps are active but only half the threads are doing useful work. This only gets worse on future iterations</li>
+</ul>
+
+<p>Diagrammatically an alternative, more efficient, method could look like:</p>
+
+<p>@import &ldquo;../resources/alternative-parallel-scan.png&rdquo;</p>
+
+<p>with the corresponding code looking like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">float</span> partialSum[];
+...
+uint t <span style="color:#f92672">=</span> threadIdx.x;
+<span style="color:#66d9ef">for</span> (uint stride <span style="color:#f92672">=</span> blockDim.x<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span> ; stride <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> ; stride <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>){
+  __syncthreads();
+  <span style="color:#66d9ef">if</span> (t<span style="color:#f92672">&lt;</span>stride){
+    partialSum[t] <span style="color:#f92672">+=</span> partialSum[t<span style="color:#f92672">+</span>stride];
+  }
+}
+</code></pre></div>
+<ul>
+<li>Again, assuming that <code>blockDim.x = 1024</code></li>
+<li>Here however, threads 0-511 (warps 0-15) execute the true branch with threads 512-1023 executing the false branch, this leads to no divergence, therefore 1 pass each iteration</li>
+<li>Continues 1 pass each iteration until there are less than 32 threads executing</li>
+</ul>
+
+<h2 id="memory-bandwidth-as-a-performance-barrier">Memory Bandwidth as a Performance Barrier</h2>
+
+<ul>
+<li>For simple operations such as <em>vectorAdd</em> the <em>compute to global memory access ratio</em> or CGMA is <sup>1</sup>&frasl;<sub>3</sub>, i.e. 1 flop per 3 memory accesses</li>
+<li>Assume the global memory access bandwidth is in the range of 200GB/s and the processor can execute around 1500 GFLOPS then the memory bandwidth is limiting us in the following way:
+
+<ul>
+<li>3 read/writes = 12 bytes</li>
+<li>12 bytes memory access at 200GB/s for each flop = <sup>200</sup>&frasl;<sub>12</sub> GFLOPS = 17 GFLOPS</li>
+<li>Therefore, although the hardware is capable fo 1500GFLOPS, our global memory limits us to just 17 GFLOPS</li>
+</ul></li>
+</ul>
+
+<p>Applying this to our parallel reduction:</p>
+
+<ul>
+<li>Each reduction reads 2 words from global memory and wrtites one word back to global memory per working thread</li>
+<li>If instead the first read copied from global $\rightarrow$ shared memory, the remainder of the operation would be <strong>much</strong> faster</li>
+<li>In general, many such operations exist whereby, a large problem can be broken into small <em>tiles</em>, each of which fits into shared memory, the tiles can be worked on and combined at the very end for a much faster overall calculation.</li>
 </ul>
 </div>
 

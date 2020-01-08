@@ -38,10 +38,12 @@
 <meta name="twitter:image" content="https://sam-barrett.codes/Notes/tn.png"/>
 
 <meta name="twitter:title" content=""/>
-<meta name="twitter:description" content=" Lecture 9 "/>
+<meta name="twitter:description" content="Lecture 9 : GPU Accelerated Parallel Reduce Scan Multi-Block Parallel Reduction The parallel reduction algorithms seen in the last lecture only work if the array fits into a single block.
+This issue arises due to sums being calculated between indexes handled by different blocks. As a result, we cannot be sure if the correct numbers are stored in each index at the time of computation as our threads may be out of sync."/>
 
 <meta property="og:title" content="" />
-<meta property="og:description" content=" Lecture 9 " />
+<meta property="og:description" content="Lecture 9 : GPU Accelerated Parallel Reduce Scan Multi-Block Parallel Reduction The parallel reduction algorithms seen in the last lecture only work if the array fits into a single block.
+This issue arises due to sums being calculated between indexes handled by different blocks. As a result, we cannot be sure if the correct numbers are stored in each index at the time of computation as our threads may be out of sync." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture9.html" />
 
@@ -67,7 +69,259 @@
 
         <div class="section" id="content">
 
-<h1 id="lecture-9">Lecture 9</h1>
+<h1 id="lecture-9-gpu-accelerated-parallel-reduce-scan">Lecture 9 : GPU Accelerated Parallel Reduce Scan</h1>
+
+<h2 id="multi-block-parallel-reduction">Multi-Block Parallel Reduction</h2>
+
+<p>The parallel reduction algorithms seen in the last lecture only work if the array fits into a single block.</p>
+
+<p>This issue arises due to sums being calculated between indexes handled by different blocks. As a result, we cannot be sure if the correct numbers are stored in each index at the time of computation as our threads may be out of sync.</p>
+
+<p><strong>Note: <code>__syncthreads()</code> does not work across blocks</strong></p>
+
+<p><u>Solution</u></p>
+
+<p>Repeat the following until the remaining array is of length 1:</p>
+
+<ul>
+<li>Block Reduce: Call kernel <em>Block Reduction</em> on remaining array
+
+<ul>
+<li>Thus calculating the reduction for each block of the array</li>
+</ul></li>
+<li>Compress: Call kernel to copy the first element of each block down to the start of the array and shorten the array to the length of the newly reduced section.
+
+<ul>
+<li><code>A[0]=A[0]; A[1] = A[1024]; A[2] = A[2048] ; ...</code></li>
+</ul></li>
+</ul>
+
+<p>Block Reduce can use all threads in the block instead of just half if it were to work with <em>segments</em> of 2*Block size of the array.</p>
+
+<p>Copy segment from global array into shared memory array at the start and back after computation leads to a massive speedup</p>
+
+<h2 id="inclusive-prefix-sum-or-inclusive-scan">Inclusive Prefix Sum or Inclusive Scan</h2>
+
+<p><em>Inclusive Prefix Sum</em> aka <em>Inclusive Scan</em> takes a binary associative operator. such as addition, and applies it to calculate a cumulative output vector from an input vector.</p>
+
+<p>A sequential implementation might look something like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sequential_scan</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>x, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>y, <span style="color:#66d9ef">int</span> len){
+    y[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> x[<span style="color:#ae81ff">0</span>];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> ; i <span style="color:#f92672">&lt;</span> len ; i<span style="color:#f92672">++</span>){
+        y[i] <span style="color:#f92672">=</span> y[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> x[i];
+    }
+}
+</code></pre></div>
+<p>$$
+\forall j \in \texttt{A}, \texttt{A}[j] = \sum_{i=0}^{j} \texttt{A}[i]
+$$</p>
+
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Output</td>
+<td>1</td>
+<td>3</td>
+<td>6</td>
+<td>10</td>
+<td>15</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="exclusive-prefix-sum-or-exclusive-scan">Exclusive Prefix Sum or Exclusive Scan</h2>
+
+<p>The <em>Exclusive</em> variant differs only sightly, the output array can be described mathematically as:</p>
+
+<p>$$
+\forall j \in \texttt{A}, \texttt{A}[j] = \sum_{i=0}^{j-1}\texttt{A}[i]
+$$</p>
+
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Output</td>
+<td>0</td>
+<td>1</td>
+<td>3</td>
+<td>6</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+
+<p>We will start by looking at algorithms that correctly scan each block without propagating the result further in the array.</p>
+
+<p>An example of a size 16 array with a block size of 4 is as follows:</p>
+
+<p>@import &ldquo;../resources/16-4ibs.png&rdquo;</p>
+
+<p>A sequential implementation of an algorithm which yields such a result might be as follows:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e"># define BLOCK_SIZE 1024
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sequential_block_scan</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>x, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>y, <span style="color:#66d9ef">int</span> len){
+    <span style="color:#66d9ef">int</span> num_blocks <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> (len<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">/</span>BLOCK_SIZE;
+    <span style="color:#66d9ef">for</span> (blk <span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> ; blk <span style="color:#f92672">&lt;</span> num_blocks ; blk<span style="color:#f92672">++</span>){
+        <span style="color:#66d9ef">int</span> blk_start <span style="color:#f92672">=</span> blk <span style="color:#f92672">*</span> BLOCK_SIZE;
+        <span style="color:#66d9ef">int</span> blk_end <span style="color:#f92672">=</span> blk_start <span style="color:#f92672">+</span> BLOCK_SIZE;
+        <span style="color:#66d9ef">if</span> (blk_end<span style="color:#f92672">&gt;</span>len){
+            blk_end <span style="color:#f92672">=</span> len;
+        }
+        y[blk_start] <span style="color:#f92672">=</span> x[blk_start];
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>blk_start<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>; i<span style="color:#f92672">&lt;</span>blk_end; i<span style="color:#f92672">++</span>){
+            y[i] <span style="color:#f92672">=</span> y[i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> x[i];
+        }
+    }
+}
+</code></pre></div>
+<p>For such an implementation, cost is easy to calculate as for $N$ elements there are $N-1$ FLOPS</p>
+
+<p>$$
+\therefore \text{Cost}_\text{SS} = 1024-1 = 1023
+$$</p>
+
+<h2 id="efficient-scan-algorithms">Efficient Scan Algorithms</h2>
+
+<h3 id="hillis-steele-horn-step-efficient">Hillis-Steele-Horn (Step Efficient)</h3>
+
+<p>code for HSH Scan:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#define BLOCK_SIZE 1024
+</span><span style="color:#75715e"></span>
+__global__ <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hsh_scan</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>X, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>Y, <span style="color:#66d9ef">int</span> len){
+    __shared__ <span style="color:#66d9ef">float</span> XY[BLOCK_SIZE<span style="color:#f92672">*</span><span style="color:#ae81ff">2</span>];
+    <span style="color:#66d9ef">int</span> rBuf <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; wBuf <span style="color:#f92672">=</span> BLOCK_SIZE;
+    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> blockIdx.x <span style="color:#f92672">*</span> blockDim.x <span style="color:#f92672">+</span> threadIdx.x;
+    <span style="color:#66d9ef">if</span> (i<span style="color:#f92672">&lt;</span>len){
+        XY[wBuf <span style="color:#f92672">+</span> threadIdx.x] <span style="color:#f92672">=</span> X[i];
+    }
+
+    <span style="color:#66d9ef">for</span> (uint s<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>; s<span style="color:#f92672">&lt;</span>BlOCK_SIZE ; s <span style="color:#f92672">*=</span><span style="color:#ae81ff">2</span>){
+        __syncthreads();
+        wBuf <span style="color:#f92672">=</span> BLOCK_SIZE <span style="color:#f92672">-</span> wBuf ; rBuf <span style="color:#f92672">=</span> BLOCK_SUZE <span style="color:#f92672">-</span>rBuf;
+        <span style="color:#66d9ef">if</span> (threadIdx.x <span style="color:#f92672">&gt;=</span>s){
+            XY[wBuf<span style="color:#f92672">+</span>threadIdx.x] <span style="color:#f92672">=</span>
+                XY[rBuf <span style="color:#f92672">+</span> threadIdx.x<span style="color:#f92672">-</span>s] <span style="color:#f92672">+</span> XY[rBuf<span style="color:#f92672">+</span>threadIdx.x];
+        }<span style="color:#66d9ef">else</span>{
+            XY[wBuf <span style="color:#f92672">+</span> threadIdx.x] <span style="color:#f92672">=</span> XY[rBuf<span style="color:#f92672">+</span>threadIdx.x];
+        }
+    }
+    <span style="color:#66d9ef">if</span> (i<span style="color:#f92672">&lt;</span>len){
+        Y[i] <span style="color:#f92672">=</span> XY[wBuf <span style="color:#f92672">+</span> threadIdx.x];
+    }
+}
+</code></pre></div>
+<h4 id="cost-of-hsh-scan">Cost of HSH Scan</h4>
+
+<p>Given $N$ elements:</p>
+
+<ul>
+<li>There will be $\log_2(N)$ iterations</li>
+<li>In each iteration, all except the <em>stride</em> number of threads is doing an addition</li>
+<li>Stride is governed by the equation $2^{i-1}$</li>
+</ul>
+
+<p>$$
+\text{Cost}<em>{\text{HSH}} = \sum</em>{i=1}^{\log<em>2(N)}(N-2^{i-1}) = \left( \sum</em>{i=1}^{\log<em>2(N)}N \right) - \left( \sum</em>{i=1}^{\log_2(N)}2^{i-1} \right) <br />
+= N\log_2(N) - \left(1+2+\ldots+\frac{N}{2}\right) <br />
+= N\log_2(N) - (N-1)
+$$</p>
+
+<p>$$
+N = 1024 \implies
+\begin{cases}
+\text{Cost}<em>\text{HSH} = 1024 \times 10 - (1024 -1) &amp; = 9217 \
+\text{Cost}</em>\text{SS} = 1024-1 &amp; = 1023
+\end{cases}
+$$</p>
+
+<p>Here you can see that our <em>step efficient</em> algorithm is less efficient than the naive scan seen earlier. However, at higher values of $N$ we see a marked improvement in performance.</p>
+
+<h3 id="blelloch-scan-work-efficient">Blelloch Scan (Work Efficient)</h3>
+
+<p>In Blelloch Scan we first copy $X$ from global to shared memory, $XY$
+We carry out a reduction phase followed by a Distribution phase before copying $XY$ from shared memory to global memory $Y$</p>
+
+<h4 id="copying-phase">Copying phase</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#define BLOCK_SIZE 1024
+</span><span style="color:#75715e"></span>
+__global__ <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">blelloch_scan</span>(<span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>X, <span style="color:#66d9ef">float</span> <span style="color:#f92672">*</span>Y, <span style="color:#66d9ef">int</span> len){
+    __shared__ <span style="color:#66d9ef">float</span> XY[BLOCK_SIZE];
+
+    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> blockIdx.x <span style="color:#f92672">*</span> blockDim.x <span style="color:#f92672">+</span> threadIdx.x;
+    <span style="color:#66d9ef">if</span> (i<span style="color:#f92672">&lt;</span>len){
+        XY[threadIdx.x] <span style="color:#f92672">=</span> X[i];
+    }
+
+    <span style="color:#75715e">// Reduction Phase
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">// Distribution Phase
+</span><span style="color:#75715e"></span>
+    __syncthreads();
+
+    <span style="color:#66d9ef">if</span> (i<span style="color:#f92672">&lt;</span>len){
+        Y[i] <span style="color:#f92672">=</span> XY[threadIdx.x];
+    }
+}
+</code></pre></div>
+<h4 id="reduction-phase">Reduction Phase</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">for</span> (uint stride <span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>; stride <span style="color:#f92672">&lt;</span> blockDim.x; stride <span style="color:#f92672">*=</span><span style="color:#ae81ff">2</span>){
+    __syncthreads();
+    <span style="color:#66d9ef">if</span> ((threadIdx.x <span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span> (<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>stride) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> ) {
+        XY[threadIdx.x] <span style="color:#f92672">+=</span> XY[threadIdx.x <span style="color:#f92672">-</span> stride];
+    }
+}
+</code></pre></div>
+<p>Here we can see that all threads sync each iteration $\implies$ no deadlock
+No read or write races $\implies$ no double buffering required. i.e. no thread writes to a location that another thread reads from within the same iteration.</p>
+
+<p>However, this approach leads to a lot of <em>Divergence</em> with different <strong>non-continuous</strong> threads performing the addition on each iteration.</p>
+
+<h4 id="reduction-phase-with-reduced-divergence">Reduction Phase with reduced divergence</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">for</span> (uint stride <span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>; stride <span style="color:#f92672">&lt;</span> blockDim.x ; stride <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span>){
+    __syncthreads();
+    uint index <span style="color:#f92672">=</span> (threadIdx.x <span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> stride <span style="color:#f92672">*</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> ;
+    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">&lt;</span> blockDim.x){
+        XY[index] <span style="color:#f92672">+=</span> XY[index<span style="color:#f92672">-</span>stride];
+    }
+}
+</code></pre></div>
+<p>Here the threads performing the addition are continuous which leads to <strong>minimal divergence</strong></p>
+
+<h4 id="distribution-phase">Distribution Phase</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">for</span> (uint stride <span style="color:#f92672">=</span> BLOCK_SIZE<span style="color:#f92672">/</span><span style="color:#ae81ff">4</span> ; stride <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> ; stride <span style="color:#f92672">/=</span><span style="color:#ae81ff">2</span>){
+    __syncthreads();
+    uint index <span style="color:#f92672">=</span> (threadIdx.x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">*</span>stride <span style="color:#f92672">*</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">+</span> stride <span style="color:#f92672">&lt;</span> BLOCK_SIZE){
+        XY[index<span style="color:#f92672">+</span>stride] <span style="color:#f92672">+=</span> XY[index];
+    }
+}
+</code></pre></div>
+<ul>
+<li>All threads sync on each iteration $\implies$ no deadlock</li>
+<li>No read/write races $\therefore$ no double buffering required</li>
+</ul>
 </div>
 
         

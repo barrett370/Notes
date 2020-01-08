@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="My University Notes Site.">
+<title>
+ - Welcome to my Notes Repo!
+</title>
+
+
+
+
+<link rel="shortcut icon" href="../../../sam.ico">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="../../../css/main.min.81bbafc4df93b11c1c3e2449464373c384aa4903731b4fc7a77dfcdd979e184f.css" integrity="sha256-gbuvxN&#43;TsRwcPiRJRkNzw4SqSQNzG0/Hp3383ZeeGE8=" crossorigin="anonymous" media="screen">
+
+
+
+ 
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Didact+Gothic">
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://sam-barrett.codes/Notes/tn.png"/>
+
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Talk 1 Intro to Quantum Mechanics  Theory describing the smallest structures in the universe  Useful Quantum Properties for CS  Superposition: If a system can be in a state $A$ or state $B$, it can also be in a mixture of the two Measurements, if we measure a system that is in a superposition of states $A$ and $B$, we see either A or B probabilistically. Repeated measurements without resetting will give the same result as the first measurement."/>
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="Talk 1 Intro to Quantum Mechanics  Theory describing the smallest structures in the universe  Useful Quantum Properties for CS  Superposition: If a system can be in a state $A$ or state $B$, it can also be in a mixture of the two Measurements, if we measure a system that is in a superposition of states $A$ and $B$, we see either A or B probabilistically. Repeated measurements without resetting will give the same result as the first measurement." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sam-barrett.codes/Notes/modules/quantum/source/talk1.html" />
+
+<meta property="og:image" content="https://sam-barrett.codes/Notes/tn.png" />
+<meta property="og:site_name" content="Notes" />
+
+
+    
+
+    
+    
+    
+    <title>
+        
+        
+        
+    </title>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="section" id="title"></div>
+
+        <div class="section" id="content">
+
+<h1 id="talk-1">Talk 1</h1>
+
+<h2 id="intro-to-quantum-mechanics">Intro to Quantum Mechanics</h2>
+
+<ul>
+<li>Theory describing the smallest structures in the universe</li>
+</ul>
+
+<h3 id="useful-quantum-properties-for-cs">Useful Quantum Properties for CS</h3>
+
+<ul>
+<li>Superposition: If a system can be in a state $A$ or state $B$, it can also be in a <em>mixture</em> of the two</li>
+<li>Measurements, if we measure a system that is in a superposition of states $A$ and $B$, we see either A or B probabilistically. Repeated measurements without resetting will give the same result as the first measurement.</li>
+<li>Uncertainty: pairs of measurements where greater certainty in one measurement causes lower certainty in another</li>
+
+<li><p>Entanglement. There exist states of multipartite systems which cannot be described in terms of states of the constituent systems.</p></li>
+
+<li><p>At first these do not seem to be useful properties however, we will see that in certain situations they can be.</p></li>
+</ul>
+
+<h4 id="superposition-and-measurement-schrodinger-s-cat">Superposition and measurement: Schrodinger&rsquo;s cat</h4>
+
+<ul>
+<li>No one has managed to actually carry out the experiment</li>
+<li>If a particle decaying was linked to a poison being released in a box with a cat then by extension of the particle being both decayed and not decayed (superposition) we can say that the cat is both dead and not dead.</li>
+</ul>
+
+<h4 id="qubit">Qubit</h4>
+
+<ul>
+<li>These are the basic building-block of a quantum computer</li>
+<li>A quantum system with 2 distinct states is a <em>qubit</em>
+
+<ul>
+<li>People haven&rsquo;t decided on which quantum system is best for the application of computers</li>
+</ul></li>
+<li>One such system is that of a photon, these have a property called polarisation which can be vertical or horizontal</li>
+<li>Qubits are to quantum computers as Bits are to conventional computers</li>
+</ul>
+
+<h4 id="entanglement">Entanglement</h4>
+
+<ul>
+<li>If we had a pair of entangled qubits we cannot describe the state of either particle independently. But we can describe the joint state of the two particles</li>
+<li>Particles can be entangled over vast distances.<br />
+
+<ul>
+<li>allows us to have information about particles very far away by examining particles entangled to them.</li>
+<li>We can use this property for communication protocols</li>
+</ul></li>
+<li>Entanglement can be between more than 2 particles/ qubits</li>
+</ul>
+
+<h2 id="quantum-simulation">Quantum Simulation</h2>
+
+<ul>
+<li>No (known) efficient general-purpose method to simulate quantum physics on a conventional computer</li>
+<li>Richard Feynaman first wondered if a quantum computer could be created to solve this.</li>
+</ul>
+
+<h3 id="shor-s-algorithm-for-factoring">Shor&rsquo;s Algorithm for Factoring</h3>
+
+<ul>
+<li><p>Peter Shor shows that quantum computer can factorise large integers efficiently</p></li>
+
+<li><p>Given an integer $N = p \times q$ for prime numbers $p$ and $q$, Shor&rsquo;s algorithm outputs $p$ and $q$</p></li>
+
+<li><p>No efficient classical algorithm</p></li>
+
+<li><p>THe quantum part of the algorithm uses period finding, given a function $f: \Z \rightarrow \Z$ and the promise that there exists a number $a$ st. $f(x+a) = f(x) \forall x$, find $a$</p></li>
+
+<li><p>This algorithm would break the RSA public key crypto-system on which internet security is based.</p></li>
+</ul>
+
+<h3 id="grover-s-algorithm-for-unstructured-search">Grover&rsquo;s algorithm for Unstructured Search</h3>
+
+<ul>
+<li>Imagine we have $n$ boxes, each containing 0 or 1, We can look inside a box at the cost of 1 query</li>
+<li>We want to find a box containing a 1. on a classical computer this would take $n$ queries in the worst case</li>
+<li>Lov Grover created a quantum algorithm which can solve this is around $\sqrt{n}$ queries</li>
+<li>Could be the basis of quantum machine learning</li>
+</ul>
+
+<h3 id="the-hll-algorithm-for-solving-systems-of-linear-equations">The HLL algorithm for solving systems of linear equations</h3>
+
+<ul>
+<li>Given a $N\times N$ matrix $\textbf{A}$ and a unit vector $\vec{b}$, find the vector $\vec{x}$ satisfying $\textbf{A}\vec{x} = \vec{b}$
+
+<ul>
+<li>We dont get $\vec{x}$ tself</li>
+<li>The matrix $\textbf{A}$ needs to be <em>sparse</em></li>
+<li>Running time is $O(\log(N)\kappa^2)$ vs $O(N\kappa)$ on a standard computer</li>
+<li>$\kappa$ is the condition number of $\textbf{A}$ which is roughly the ratio of the largest and smallest eigenvalue</li>
+<li>Applications include machine learning and big data</li>
+</ul></li>
+</ul>
+
+<h3 id="secure-quantum-computing-in-the-cloud">Secure Quantum Computing in the cloud</h3>
+
+<ul>
+<li>The <em>blind quantum computing</em> protocol
+
+<ul>
+<li>Allows the secure delegation of quantum computations to a quantum server. Client does not need any quantum compute capability</li>
+<li>The server learns nothing about the data or type of computation</li>
+</ul></li>
+</ul>
+
+<h2 id="programming-a-quantum-computer">Programming a Quantum Computer</h2>
+
+<p><strong><em>Could not replicate diagrams, will try and link slide deck</em></strong></p>
+
+<ul>
+<li>Quantum measurements are probabilistic and irreversible. Making measurements often lose quantum effects</li>
+
+<li><p>Unitary operations are deterministic, reversible and maintain <em>quantumness</em></p>
+
+<ul>
+<li>These tend to make up the bulk of quantum computation.</li>
+<li>They are written using <em>quantum circuits</em></li>
+</ul></li>
+
+<li><p>Horizontal wires represent qubits</p></li>
+
+<li><p>gates represent operations on one or more qubits</p></li>
+</ul>
+
+<p>A Qubit state is described by a unit vector $\begin{pmatrix} a \ b\end{pmatrix}$ where $a$ and $b$ are complex numbers satisfying:</p>
+
+<p>$$|a|^2 + |b|^2 - 1$$
+Given a single qubit we can&rsquo;t learn the blaues of $a$ and $b$ a measurement will give the outcome $0$ with probabiliy $|a|^2$ and the outcome $1$ with a probability $|b|^2$</p>
+
+<p>So the vector $\begin{pmatrix} 1 \ 0 \end{pmatrix}$</p>
+
+<p>The state of 2 qubits is descibed by a vector of length 4 whose components determine the prob. of each combination of individual states</p>
+
+<p>A state of $n$ cubits is described by a vector of length $2^n$ whose components deterine the probabilities for all the different $n$-bit strings</p>
+
+<h3 id="reversible-logic-gates-as-unitary-operations">Reversible logic gates as unitary operations</h3>
+
+<p>The NOT gate corresponds to the matrix $\begin{pmatrix} 0 &amp; 1 \ 1 &amp; 0 \end{pmatrix}$</p>
+
+<h2 id="building-quantum-computers">Building Quantum Computers</h2>
+
+<p>As mentioned earlier, there are different approaches using different quantum systems</p>
+
+<ul>
+<li>Light: Photons are hard to interact with which makes them less suseptable to noise but also harder to run programs with</li>
+<li>Ion Trap</li>
+<li>Superconducting chipsets</li>
+</ul>
+
+<p>All approaches require very low temperatures to remove a lot background noise</p>
+
+<h3 id="quantum-error-correction">Quantum Error Correction</h3>
+
+<p>Building large scale quantum computers is very difficult due to <em>decoherence</em>
+If a quantum computer interacts with the outside world is can lose its <em>quantumness</em> and behave like a classical computer</p>
+
+<ul>
+<li>Quantum error correcting codes can be used to fight decoherence</li>
+<li>But they are far from perfect &amp; decoherence is still a major issue</li>
+</ul>
+
+<h3 id="noisy-intermediate-scale-quantum-computing">Noisy Intermediate Scale Quantum Computing</h3>
+
+<p>Often abbreviated to NISQ</p>
+
+<ul>
+<li>Noisy : do not use error correction</li>
+<li>Intermediate-Scale: 50-100 qubits</li>
+</ul>
+
+<p>Computations should be kept short to avoid errors accumulating. However, they are still expected to outperform standard computers on certain tasks.</p>
+
+<blockquote>
+<p>too many diagrams from here, cannot keep up</p>
+</blockquote>
+</div>
+
+        
+        <div class="section bottom-menu">
+<hr />
+<p>
+
+
+    
+
+    
+        
+            <a href="../../../modules/neural-computation/">Neural Computation</a>
+        
+    
+    
+        
+            &#183; 
+            <a href="../../../modules/machine-learning/">Machine Learning</a>
+        
+            &#183; 
+            <a href="../../../modules/parallel-distributed/">Distributed and Parallel Computing</a>
+        
+    
+    &#183; 
+    <a href="https://sam-barrett.codes/Notes/">
+        main
+    </a>
+
+</p></div>
+        
+
+        <div class="section footer"></div>
+    </div>
+</body>
+
+</html>
