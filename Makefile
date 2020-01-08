@@ -5,3 +5,7 @@ all:
 .PHONY diff:
 diff:
 	cd utils && zsh diff-compile-all.sh
+
+.PHONY diff:
+build:
+	hugo

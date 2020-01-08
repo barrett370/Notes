@@ -1,6 +1,6 @@
 sd=$(pwd)
 tsc "$sd"/converter.ts
-cd ../public/content/modules || exit
+cd ../content/modules || exit
 
 for D in $(find . -type d); do
   if [[ $D =~ '/source$' ]]; then

@@ -1,22 +1,3 @@
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
-
-<!-- code_chunk_output -->
-
-- [Lecture 2](#lecture-2)
-  - [Linear Regression Models](#linear-regression-models)
-    - [Cat Hearts example:](#cat-hearts-example)
-      - [Experience $E$](#experience-e)
-      - [Learning Task, $T$](#learning-task-t)
-        - [Linear Regression Model](#linear-regression-model)
-      - [Performance Measure, $P$](#performance-measure-p)
-      - [Unconstrained Optimisation (Minimisation)](#unconstrained-optimisation-minimisation)
-        - [Differentiation Rules](#differentiation-rules)
-        - [Approach 1: Ordinary least squares](#approach-1-ordinary-least-squares)
-        - [Approach 2: Gradient descent](#approach-2-gradient-descent)
-          - [Attempt 1 **(failed)**](#attempt-1-failed)
-          - [Attempt 2: Gradient Descent (1D)](#attempt-2-gradient-descent-1d)
-
-<!-- /code_chunk_output -->
 # Lecture 2
 
 ## Linear Regression Models

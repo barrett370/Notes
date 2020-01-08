@@ -1,22 +1,3 @@
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
-
-<!-- code_chunk_output -->
-
-- [Lecture 1](#lecture-1)
-  - [Definition of Machine Learning](#definition-of-machine-learning)
-    - [Tasks, $T$](#tasks-t)
-      - [Classification](#classification)
-      - [Regression](#regression)
-      - [Transcription](#transcription)
-      - [Machine Translation](#machine-translation)
-      - [Synthesis & Sampling](#synthesis--sampling)
-    - [Performance Measure, $P$](#performance-measure-p)
-    - [Experience, $E$](#experience-e)
-  - [Supervised Learning](#supervised-learning)
-  - [Unsupervised Learning](#unsupervised-learning)
-  - [Re-enforcement learning](#re-enforcement-learning)
-
-<!-- /code_chunk_output -->
 # Lecture 1
 
 ## Definition of Machine Learning
