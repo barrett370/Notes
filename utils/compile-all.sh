@@ -1,14 +1,15 @@
 sd=$(pwd)
-tsc "$sd"/converter.ts
-cd ../public/content/modules || exit
+tsc "$sd"/utils/converter.ts
+echo $sd
+cd Y3 || exit
 
 for D in $(find . -type d); do
   if [[ $D =~ '/source$' ]]; then
     for F in $(find $D -type f); do
       echo "compiling $F"
-      node "$sd"/converter.js -f "$F"
+      node "$sd"/utils/converter.js -f "$F"
     done
-    mv "$D"/*.html "$D"/../lectures/
+    mv "$D"/*.html "$D"/../out/
   fi
 
 done
