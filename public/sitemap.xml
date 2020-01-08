@@ -217,61 +217,6 @@
   </url>
   
   <url>
-    <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture1.html</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture10.html</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture12.html</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture2.html</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture3.html</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture4.html</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture5.html</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture6.html</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture7.html</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture8.html</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture9.html</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture1.html</loc>
     <priority>0</priority>
   </url>
@@ -317,17 +262,36 @@
   </url>
   
   <url>
-    <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture8.html</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture9.html</loc>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://sam-barrett.codes/Notes/modules/professional-computing/lectures/professional_computing_notes.html</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sam-barrett.codes/Notes/modules/professional-computing/source/professional_computing_notes.html</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sam-barrett.codes/Notes/modules/quantum/lectures/talk1.html</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sam-barrett.codes/Notes/modules/quantum/source/talk1.html</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://sam-barrett.codes/Notes/categories.html</loc>
+  </url>
+  
+  <url>
+    <loc>https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture8.html</loc>
   </url>
   
   <url>

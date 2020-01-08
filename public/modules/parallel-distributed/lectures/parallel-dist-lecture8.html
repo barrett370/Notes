@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-      <title>Parallel-Dist-Lecture8</title>
+      <title>Distributed and Parallel Computing: Lecture 8</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
@@ -392,15 +392,109 @@ Device <span class="token number">0</span><span class="token operator">:</span> 
 <ul>
 <li>Warp 0 consists of threads 0 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x2192;</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">&#x2192;</span></span></span></span> 31</li>
 <li>Warp 1 consists of threads 32 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x2192;</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">&#x2192;</span></span></span></span> 63</li>
-<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi><mi mathvariant="normal">&#x22EE;</mi><mpadded height="+0em" voffset="0em"><mspace mathbackground="black" width="0em" height="1.5em"></mspace></mpadded></mi></mrow><annotation encoding="application/x-tex">\vdots</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.53em;vertical-align:-0.03em;"></span><span class="mord"><span class="mord">&#x22EE;</span><span class="mord rule" style="border-right-width:0em;border-top-width:1.5em;bottom:0em;"></span></span></span></span></span></li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x22EF;</mo></mrow><annotation encoding="application/x-tex">\cdots</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.31em;vertical-align:0em;"></span><span class="minner">&#x22EF;</span></span></span></span></li>
 </ul>
 </li>
 <li>
 <p>For threads in a mutli-dimensional block</p>
 <ul>
 <li>Mutlidimensional threads are linearised in a row-major order</li>
+<li>Within each group of threads with the same <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi></mrow><annotation encoding="application/x-tex">z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span></span></span></span> value, the threads are indexed by their <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span></span></span></span> values.</li>
+<li>Within each group of threads with the same <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi></mrow><annotation encoding="application/x-tex">z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span></span></span></span> value the threads are indexed by their <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> values</li>
 </ul>
 </li>
+</ul>
+<h2 class="mume-header" id="warp-execution-and-divergence">Warp Execution and divergence</h2>
+
+<p>A whole warp is handled by a single controller. Consider what happens if some threads <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold">A</mi></mrow><annotation encoding="application/x-tex">\bf{A}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68611em;vertical-align:0em;"></span><span class="mord"><span class="mord"><span class="mord mathbf">A</span></span></span></span></span></span> in a warp take one branch, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>, of an <code>if</code> statement and others <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold">B</mi></mrow><annotation encoding="application/x-tex">\bf{B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68611em;vertical-align:0em;"></span><span class="mord"><span class="mord"><span class="mord mathbf">B</span></span></span></span></span></span> take the other branch, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>.</p>
+<ul>
+<li>All threads in the warp must execute the <strong>same</strong> instructions</li>
+<li>The first branch, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> : here <strong>all</strong> threads execute branch 1 instructions. However, the threads in group <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold">B</mi></mrow><annotation encoding="application/x-tex">\bf{B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68611em;vertical-align:0em;"></span><span class="mord"><span class="mord"><span class="mord mathbf">B</span></span></span></span></span></span> are disabled (analogous to de-clutching a car)</li>
+<li>Then execute branch <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>: again, all threads execute the instructions but branch <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold">A</mi></mrow><annotation encoding="application/x-tex">\bf{A}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68611em;vertical-align:0em;"></span><span class="mord"><span class="mord"><span class="mord mathbf">A</span></span></span></span></span></span> threads are disabled.</li>
+<li>This is called <em><strong>divergence</strong></em></li>
+<li>The whole warp execute the same branch <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>&#x2005;&#x200A;</mtext><mo>&#x27F9;</mo><mtext>&#x2005;&#x200A;</mtext></mrow><annotation encoding="application/x-tex">\implies</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.549em;vertical-align:-0.024em;"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&#x27F9;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span></span></span> <em><strong>NO Divergence</strong></em></li>
+</ul>
+<p>Loops where different threads in the warp execute different numbers of iterations also form divergences. I.e. the threads that conceptually execute the lowest number of iterations <strong>actually</strong> execute the same as the rest of the threads, conceptually the same as the threads executing the most iterations.</p>
+<h2 class="mume-header" id="divergence-and-reduction">Divergence and Reduction</h2>
+
+<p>Now we will look at the consequences of divergence for the process of reducing a set of numbers to 1. E.g. <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>&#x2211;</mo><mrow><mi>x</mi><mo>=</mo><mn>1</mn></mrow><mn>1024</mn></msubsup><mi>x</mi></mrow><annotation encoding="application/x-tex">\sum_{x=1}^{1024}x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.253718em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">&#x2211;</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.954008em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mord mtight">2</span><span class="mord mtight">4</span></span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">x</span></span></span></span></p>
+<ul>
+<li>Sequentially we would solve this by iterating through a vector, accumulating the sum in a variable</li>
+<li>In parallel, one approach would be to use a <em>binary tournament</em>:
+<ul>
+<li>Round 1:
+<ul>
+<li>thread 0 executes <code>A[0] += A[1]</code></li>
+<li>thread 2 executes <code>A[2] += A[3]</code></li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x22EF;</mo></mrow><annotation encoding="application/x-tex">\cdots</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.31em;vertical-align:0em;"></span><span class="minner">&#x22EF;</span></span></span></span></li>
+<li>thread <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>i</mi></mrow><annotation encoding="application/x-tex">2i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord mathdefault">i</span></span></span></span>, where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>&lt;</mo><mn>2</mn><mi>i</mi><mo>&lt;</mo><mn>1024</mn></mrow><annotation encoding="application/x-tex">0&lt;2i&lt;1024</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68354em;vertical-align:-0.0391em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69862em;vertical-align:-0.0391em;"></span><span class="mord">2</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">2</span><span class="mord">4</span></span></span></span>, executes <code>A[2*i] += A[2*i+1]</code></li>
+</ul>
+</li>
+<li>Round 2:
+<ul>
+<li>thread <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>i</mi></mrow><annotation encoding="application/x-tex">4i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord">4</span><span class="mord mathdefault">i</span></span></span></span>, where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>&lt;</mo><mn>4</mn><mi>i</mi><mo>&lt;</mo><mn>1024</mn></mrow><annotation encoding="application/x-tex">0&lt;4i&lt;1024</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68354em;vertical-align:-0.0391em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69862em;vertical-align:-0.0391em;"></span><span class="mord">4</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">2</span><span class="mord">4</span></span></span></span>, executes <code>A[4*i] += A[4*i+2]</code></li>
+</ul>
+</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x22EF;</mo></mrow><annotation encoding="application/x-tex">\cdots</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.31em;vertical-align:0em;"></span><span class="minner">&#x22EF;</span></span></span></span></li>
+<li>Round <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>
+<ul>
+<li>thread <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>n</mi></msup><mi>i</mi></mrow><annotation encoding="application/x-tex">2^ni</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.664392em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span><span class="mord mathdefault">i</span></span></span></span> executes <code>A[pow(2,n)*i] += A[pow(2,n)*i+pow(2,n-1)]</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Diagrammatically, this would look like:</p>
+<p><img src="../resources/naive-parallel-reduction.png?0.7353400621273021" alt></p>
+<p>This could be implemented as follows:</p>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp"><span class="token keyword">float</span> partialSum<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+uint t <span class="token operator">=</span> threadIdx<span class="token punctuation">.</span>x<span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>uint stride <span class="token operator">=</span> <span class="token number">1</span> <span class="token punctuation">;</span> stride <span class="token operator">&lt;</span> blockDim<span class="token punctuation">.</span>x<span class="token punctuation">;</span> stride <span class="token operator">*=</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token function">__syncthreads</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>t <span class="token operator">%</span> <span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> stride<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    partialSum<span class="token punctuation">[</span>t<span class="token punctuation">]</span> <span class="token operator">+=</span> partialSum<span class="token punctuation">[</span>t<span class="token operator">+</span>stride<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</pre><ul>
+<li>Assume <code>blockDim.x = 1024</code></li>
+<li><code>__syncthreads()</code> is required to make sure all threads have completed the previous stage before continuing</li>
+<li>In first pass, all warps are active but only half the threads are doing useful work. This only gets worse on future iterations</li>
+</ul>
+<p>Diagrammatically an alternative, more efficient, method could look like:</p>
+<p><img src="../resources/alternative-parallel-scan.png?0.9494686265274939" alt></p>
+<p>with the corresponding code looking like:</p>
+<pre data-role="codeBlock" data-info="cpp" class="language-cpp"><span class="token keyword">float</span> partialSum<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+uint t <span class="token operator">=</span> threadIdx<span class="token punctuation">.</span>x<span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>uint stride <span class="token operator">=</span> blockDim<span class="token punctuation">.</span>x<span class="token operator">/</span><span class="token number">2</span> <span class="token punctuation">;</span> stride <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token punctuation">;</span> stride <span class="token operator">&gt;&gt;</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token function">__syncthreads</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>t<span class="token operator">&lt;</span>stride<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    partialSum<span class="token punctuation">[</span>t<span class="token punctuation">]</span> <span class="token operator">+=</span> partialSum<span class="token punctuation">[</span>t<span class="token operator">+</span>stride<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</pre><ul>
+<li>Again, assuming that <code>blockDim.x = 1024</code></li>
+<li>Here however, threads 0-511 (warps 0-15) execute the true branch with threads 512-1023 executing the false branch, this leads to no divergence, therefore 1 pass each iteration</li>
+<li>Continues 1 pass each iteration until there are less than 32 threads executing</li>
+</ul>
+<h2 class="mume-header" id="memory-bandwidth-as-a-performance-barrier">Memory Bandwidth as a Performance Barrier</h2>
+
+<ul>
+<li>For simple operations such as <em>vectorAdd</em> the <em>compute to global memory access ratio</em> or CGMA is 1/3, i.e. 1 flop per 3 memory accesses</li>
+<li>Assume the global memory access bandwidth is in the range of 200GB/s and the processor can execute around 1500 GFLOPS then the memory bandwidth is limiting us in the following way:
+<ul>
+<li>3 read/writes = 12 bytes</li>
+<li>12 bytes memory access at 200GB/s for each flop = 200/12 GFLOPS = 17 GFLOPS</li>
+<li>Therefore, although the hardware is capable fo 1500GFLOPS, our global memory limits us to just 17 GFLOPS</li>
+</ul>
+</li>
+</ul>
+<p>Applying this to our parallel reduction:</p>
+<ul>
+<li>Each reduction reads 2 words from global memory and wrtites one word back to global memory per working thread</li>
+<li>If instead the first read copied from global <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x2192;</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">&#x2192;</span></span></span></span> shared memory, the remainder of the operation would be <strong>much</strong> faster</li>
+<li>In general, many such operations exist whereby, a large problem can be broken into small <em>tiles</em>, each of which fits into shared memory, the tiles can be worked on and combined at the very end for a much faster overall calculation.</li>
 </ul>
 
       </div>
@@ -411,6 +505,9 @@ Device <span class="token number">0</span><span class="token operator">:</span> 
 <li><a href="#gpu-specs">GPU specs:</a></li>
 <li><a href="#syncronisation">Syncronisation</a></li>
 <li><a href="#more-on-warps">More on Warps</a></li>
+<li><a href="#warp-execution-and-divergence">Warp Execution and divergence</a></li>
+<li><a href="#divergence-and-reduction">Divergence and Reduction</a></li>
+<li><a href="#memory-bandwidth-as-a-performance-barrier">Memory Bandwidth as a Performance Barrier</a></li>
 </ul>
 </li>
 </ul>

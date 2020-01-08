@@ -35,7 +35,7 @@
       <pubDate>Sun, 05 Jan 2020 16:15:47 +0000</pubDate>
       
       <guid>https://sam-barrett.codes/Notes/modules/neural-computation/nc-index.html</guid>
-      <description> Lecture 1 Lecture 2 Lecture 3 Lecture 4 Lecture 5 Lecture 6 Lecture 7 Lecture 8 Lecture 9 Lecture 10  </description>
+      <description> Lecture 1 Lecture 2 Lecture 3 Lecture 4 Lecture 5 Lecture 6 Lecture 7 Lecture 8 Lecture 9 Lecture 10 Lecture 11  </description>
     </item>
     
     <item>
@@ -397,7 +397,7 @@ Zhang et al. (ICLR 2017) trained a network over the CIFAR10 dataset with the fol
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-dist-lecture8.html</guid>
-      <description>Parallel-Dist-Lecture8  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
+      <description>Distributed and Parallel Computing: Lecture 8  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .</description>
     </item>
     
     <item>
@@ -406,105 +406,6 @@ Zhang et al. (ICLR 2017) trained a network over the CIFAR10 dataset with the fol
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-dist-lecture9.html</guid>
-      <description>Parallel-Dist-Lecture9  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture1.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture1.html</guid>
-      <description>Parallel-Dist-Lecture1  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture10.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture10.html</guid>
-      <description>Parallel-Dist-Lecture10  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture12.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture12.html</guid>
-      <description>Parallel-Dist-Lecture12  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture2.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture2.html</guid>
-      <description>Parallel-Dist-Lecture2  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture3.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture3.html</guid>
-      <description>Parallel-Dist-Lecture3  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture4.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture4.html</guid>
-      <description>Parallel-Dist-Lecture4  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture5.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture5.html</guid>
-      <description>Parallel-Dist-Lecture5  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture6.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture6.html</guid>
-      <description>Parallel-Dist-Lecture6  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture7.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture7.html</guid>
-      <description>Parallel-Dist-Lecture7  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture8.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture8.html</guid>
-      <description>Parallel-Dist-Lecture8  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture9.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/lectures/parallel-distributed-lecture9.html</guid>
       <description>Parallel-Dist-Lecture9  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
     </item>
     
@@ -599,20 +500,57 @@ __global__ kern(int *A, int len){ int i = blockDim.x * blockIdx.x + threadIdx.</
     
     <item>
       <title></title>
+      <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture9.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture9.html</guid>
+      <description>Lecture 9 : GPU Accelerated Parallel Reduce Scan Multi-Block Parallel Reduction The parallel reduction algorithms seen in the last lecture only work if the array fits into a single block.
+This issue arises due to sums being calculated between indexes handled by different blocks. As a result, we cannot be sure if the correct numbers are stored in each index at the time of computation as our threads may be out of sync.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://sam-barrett.codes/Notes/modules/professional-computing/lectures/professional_computing_notes.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://sam-barrett.codes/Notes/modules/professional-computing/lectures/professional_computing_notes.html</guid>
+      <description>Professional_Computing_Notes  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://sam-barrett.codes/Notes/modules/professional-computing/source/professional_computing_notes.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://sam-barrett.codes/Notes/modules/professional-computing/source/professional_computing_notes.html</guid>
+      <description>Professional Computing  Professional Computing  Topics  Disruptive Innovation - an innovation that helps create a new market and value network, eventually disrupts existing market and value network, displacing all earlier technology.  Legal Perspectives Criminal vs. Civil Law  Criminal Law Civil Law Torts Legalisation Appeal  Computer Misuse Act of 1990 (CMA) 3 Offences:  1. Unauthorised access to a computer 2. Intent to commit a serious crime 3.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://sam-barrett.codes/Notes/modules/quantum/lectures/talk1.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://sam-barrett.codes/Notes/modules/quantum/lectures/talk1.html</guid>
+      <description>Talk1  /** * prism.js Github theme based on GitHub&#39;s theme. * @author Sam Clarke */ code[class*=&#34;language-&#34;], pre[class*=&#34;language-&#34;] { color: #333; background: none; font-family: Consolas, &#34;Liberation Mono&#34;, Menlo, Courier, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; line-height: 1.4; -moz-tab-size: 8; -o-tab-size: 8; tab-size: 8; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; } /* Code blocks */ pre[class*=&#34;language-&#34;] { padding: .8em; overflow: auto; /* border: 1px solid #ddd; */ border-radius: 3px; /* background: #fff; */ background: #f5f5f5; } /* Inline code */ :not(pre)  code[class*=&#34;</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://sam-barrett.codes/Notes/modules/quantum/source/talk1.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://sam-barrett.codes/Notes/modules/quantum/source/talk1.html</guid>
+      <description>Talk 1 Intro to Quantum Mechanics  Theory describing the smallest structures in the universe  Useful Quantum Properties for CS  Superposition: If a system can be in a state $A$ or state $B$, it can also be in a mixture of the two Measurements, if we measure a system that is in a superposition of states $A$ and $B$, we see either A or B probabilistically. Repeated measurements without resetting will give the same result as the first measurement.</description>
+    </item>
+    
+    <item>
+      <title>Distributed and Parallel Computing: Lecture 8</title>
       <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture8.html</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture8.html</guid>
       <description>Lecture 8 SMs, Cores and Warps  A GPU has a number of Streaming Multiprocessors (SMs) which have a number of cores. Threads are scheduled in units of Warps Each SM has a number of resources  E.g 400-500 series Nvidia GPUs have: 2 Instruction despatch units  Each can start, on each clock cycle, processing on any 2 banks at a time. The 3 banks of 16 cores mean that 2 sequential instructions from one thread warp can be executing simultaneously if are not dependent on each other  3 banks of 16 cores (48 cores) 1 bank of 16 load store units  for calculating source and destination addresses  1 bank of 4 special functional units  hardware support for calculating $\sin$, $\cos$, reciprocals and square roots  1 bank of 4 texture units    GPU specs:  Global Memory and constant memory is the only GPU memory that you can copy into.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture9.html</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://sam-barrett.codes/Notes/modules/parallel-distributed/source/parallel-dist-lecture9.html</guid>
-      <description> Lecture 9 </description>
     </item>
     
   </channel>
