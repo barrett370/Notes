@@ -8,6 +8,9 @@ pygmentsStyle            = "monokai"                        # https://help.farbo
 pygmentsCodefences       = true
 # googleAnalytics        = ""                               # Tracking code, eg. "UA-111111111-1"
 katex 			 = true
+relativeURLs = true
+uglyURLs = true
+canonifyURLs = true
 
 [params]
     dateform             = "Mon Jan 02, 2006"
@@ -22,14 +25,14 @@ katex 			 = true
     title                = "Notes"
 
 [[params.mainMenu]]
-    link = "/Notes/modules/neural-computation/"
+    link = "/modules/neural-computation/"
     text = "Neural Computation"
 [[params.mainMenu]]
-    link = "/Notes/modules/machine-learning/"
+    link = "/modules/machine-learning/"
     text = "Machine Learning"
 
 [[params.mainMenu]]
-    link = "/Notes/modules/parallel-distributed/"
+    link = "/modules/parallel-distributed/"
     text = "Distributed and Parallel Computing"
 
 [imaging]
