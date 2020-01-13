@@ -1,6 +1,4 @@
-
-
-
+# Neural Computation Lecture Notes
 
 - [Lecture 1](out/Neural-Comp-Lecture1.html)
 - [Lecture 2](out/Neural-Comp-Lecture2.html)
