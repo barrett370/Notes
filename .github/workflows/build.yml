@@ -37,14 +37,23 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: resources
-      - name: Deploy to Firebase Storage Bucket
+      - name: Deploy html files to Firebase Storage Bucket
         uses: actions-hub/gcloud@master
         env:
           PROJECT_ID: ${{secrets.PROJECT_ID}}
           APPLICATION_CREDENTIALS: ${{secrets.APPLICATION_CREDENTIALS}}
           CLI: gsutil
         with:
-          args: cp -r {out,resources} gs://barrett370-notes.appspot.com
+          args: cp -r out gs://barrett370-notes.appspot.com
+      - name: Deploy resource files to Firebase Storage Bucket
+        uses: actions-hub/gcloud@master
+        env:
+          PROJECT_ID: ${{secrets.PROJECT_ID}}
+          APPLICATION_CREDENTIALS: ${{secrets.APPLICATION_CREDENTIALS}}
+          CLI: gsutil
+        with:
+          args: cp -r resources gs://barrett370-notes.appspot.com
 
 
-      
+
+          
