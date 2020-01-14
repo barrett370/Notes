@@ -42,6 +42,7 @@ jobs:
         env:
           PROJECT_ID: ${{secrets.PROJECT_ID}}
           APPLICATION_CREDENTIALS: ${{secrets.APPLICATION_CREDENTIALS}}
+          CLI: gsutil
         with:
           args: cp -r {out,resources} gs://barrett370-notes.appspot.com
 
