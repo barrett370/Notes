@@ -20,7 +20,7 @@ jobs:
         path: out/
   
   deploy:
-    requires: build
+    needs: build
     name: Deploy to Firebase bucket
     runs-on: ubuntu-latest
     steps: 
