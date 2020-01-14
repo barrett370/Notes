@@ -1,3 +1,4 @@
+#!/bin/zsh
 sd=$(pwd)
 tsc "$sd"/converter.ts
 echo $sd

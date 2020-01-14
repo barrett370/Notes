@@ -11,6 +11,8 @@ jobs:
     - uses: actions/checkout@v1
     - name: npm install
       run: npm install
+    - name: install zsh
+      run: apt install zsh
     - name: Transpile md to html
       run: make all
     - name: Upload artifact
