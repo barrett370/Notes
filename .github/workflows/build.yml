@@ -44,7 +44,8 @@ jobs:
           APPLICATION_CREDENTIALS: ${{secrets.APPLICATION_CREDENTIALS}}
           CLI: gsutil
         with:
-          args: cp -r out gs://barrett370-notes.appspot.com
+          args: cp -r out gs://barrett370-notes-artifacts
+
       - name: Deploy resource files to Firebase Storage Bucket
         uses: actions-hub/gcloud@master
         env:
@@ -52,7 +53,8 @@ jobs:
           APPLICATION_CREDENTIALS: ${{secrets.APPLICATION_CREDENTIALS}}
           CLI: gsutil
         with:
-          args: cp -r resources gs://barrett370-notes.appspot.com
+          args: cp -r resources gs://barrett370-notes-artifacts
+
 
 
 
