@@ -5,3 +5,7 @@ all:
 .PHONY diff:
 diff:
 	cd utils && ./diff-compile-all.sh
+
+.PHONY CI:
+CI: 
+	cd utils && ./compile-all-ci.sh
