@@ -1,0 +1,21 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: npm install
+      run: npm install
+    - name: Transpile md to html
+      run: make all
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name:  out
+        path: out/
+      
