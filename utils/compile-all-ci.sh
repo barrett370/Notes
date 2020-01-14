@@ -13,7 +13,7 @@ for D in $(find . -type d); do
       node "$sd"/converter.js -f "$F"
     done
     mv "$D"/*.html "$sd/../out/"
-    cp "$D/../resources/*" "$sd/../resources/"
+    cp -r "$D/../resources/" "$sd/../"
   fi
 
 done
