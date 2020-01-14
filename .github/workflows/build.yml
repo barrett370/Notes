@@ -20,6 +20,7 @@ jobs:
         path: out/
   
   deploy:
+    requires: build
     name: Deploy to Firebase bucket
     runs-on: ubuntu-latest
     steps: 
@@ -27,6 +28,10 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: out
+      - name: Download build artifact
+        uses: actions/download-artifact@master
+        with:
+          name: resources
       - name: Deploy to Firebase Storage Bucket
         uses: actions-hub/gcloud@master
         env:
