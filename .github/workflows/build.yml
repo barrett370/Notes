@@ -10,11 +10,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: npm install
-      run: npm install
-    - name: install zsh
-      run: sudo apt install zsh
+      run: cd utils && npm install
     - name: Transpile md to html
-      run: make all
+      run: sudo apt install zsh && make all
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
