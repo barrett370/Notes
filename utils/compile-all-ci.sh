@@ -3,6 +3,7 @@
 sd=$(pwd)
 tsc "$sd"/converter.ts
 echo $sd
+mkdir ../resources
 cd ../Y3 || exit
 
 for D in $(find . -type d); do
@@ -11,7 +12,8 @@ for D in $(find . -type d); do
       echo "compiling $F"
       node "$sd"/converter.js -f "$F"
     done
-    mv "$D"/*.html "$D"/../out/
+    mv "$D"/*.html "$sd/../out/"
+    cp -r "$D/../resources/" "$sd/../"
   fi
 
 done
