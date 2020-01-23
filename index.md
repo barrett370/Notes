@@ -18,6 +18,7 @@ Please follow the following links for lecture notes.
 - [Parallel + Distributed](./Y3/Parallel+Distributed/pd-index.md)
 - [Machine Learning](./Y3/Machine-Learning/ml-index.md)
 - [Nature Inspired Search and Optimisation](./Y3/NISO/niso-index.md)
+- [Intelligent Data Analysis](./Y3/Ida/ida-index.md)
 
 
 

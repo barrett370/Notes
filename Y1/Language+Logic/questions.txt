@@ -1,0 +1,37 @@
+TRANSLATIONS FROM ENGLISH TO LOGIC
+
+See in particular: Lec 7 & Ex 5, plus Lec 10 & Assm 3
+
+NATURAL DEDUCTION PROOFS
+
+In addition to the exercises/assessments on Canvas, Tomassi is a very good source of practice questions. There are no model solutions that I know of, but if you get stuck on any of the questions, feel free to ask in office hours, classes or the Facebook group. Below is a summary of where to find different types of proof questions.
+
+Ex 2.2 (p.45) - translating english to prop logic
+Ex 2.3 (p.53) - proofs using ∧-introduction/∧-elimination
+Ex 2.4 (p.55) - proofs using →-elimination
+Ex 2.5 (p.62) - proofs using →-introduction
+Ex 2.6 (p.62) - proofs of theorems using →-introduction
+Ex 3.2 (p.82) - proofs using double negation & modus tollens (some hard ones)
+Ex 3.3 (p.85) - proofs using ∨-introduction
+Ex 3.4 (p.90) - proofs using ∨-elimination
+Ex 3.5 (p.91) - proofs using ∨-elimination
+Ex 3.6 (p.93) - proofs using ∨-elimination
+Ex 3.7 (p.100) - sub-proofs
+Ex 3.8 (p.101) - more proofs
+Ex 3.9 (p.106) - proofs using reduction ad absurdum
+Revision exercises (p.108) - more prop logic proofs
+Ex 3.10 (p.113) - more prop logic proofs (derived rules)
+Ex 6.1 (p.272) - proofs using ∀-elimination
+Ex 6.2 (p.281) - proofs using ∀-introduction
+Ex 6.3 (p.286) - proofs using ∃-introduction
+Ex 6.4 (p.292) - proofs using ∃-introduction
+Ex 6.5 (p.302) - proofs using ∃-elimination
+Ex 6.6 (p.309) - more pred calc proofs
+Ex 6.7 (p.314) - proofs using identity
+Revision exercises (p.328) - more pred calc proofs
+
+STRUCTURAL INDUCTION
+
+See Ex 9 and Lec 12.
+
+In particular, the end of Lec 12 has an example that we did not have time to go through in the lecture, that you can test yourself on.
