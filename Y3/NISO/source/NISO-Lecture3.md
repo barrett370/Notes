@@ -112,3 +112,141 @@ Described as *climbing Everest in thick fog with amnesia*
 It is an iterative algorithm:
 
 - Start with an arbitrary solution to a problem 
+- Iteratively searches for a better solution from the current solution's immediate neighbour solutions
+- Imediate neighbour solutions are the most similar solutions to the current solution 
+
+There are two types of Hill Climbing 
+
+- Simple Hill Climbing: chooses the first better solution
+- Steepest ascent/ descent hill climbing: compares all neighbour solutions and chooses the best solution. This is also known as greedy search 
+
+```basic
+x_0 := generate initial solution
+terminationFlag := flase 
+x := x_0 
+while (terminatingFlag != true) {
+    Modify the current solution to an immediate neighbour one v in A 
+    if f(v) < f(x) then x:=v 
+    if a terminition criterion is met: terminatingFlag := true 
+}
+return x
+``` 
+
+The major issue with Hill Climbing for TSP is how to generate the immediate neighbour solutions of the current solution.
+
+For 2-3 cities there is only one solution 
+For 4 cities there are 3 solutions 
+
+For 4 cities we notice that the difference in the routes between a solution and a immediate neighbour is 2 edges.
+
+## 2-Opt Algorithm
+
+Given a route such as $A \rightarrow C \rightarrow B \rightarrow D \rightarrow A $. How do we choose 2 edges to swap? This was a problem posed in 1958 by *Croes*
+
+### Steps:
+
+1) Removal of two edges from the current route, which results in 2 parts of the route 
+2) Reconnect by two other edges to obtain a new solution 
+
+### Algorithm: 
+
+```basic
+route := initial TSP solution
+i,j := two cities for swapping
+Step 1: take route[1] to route[i-1] and add them in order to newRoute 
+Step 2: take route[i] to route[j] and add them in reverse to newRoute
+Step 3: take route[j+1] to end and add them in order to newRoute
+return newRoute
+```
+
+We get closer to the optimal solution with this approach, however, we often get stuck at a *local optimum* by the nature of the algorithm refusing to accept a worse solution once the local optimum has been found 
+
+@import "../resources/l3.lo.png"
+
+## Randomised search vs Local search 
+
+Randomised search: 
+
+- Good at exploration of a large search space
+- Not good at exploitation, i.e. to search a small region around the current solution 
+- Not good for problems where good solutions are just a small portion of all possible solutions
+
+Local Search: 
+
+- Good at exploitation 
+- Not good at exploration 
+
+**Can we combine these?**
+
+## Stochastic local search
+
+The main idea of SLS is to escape or avoid local optima
+
+We achieve this by injecting randomness into local search
+
+Strategies:
+
+- Random restart
+  - useful when either the number of local optima is small or the cost of restarting is cheap
+
+- Perform a random non-improving step: randomly move to a less fit neighbour - **Simmulated annealing**
+
+### Hill Climbing with Random Restart 
+
+```basic 
+
+for k := 0 to k_max {
+    x_0 := randomly generated initial solution
+    terminationFlag := false 
+    x_i := x_0 
+    while (terminationFlag != true){
+        modify the current solution to an immediate neighbour 
+        if f(v) < f(x_i) then x_i := v 
+        if a termination criterion is met {
+            terminationFlag := true
+        }
+    }
+    store x_i
+}
+return x_best = min(x_i, i=1 to k_max)
+``` 
+
+## Simulated Annealing 
+
+This is a generic heuristic algorithm for optimisation problems proposed by Kirkpatrick in 1983
+
+This algorithm is inspired by annealing in metallurgy
+
+> Heat treatment that alters a material to increases  its ductility and to make it more workable
+
+We want to find a state of lower thermodynamic free energy for metal. Meaning,, we want to find a solution with the minimum value for the objective function.
+
+``` python
+x := x_0; e:=f(x) //Initial solution, objective function value (energy) 
+x_best := x ; //Initial best solution
+k := 0  // count evaluation number
+while (k<k_max) {
+    T := temperature(t_0)  //temperature calculation
+    x_new := neighbour(x)  // pick a neighbour 
+    e_new := f(x_new)   // compute it's objective function value  
+    if P(e,e_new,T) > R(0,1) { // should we move to it? 
+        x:= x_new ; e:= e_new // yes, change state
+    } if e_new < e_best{  // is it a new best ?
+        x_best := x_new;  e_best := e_new // save as best 
+    } 
+    k ++ // increase evaluation
+}
+return x_best
+```
+Where: 
+
+$$
+P = \begin{cases}
+1 & \text{if } e_{new} < e \\ 
+\exp \left( \frac{e-e_{new}}{T}  \right) & \text{otherwise}
+\end{cases}
+$$
+
+Without the analogue from matallurgy, the simmulated annealing algorithm is essentially a **stochastic local search**
+
+The main idea is to escape from local optima by taking a random non-improving step: 

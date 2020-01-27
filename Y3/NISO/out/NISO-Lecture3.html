@@ -272,9 +272,9 @@ pre[data-line] .line-highlight[data-end]:after {
 <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="monospace">Wanted</mtext></mrow><annotation encoding="application/x-tex">\texttt{Wanted}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61111em;vertical-align:0em;"></span><span class="mord text"><span class="mord texttt">Wanted</span></span></span></span></span> the shortest route that visits each city exactly once and returns to the origin city.</li>
 </ul>
 <p>These problems, at a small scale are fairly trivial. However, they get exponentially harder as yous scale it up.</p>
-<p><img src="../resources/l3tsp1.png?0.8908470806530016" alt><br>
+<p><img src="../resources/l3tsp1.png?0.34060987672204246" alt><br>
 Clearly here the solution is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>&#x2192;</mo><mi>D</mi><mo>&#x2192;</mo><mi>B</mi><mo>&#x2192;</mo><mi>C</mi><mo>&#x2192;</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">A \rightarrow D \rightarrow B \rightarrow C \rightarrow A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">A</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&#x2192;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&#x2192;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&#x2192;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&#x2192;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">A</span></span></span></span></p>
-<p><img src="../resources/l3tsp2.png?0.5168489741194626" alt></p>
+<p><img src="../resources/l3tsp2.png?0.39900045820408625" alt></p>
 <p>However, here the solution required the use of a powerful supercomputer</p>
 <p>These problems were first mentioned in a <em>travelling salesman</em> handbook in 1832<br>
 It is one of the most prominent combinatorial optimisation problems in computer science</p>
@@ -395,7 +395,122 @@ Described as <em>climbing Everest in thick fog with amnesia</em></p>
 <p>It is an iterative algorithm:</p>
 <ul>
 <li>Start with an arbitrary solution to a problem</li>
+<li>Iteratively searches for a better solution from the current solution&apos;s immediate neighbour solutions</li>
+<li>Imediate neighbour solutions are the most similar solutions to the current solution</li>
 </ul>
+<p>There are two types of Hill Climbing</p>
+<ul>
+<li>Simple Hill Climbing: chooses the first better solution</li>
+<li>Steepest ascent/ descent hill climbing: compares all neighbour solutions and chooses the best solution. This is also known as greedy search</li>
+</ul>
+<pre data-role="codeBlock" data-info="basic" class="language-basic">x_0 <span class="token punctuation">:</span><span class="token operator">=</span> generate initial solution
+terminationFlag <span class="token punctuation">:</span><span class="token operator">=</span> flase 
+x <span class="token punctuation">:</span><span class="token operator">=</span> x_0 
+<span class="token keyword">while</span> <span class="token punctuation">(</span>terminatingFlag <span class="token comment">!= true) {</span>
+    Modify the current solution <span class="token keyword">to</span> an immediate neighbour one v <span class="token function">in</span> A 
+    <span class="token keyword">if</span> f<span class="token punctuation">(</span>v<span class="token punctuation">)</span> <span class="token operator">&lt;</span> f<span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token keyword">then</span> x<span class="token punctuation">:</span><span class="token operator">=</span>v 
+    <span class="token keyword">if</span> a terminition criterion <span class="token function">is</span> met<span class="token punctuation">:</span> terminatingFlag <span class="token punctuation">:</span><span class="token operator">=</span> true 
+}
+<span class="token keyword">return</span> x
+</pre><p>The major issue with Hill Climbing for TSP is how to generate the immediate neighbour solutions of the current solution.</p>
+<p>For 2-3 cities there is only one solution<br>
+For 4 cities there are 3 solutions</p>
+<p>For 4 cities we notice that the difference in the routes between a solution and a immediate neighbour is 2 edges.</p>
+<h2 class="mume-header" id="2-opt-algorithm">2-Opt Algorithm</h2>
+
+<p>Given a route such as <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>&#x2192;</mo><mi>C</mi><mo>&#x2192;</mo><mi>B</mi><mo>&#x2192;</mo><mi>D</mi><mo>&#x2192;</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">A \rightarrow C \rightarrow B \rightarrow D \rightarrow A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">A</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&#x2192;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&#x2192;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&#x2192;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&#x2192;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">A</span></span></span></span>. How do we choose 2 edges to swap? This was a problem posed in 1958 by <em>Croes</em></p>
+<h3 class="mume-header" id="steps">Steps:</h3>
+
+<ol>
+<li>Removal of two edges from the current route, which results in 2 parts of the route</li>
+<li>Reconnect by two other edges to obtain a new solution</li>
+</ol>
+<h3 class="mume-header" id="algorithm">Algorithm:</h3>
+
+<pre data-role="codeBlock" data-info="basic" class="language-basic">route <span class="token punctuation">:</span><span class="token operator">=</span> initial TSP solution
+i<span class="token punctuation">,</span>j <span class="token punctuation">:</span><span class="token operator">=</span> two cities <span class="token keyword">for</span> swapping
+<span class="token keyword">Step</span> <span class="token number">1</span><span class="token punctuation">:</span> take route[<span class="token number">1</span>] <span class="token keyword">to</span> route[i<span class="token operator">-</span><span class="token number">1</span>] <span class="token operator">and</span> add them <span class="token function">in</span> order <span class="token keyword">to</span> newRoute 
+<span class="token keyword">Step</span> <span class="token number">2</span><span class="token punctuation">:</span> take route[i] <span class="token keyword">to</span> route[j] <span class="token operator">and</span> add them <span class="token function">in</span> reverse <span class="token keyword">to</span> newRoute
+<span class="token keyword">Step</span> <span class="token number">3</span><span class="token punctuation">:</span> take route[j<span class="token operator">+</span><span class="token number">1</span>] <span class="token keyword">to</span> <span class="token keyword">end</span> <span class="token operator">and</span> add them <span class="token function">in</span> order <span class="token keyword">to</span> newRoute
+<span class="token keyword">return</span> newRoute
+</pre><p>We get closer to the optimal solution with this approach, however, we often get stuck at a <em>local optimum</em> by the nature of the algorithm refusing to accept a worse solution once the local optimum has been found</p>
+<p><img src="../resources/l3.lo.png?0.4723421679766746" alt></p>
+<h2 class="mume-header" id="randomised-search-vs-local-search">Randomised search vs Local search</h2>
+
+<p>Randomised search:</p>
+<ul>
+<li>Good at exploration of a large search space</li>
+<li>Not good at exploitation, i.e. to search a small region around the current solution</li>
+<li>Not good for problems where good solutions are just a small portion of all possible solutions</li>
+</ul>
+<p>Local Search:</p>
+<ul>
+<li>Good at exploitation</li>
+<li>Not good at exploration</li>
+</ul>
+<p><strong>Can we combine these?</strong></p>
+<h2 class="mume-header" id="stochastic-local-search">Stochastic local search</h2>
+
+<p>The main idea of SLS is to escape or avoid local optima</p>
+<p>We achieve this by injecting randomness into local search</p>
+<p>Strategies:</p>
+<ul>
+<li>
+<p>Random restart</p>
+<ul>
+<li>useful when either the number of local optima is small or the cost of restarting is cheap</li>
+</ul>
+</li>
+<li>
+<p>Perform a random non-improving step: randomly move to a less fit neighbour - <strong>Simmulated annealing</strong></p>
+</li>
+</ul>
+<h3 class="mume-header" id="hill-climbing-with-random-restart">Hill Climbing with Random Restart</h3>
+
+<pre data-role="codeBlock" data-info="basic" class="language-basic"><span class="token keyword">for</span> k <span class="token punctuation">:</span><span class="token operator">=</span> <span class="token number">0</span> <span class="token keyword">to</span> k_max {
+    x_0 <span class="token punctuation">:</span><span class="token operator">=</span> randomly generated initial solution
+    terminationFlag <span class="token punctuation">:</span><span class="token operator">=</span> false 
+    x_i <span class="token punctuation">:</span><span class="token operator">=</span> x_0 
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>terminationFlag <span class="token comment">!= true){</span>
+        modify the current solution <span class="token keyword">to</span> an immediate neighbour 
+        <span class="token keyword">if</span> f<span class="token punctuation">(</span>v<span class="token punctuation">)</span> <span class="token operator">&lt;</span> f<span class="token punctuation">(</span>x_i<span class="token punctuation">)</span> <span class="token keyword">then</span> x_i <span class="token punctuation">:</span><span class="token operator">=</span> v 
+        <span class="token keyword">if</span> a termination criterion <span class="token function">is</span> met {
+            terminationFlag <span class="token punctuation">:</span><span class="token operator">=</span> true
+        }
+    }
+    store x_i
+}
+<span class="token keyword">return</span> x_best <span class="token operator">=</span> <span class="token function">min</span><span class="token punctuation">(</span>x_i<span class="token punctuation">,</span> i<span class="token operator">=</span><span class="token number">1</span> <span class="token keyword">to</span> k_max<span class="token punctuation">)</span>
+</pre><h2 class="mume-header" id="simulated-annealing">Simulated Annealing</h2>
+
+<p>This is a generic heuristic algorithm for optimisation problems proposed by Kirkpatrick in 1983</p>
+<p>This algorithm is inspired by annealing in metallurgy</p>
+<blockquote>
+<p>Heat treatment that alters a material to increases  its ductility and to make it more workable</p>
+</blockquote>
+<p>We want to find a state of lower thermodynamic free energy for metal. Meaning,, we want to find a solution with the minimum value for the objective function.</p>
+<pre data-role="codeBlock" data-info="python" class="language-python">x <span class="token punctuation">:</span><span class="token operator">=</span> x_0<span class="token punctuation">;</span> e<span class="token punctuation">:</span><span class="token operator">=</span>f<span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token operator">//</span>Initial solution<span class="token punctuation">,</span> objective function value <span class="token punctuation">(</span>energy<span class="token punctuation">)</span> 
+x_best <span class="token punctuation">:</span><span class="token operator">=</span> x <span class="token punctuation">;</span> <span class="token operator">//</span>Initial best solution
+k <span class="token punctuation">:</span><span class="token operator">=</span> <span class="token number">0</span>  <span class="token operator">//</span> count evaluation number
+<span class="token keyword">while</span> <span class="token punctuation">(</span>k<span class="token operator">&lt;</span>k_max<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    T <span class="token punctuation">:</span><span class="token operator">=</span> temperature<span class="token punctuation">(</span>t_0<span class="token punctuation">)</span>  <span class="token operator">//</span>temperature calculation
+    x_new <span class="token punctuation">:</span><span class="token operator">=</span> neighbour<span class="token punctuation">(</span>x<span class="token punctuation">)</span>  <span class="token operator">//</span> pick a neighbour 
+    e_new <span class="token punctuation">:</span><span class="token operator">=</span> f<span class="token punctuation">(</span>x_new<span class="token punctuation">)</span>   <span class="token operator">//</span> compute it&apos;s objective function value  
+    <span class="token keyword">if</span> P<span class="token punctuation">(</span>e<span class="token punctuation">,</span>e_new<span class="token punctuation">,</span>T<span class="token punctuation">)</span> <span class="token operator">&gt;</span> R<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token operator">//</span> should we move to it? 
+        x<span class="token punctuation">:</span><span class="token operator">=</span> x_new <span class="token punctuation">;</span> e<span class="token punctuation">:</span><span class="token operator">=</span> e_new <span class="token operator">//</span> yes<span class="token punctuation">,</span> change state
+    <span class="token punctuation">}</span> <span class="token keyword">if</span> e_new <span class="token operator">&lt;</span> e_best<span class="token punctuation">{</span>  <span class="token operator">//</span> <span class="token keyword">is</span> it a new best ?
+        x_best <span class="token punctuation">:</span><span class="token operator">=</span> x_new<span class="token punctuation">;</span>  e_best <span class="token punctuation">:</span><span class="token operator">=</span> e_new <span class="token operator">//</span> save <span class="token keyword">as</span> best 
+    <span class="token punctuation">}</span> 
+    k <span class="token operator">+</span><span class="token operator">+</span> <span class="token operator">//</span> increase evaluation
+<span class="token punctuation">}</span>
+<span class="token keyword">return</span> x_best
+</pre><p>Where:</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>=</mo><mrow><mo fence="true">{</mo><mtable rowspacing="0.3599999999999999em" columnalign="left left" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>1</mn></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mtext>if&#xA0;</mtext><msub><mi>e</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub><mo>&lt;</mo><mi>e</mi></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>exp</mi><mo>&#x2061;</mo><mrow><mo fence="true">(</mo><mfrac><mrow><mi>e</mi><mo>&#x2212;</mo><msub><mi>e</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub></mrow><mi>T</mi></mfrac><mo fence="true">)</mo></mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mtext>otherwise</mtext></mstyle></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">P = \begin{cases}
+1 &amp; \text{if } e_{new} &lt; e \\ 
+\exp \left( \frac{e-e_{new}}{T}  \right) &amp; \text{otherwise}
+\end{cases}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.0000299999999998em;vertical-align:-1.25003em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size4">{</span></span><span class="mord"><span class="mtable"><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.69em;"><span style="top:-3.69em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord">1</span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mop">exp</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8184309999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4101em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">e</span><span class="mbin mtight">&#x2212;</span><span class="mord mtight"><span class="mord mathdefault mtight">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285719em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span></span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">)</span></span></span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:1.19em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:1em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.69em;"><span style="top:-3.69em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord text"><span class="mord">if&#xA0;</span></span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span></span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathdefault">e</span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord text"><span class="mord">otherwise</span></span></span></span></span><span class="vlist-s">&#x200B;</span></span><span class="vlist-r"><span class="vlist" style="height:1.19em;"><span></span></span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>Without the analogue from matallurgy, the simmulated annealing algorithm is essentially a <strong>stochastic local search</strong></p>
+<p>The main idea is to escape from local optima by taking a random non-improving step:</p>
 
       </div>
       <div class="md-sidebar-toc"><ul>
@@ -421,6 +536,19 @@ Described as <em>climbing Everest in thick fog with amnesia</em></p>
 <li><a href="#hill-climbing-algorithm">Hill Climbing algorithm</a></li>
 </ul>
 </li>
+<li><a href="#2-opt-algorithm">2-Opt Algorithm</a>
+<ul>
+<li><a href="#steps">Steps:</a></li>
+<li><a href="#algorithm">Algorithm:</a></li>
+</ul>
+</li>
+<li><a href="#randomised-search-vs-local-search">Randomised search vs Local search</a></li>
+<li><a href="#stochastic-local-search">Stochastic local search</a>
+<ul>
+<li><a href="#hill-climbing-with-random-restart">Hill Climbing with Random Restart</a></li>
+</ul>
+</li>
+<li><a href="#simulated-annealing">Simulated Annealing</a></li>
 </ul>
 </li>
 </ul>
