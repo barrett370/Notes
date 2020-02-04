@@ -140,7 +140,7 @@ One offspring $\vec{h} = \{h_1,h_2,,\ldots,h_n\}$ is generated where $h_i$ is a 
 
 ### Simple Crossover 
 
-A crossover point $i in \{1,\ldots,n\}$ is randomly chosen and the variables beyond this point are swapped to create to new offspring:
+A crossover point $i \in \{1,\ldots,n\}$ is randomly chosen and the variables beyond this point are swapped to create to new offspring:
 
 $$
 \vec{h_1} = \{ x_1^{[1]},x_2^{[1]},\ldots,x_i^{[1]},x_{i+1}^{[2]},\ldots,x_n^{[2]}\} 
