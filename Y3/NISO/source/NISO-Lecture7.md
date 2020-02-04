@@ -2,7 +2,7 @@
 
 ## Arguments for Binary Coding 
 
-> "THe binary alphabet maximises the level of **implicit parallelism**"
+> "The binary alphabet maximises the level of **implicit parallelism**"
 
 A **Schema** is a template that identifies a subset of strings with similarities at certain string positions
 
