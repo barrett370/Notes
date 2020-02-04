@@ -266,7 +266,7 @@ try{
 
 - Releases the lock on q 
 - sleeps, giving up the processor
-- Awakens adn resumes running
+- Awakens and resumes running
 - re-aquires lock and returns 
 
 #### Usage 

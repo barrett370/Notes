@@ -378,7 +378,7 @@ $$write_B(victim[L]=B) \prec write_A(victim[L]=A)$$
 #### Bakery Algorithm
 
 - Provides fairness via the First-Come-First-Served topology
-- It does this by assigning each waiting thread a number adn the current lowest waiting number is served next
+- It does this by assigning each waiting thread a number and the current lowest waiting number is served next
 - Lexicographic order
   - $(a,i) > (b,j)$
     - if $a>b$ or $(a=b)\cap(i>j)$
