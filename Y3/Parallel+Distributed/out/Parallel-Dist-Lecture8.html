@@ -448,7 +448,7 @@ Device <span class="token number">0</span><span class="token operator">:</span> 
 </li>
 </ul>
 <p>Diagrammatically, this would look like:</p>
-<p><img src="../resources/naive-parallel-reduction.png?0.33110189995276684" alt></p>
+<p><img src="../resources/naive-parallel-reduction.png?0.26256047888781375" alt></p>
 <p>This could be implemented as follows:</p>
 <pre data-role="codeBlock" data-info="cpp" class="language-cpp"><span class="token keyword">float</span> partialSum<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
@@ -465,7 +465,7 @@ uint t <span class="token operator">=</span> threadIdx<span class="token punctua
 <li>In first pass, all warps are active but only half the threads are doing useful work. This only gets worse on future iterations</li>
 </ul>
 <p>Diagrammatically an alternative, more efficient, method could look like:</p>
-<p><img src="../resources/alternative-parallel-scan.png?0.5500310522581686" alt></p>
+<p><img src="../resources/alternative-parallel-scan.png?0.4433982517715669" alt></p>
 <p>with the corresponding code looking like:</p>
 <pre data-role="codeBlock" data-info="cpp" class="language-cpp"><span class="token keyword">float</span> partialSum<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>

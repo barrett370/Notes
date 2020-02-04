@@ -15,8 +15,8 @@ The vector representation $vec(d)$ of $d$ is the $V$ dimensional vector:
 $$
 vec(d) = \vec{d} = \begin{pmatrix} w_{t_0,d} \\ \vdots \\ w_{t_m,d} \\ \vdots \\ w_{t_V,d} \end{pmatrix}
 $$
-
-<!-- See panopto for above vector -->
+ 
+ Where $w_{t_id}$ is the weighting of the $i^{th}$ term relative to document $d$ 
 
 
 ## Uniqueness 
@@ -25,9 +25,9 @@ Is the mapping between documents and vectors 1-to-1 ?
 
 - **NO!** 
 
-If two vectors are equal it means that they contian the same words, not that they are in the same order 
+If two vectors are equal it means that they contain the same words, not that they are in the same order 
 
-If $\lambda$ is a scalar and $vec(d_1)=\lambda vec(d_2)$ then $d_1$ and $d_2$ are comprised of the same words but $d_1$ has $\lambda$ occurrences of each word in $d_2$
+If $\lambda$ is a scalar and $\vec { d_1 }=\lambda \vec{ d_2 }$ then $d_1$ and $d_2$ are comprised of the same words but $d_1$ has $\lambda$ occurrences of each word in $d_2$
 
 ## Document Length
 
@@ -52,9 +52,9 @@ Where $\|d\|$ is the length of the document $d$
 
 Suppose $d$ is a document and $q$ si a query
 
-- if $d$ contains the same words in the same proportions, then $vec(d)$ and $vec(q)$ will point in the same direction
-- If $d$ and $q$ contain different words then $vec(d)$ and $vec(q)$ will point in different directions
-- Intuitively, the greater the angle between $vec(d)$ and $vec(q)$, the less similar $d$ and $q$ are. 
+- if $d$ contains the same words in the same proportions, then $\vec{d}$ and $\vec q$ will point in the same direction
+- If $d$ and $q$ contain different words then $\vec d$ and $\vec q$ will point in different directions
+- Intuitively, the greater the angle between $\vec d$ and $\vec q$, the less similar $d$ and $q$ are. 
 
 ### Cosine Similarity
 
@@ -64,7 +64,7 @@ $$
 CSim(q,d) = cos\theta
 $$
 
-where $ \theta $ is the angle between $vec(q)$ and $vec(d)$ 
+where $ \theta $ is the angle between $\vec q$ and $\vec d$ 
 
 Similarly, the Cosine Similarity between documents $d_1$ and $d_2$ can be defined: 
 
@@ -72,14 +72,14 @@ $$
 CSim(d_1,d_2) = cos\theta
 $$
 
-Where $\theta$ is the angle between $vec(d_1)$ and $vec(d_2)$
+Where $\theta$ is the angle between $\vec{d_1}$ and $\vec{d_2}$
 
 
 $$
 \cos(\theta) = \frac{x_1x_2 + y_1y_2}{\|u\|\|v\|} = \frac{u\cdot v}{\|u\|\|v\|}
 $$
 
-Therefore, if $q$ is a query, $d$ is a document and $\theta$ is th angle between $vec(q)$ and $vec(d)$ then: 
+Therefore, if $q$ is a query, $d$ is a document and $\theta$ is th angle between $\vec q$ and $\vec d$ then: 
 
 $$
 CSim(q,d) = \cos(\theta) = \frac{\vec{q}\cdot \vec{d}}{\|q\|\|d\|} = \frac{\sum_{t\in q\cap d}w_{tq}\cdot w_{td}}{\|q\|\|d\|} = Sim(q,d)
