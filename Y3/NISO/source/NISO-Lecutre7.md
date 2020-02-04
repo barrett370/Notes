@@ -71,3 +71,103 @@ Here clearly the precision depends on $L$, meaning that this process might produ
 
 ## Real valued vector representation
 
+In continuous optimisation problems, real-valued vector representations are a natural way to represent solutions.
+
+With this method of representation, there are no differences between genotypes and phenotypes. They are both real-valued vectors representing chromosomes e.g. $\vec{x} = [x_1,x_2,\ldots,x_n] \in \R^n$ 
+Each gene in the chromosome represents a variable in the problem. The precision is not restricted by the decoding/ encoding functions
+
+Evolution Strategies, Evolutionary Programming and Differential Evolution are all based on real-valued vector representation
+
+Advantages include:
+
+- Being simple, natural and fast as there is no need ot encode or decode
+- Better precision and better handling large dimension problems
+
+### Real valued mutation
+
+Randomly select parents with a probability $p_m \in [0,1]$ for mutation and randomly select a gene $c_i$ and apply the mutation operator
+
+Real number mutation operators include:
+
+- Uniform mutation 
+- Non-uniform mutation 
+- Gaussian mutation 
+
+#### Uniform/ Gaussian Real valued mutation
+
+##### Uniform Mutation 
+
+Replace $c_i$ with a uniformly random number $c_i'$ generated from the interval bound of the variable $x_i \in [u_i,v_i]$ 
+
+##### Gaussian Mutation
+
+Replace $c_i$ with $c_i'$ which is calculated from:
+
+$$
+c_i' \min(\max(N(c_i,\sigma_i),u_i),v_i)
+$$
+
+where $N(c_i,\sigma_i)$ is a gaussian (normal) distribution with a mean $c_i$ and standard deviation $\sigma_i$ which ma depend on the length $l_i = v_i - u_i$ of the interval bound and typically $\sigma_i = \frac{1}{10}l_i$ 
+
+#### Non-Uniform Mutation 
+
+In non-uniform mutation the replacement $c_i'$ for $c_i$ is calculated from:
+
+$$
+c_i' = \begin{cases}
+    c_i + \Delta (t, v_i - c_i) & \text{if } \tau \geq 0.5 \\ 
+    c_i - \Delta (t,c_i - u_i) & \text{if } \tau < 0.5
+\end{cases}
+$$
+
+where $t$ is the number of current generation solutions and $\tau$ is a random number in the range $[0,1]$ and :
+
+$$
+\Delta (t,y) = y(1-r^{1-\frac{t}{g_m}})^b
+$$
+
+where $r$ is a random number in the range $[0,1]$, $g_m$ is the maximum number of generations and $b$ is a constant.
+
+## Real Valued Crossover
+
+Randomly select two parents $\vec{x_2} = \{x_i^{[2]},x_2^{[2]},\ldots, x_n^{[2]}\}$  and $\vec{x_2} = \{x_i^{[2]},x_2^{[2]},\ldots, x_n^{[2]}\}$ , then apply a crossover operators
+
+Crossover operators include:
+
+### Flat crossover
+
+One offspring $\vec{h} = \{h_1,h_2,,\ldots,h_n\}$ is generated where $h_i$ is a uniformly randomly generated value in the interval $[x_i^{[1]},x_i^{[2]}]$. If $x_i^{[1]}<x_i^{[2]}$ or $[x_i^{[2]},x_i^{[1]}]$ if $x_i^{[2]} < x_i^{[1]}$ 
+
+### Simple Crossover 
+
+A crossover point $i in \{1,\ldots,n\}$ is randomly chosen and the variables beyond this point are swapped to create to new offspring:
+
+$$
+\vec{h_1} = \{ x_1^{[1]},x_2^{[1]},\ldots,x_i^{[1]},x_{i+1}^{[2]},\ldots,x_n^{[2]}\} 
+$$
+$$
+\vec{h_1} = \{ x_1^{[1]},x_1^{[1]},\ldots,x_i^{[1]},x_{i+1}^{[1]},\ldots,x_n^{[1]}\} 
+$$
+
+### Whole arithmetic crossover
+
+Two offspring $\vec{h_k} - \{h_i^k, h_2^k, \ldots, h_n^k\}$, $k = 1,2$ are generated, where $h_i^{[1]} = \alpha x_i^{[1]} + (1-\alpha)x_i^{[2]}$ and $h_i^{[2]} = \alpha x_i^{[2]} + (1-\alpha)x_i^{[i]}$ and parameter $\alpha$ is a random number in the range of $[0,1]$ 
+
+### Local arithmetic crossover
+
+The same as whole arithmetic crossover, except $\alpha \in \R^n$ is a vector of which each element is random number in the range $[0,1]$ 
+
+### Single arithmetic crossover 
+
+Choose gene and then replace it with the arithmetic average of genes at the position of two parents, other genes are copied from the parents.
+
+### BLX-$\alpha$ crossover 
+
+An offspring s generated: $\vec{h} = \{h_1,h_2,\ldots,h_n\}$ where $h_i$ is a uniformly randomly generated number over the interval $[h_{\min} - I \cdot \alpha, h_{\max} + I \cdot \alpha]$,
+$h_{\max} = \max(x_i^{[1]},x_i^{[2]})$ , $h_{\min} = \min(x_i^{[1]},x_i^{[2]})$ and $I = h_{\max} - h_{\min}$ 
+
+
+
+
+
+

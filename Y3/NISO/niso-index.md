@@ -8,3 +8,4 @@
 - [Lecture 4](out/NISO-Lecture4.html)
 - [Lecture 5](out/NISO-Lecture5.html)
 - [Lecture 6](out/NISO-Lecture6.html)
+- [Lecture 7](out/NISO-Lecture7.html)

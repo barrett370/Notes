@@ -9,3 +9,6 @@ diff:
 .PHONY CI:
 CI: 
 	cd utils && ./compile-all-ci.sh
+
+check:
+	cd utils && ./common-mistakes.sh
