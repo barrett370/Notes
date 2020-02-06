@@ -65,3 +65,52 @@ Any set of 3 orthogonal unit vector can be used as a coordinate system in $\R^3$
 
 A **basis** for the vector space $\R^N$ is the set of vectors $\vec u_1, \vec u_2, \ldots, \vec u_N$ s.t. they are all unit vectors and mutually orthogonal.
 
+## Properties of Bases
+
+Any basis $E = \{\vec{e_1},\vec{e_2},\ldots,\vec{e_N}\}$ for $\R^N$ is linearly independent. 
+
+To see this property, first assume a set is linearly independent. If this is the case then $\exists[ \lambda_1,\lambda_2,\ldots,\lambda_N]$ s.t. 
+
+$$
+\lambda_1\vec{e_1} + \lambda_2\vec{e_2} + \ldots + \lambda_N\vec{e_N} = 0
+$$
+
+where not all $\lambda_n$s are 0. Assume $\lambda_1 \neq 0$ as therefore: 
+
+$$
+\vec{e_1} = \phi_2\vec{e_2}+\phi_3 \vec{e_3} + \ldots + \phi_N \vec{e_N}, \left( \phi_n = \frac{\lambda_n}{\lambda_1} \right)
+$$
+
+and from that we can show:
+
+$$
+0 = \vec{e_n}\cdot \vec{e_1} = \phi_2 \vec{e_n}\cdot \vec{e_2} + \ldots + \phi_N \vec{e_n} \cdot \vec{e_N} = \phi_n
+$$
+
+Therefore, $0 = \phi_n$ and so $\lambda_n = 0$. Since this can be repeated $\forall [n \neq 1, \lambda_n =0]$  it must be the case that $\lambda_1 =  0$
+
+---
+
+For any basis for $\R^N$ Then any vector $\vec{v} \in \R^N$ can be written **uniquely** as a linear sum of basis vectors
+
+$$
+\vec{v} = (\vec{v}\cdot \vec{e_1})\vec{e_1} + (\vec{v_2}\cdot\vec{e_2})\vec{e_2} + \ldots + (\vec{v} \cdot \vec{e_N})\vec{e_N}
+$$
+
+**Uniqueness** means that if: 
+
+$$
+\vec{v} = \lambda_1\vec{e_1} + \lambda_2\vec{e_2} + \ldots + \lambda_N\vec{e_N}
+$$
+
+and 
+
+$$
+\vec{v} = \phi_1\vec{e_1} + \phi_2\vec{e_2} + \ldots + \phi_N\vec{e_N}
+$$
+
+then
+
+$$
+\lambda_n = \phi_n = (\vec{v}\cdot \vec{e_n}), \forall n \in \{1,\ldots,N\}
+$$

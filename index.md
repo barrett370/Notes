@@ -5,10 +5,10 @@ Please follow the following links for lecture notes.
 **Please create an issue [here](https://github.com/barrett370/Notes/issues) if you find any typos/ inaccuracies**
 
 ## 2nd Year
+### Modules
 
-### Professional Computing
-
-- [All Notes](Y2/Professional-Computing/out/Professional_Computing_Notes.html)
+- [Professional Computing](Y2/Professional-Computing/out/Professional_Computing_Notes.html)
+- [Reasoning](Y2/Reasoning/reasoning-index.md)
 
 ## 3rd Year
 

@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-declare -a arr=("adn" "nad")
+declare -a arr=("adn" "nad" "taht")
 
 for each in "${arr[@]}"
 do 
