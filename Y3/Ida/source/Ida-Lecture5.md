@@ -15,7 +15,7 @@ $$
 \Sigma = \begin{bmatrix}
     \sigma^{1 1} & \sigma^{12} &\cdots & \sigma^{1D} \\
     \sigma^{21} & \sigma^{22} & \cdots & \sigma^{2D} \\
-    \vdots & \vdots & & \vdots \\ 
+    \vdots & \vdots &\ddots & \vdots \\ 
     \sigma^{D1} & \sigma^{D2} & \cdots & \sigma^{DD}
 \end{bmatrix}
 $$
