@@ -2,7 +2,7 @@
 sd=$(pwd)
 tsc "$sd"/converter.ts
 cd ../Y3 || exit
-CHANGED_MD=$(git diff-index --name-only HEAD -- | grep '.md')
+CHANGED_MD=$(git diff --name-only HEAD -- | grep '.md')
 echo $CHANGED_MD
 for D in $(find . -type d); do
   if [[ $D =~ '/source$' ]]; then

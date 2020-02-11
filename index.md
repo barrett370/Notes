@@ -9,6 +9,7 @@ Please follow the following links for lecture notes.
 
 - [Professional Computing](Y2/Professional-Computing/out/Professional_Computing_Notes.html)
 - [Reasoning](Y2/Reasoning/reasoning-index.md)
+- [Functional Programming](Y2/Functional/functional-index.md)
 
 ## 3rd Year
 
