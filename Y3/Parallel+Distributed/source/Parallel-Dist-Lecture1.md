@@ -58,7 +58,7 @@
     - $T_p = T_{ser} + \frac{T_{par}}{S}$
   - Therefore, overall speedup, given the speedup of the parallel part is $S$ is:
     - $S_p = \frac{T_{ser}+T_{par}}{T_{ser}+\frac{T_{ser}}{S}}$
-  - If let let $f$ be te function of the program that is parallelisable then:
+  - If let let $f$ be the function of the program that is parallelisable then:
     - $T_{ser} = (1-f)T_{par} $   &   $ T_{par} = fT_1$
     - $\therefore$
 
@@ -97,5 +97,5 @@ $$S_S = \frac{\frac{T}{TW}}{W_s} = \frac{W_s}{W} = 1-f+fS$$
 - Together, they give guidance on which tasks can benefit from parallelisation & how
 
 - You can only go so much faster ona fixed problem using parallelisation, **one cannot avoid Amdahl's limit on fixed problem size**
-- However, when growing the size of the task, you can increase te size of the parallelised part of the problem faster than you increase the size of the non-parallelisable part, then Gustafson-Barsis gives opportunities for speedups that are not available otherwise.
+- However, when growing the size of the task, you can increase the size of the parallelised part of the problem faster than you increase the size of the non-parallelisable part, then Gustafson-Barsis gives opportunities for speedups that are not available otherwise.
   

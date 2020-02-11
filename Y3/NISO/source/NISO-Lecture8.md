@@ -162,8 +162,8 @@ Fitness proportional selection: As we now have changing fitness values we, by ex
 
 Ranking Selection: $\Phi(\vec{x_1}) < \Phi(\vec{x_2}) \implies f(\vec{x_1}) + rG(\vec{x_1}) \leq f(\vec{x_2}) + rG(\vec{x_2})$
 
-- $(f(\vec{x_1}) < f(\vec{x_2}) )\cap (G(\vec{x_1}) > G(\vec{x_2})) \implies$ increasing $r$ will eventually change the comparison 
--  $(f(\vec{x_1}) > f(\vec{x_2}) )\cap (G(\vec{x_1})  < G(\vec{x_2})) \implies$  Decreasing $r$ will eventually change the comparison. 
+- $(f(\vec{x_1}) < f(\vec{x_2}) )\cap (G(\vec{x_1}) > G(\vec{x_2})) \implies f(\vec{x_1} - f(\vec{x_2}) < 0 \cap G(\vec{x_1} - G(\vec{x_2}) > 0$  increasing $r$ will eventually change the comparison 
+-  $(f(\vec{x_1}) > f(\vec{x_2}) )\cap (G(\vec{x_1})  < G(\vec{x_2})) \implies  f(\vec{x_1} - f(\vec{x_2}) > 0 \cap G(\vec{x_1} - G(\vec{x_2}) < 0$  Decreasing $r$ will eventually change the comparison. 
 
 From this we can see that different $r$ values lead to different ranking of individuals in the population.
 
@@ -171,4 +171,139 @@ The use of different penalty functions lead to different objective functions and
 
 
 Essentially, penalty function transform fitness and change the ranking system leading to different candidates being selected. 
+Inappropriate penalty function lead to infeasible results, setting $r$ is difficult
 
+# Part 2
+
+## Stochastic Ranking
+
+*Proposed by Prof. Xin Yao a lecturer at the University of Birmingham in 2000*
+
+This is a rank-based selection scheme that handles constraints
+It does not use penalty functions and is self adaptive
+
+### Ranking Selection
+
+Sort a population of size $M$ from best to worst, according to their fitness values:
+
+$$
+x_{(M-1)}',x_{(M-2)}',\ldots, x_{(0)}'
+$$
+
+From this set we select the top $\gamma$-ranked individuals $x_{\gamma}'$ with probability $p(\gamma)$ where $p(\gamma)$ is a ranking function such as:
+
+- Linear Ranking
+- Exponential Ranking
+- Power Ranking
+- Geometric Ranking
+
+Penalty functions essentially perform a transformation of the objective, fitness function. A rank change $\implies$ a selection change.
+
+Here we instead change the rank  directly in the Evolutionary Algorithm.
+
+We can view ranking as the same as sorting. We can modify the sorting algorithm in the EA to consider constraint violation.
+
+Stochastic Ranking is essentially a modified form of bubble sort with some additional rules to handle constraints
+
+### Stochastic Ranking Algorithm
+
+```python
+
+for j:=1 to M:  
+  for i := 2 to M:
+    u := U(0;1) # randomly uniformly distributed random number
+    if G(x'[i-1]) = G(x'[i]) == 0 or u <= P_f :
+      # Swap values so that better (smaller) are before the larer ones
+      if f(x'[i-1]) < f('[i]):
+        swap(I[i], I[i-1])
+        swap(f(x'[i]),f(x'[i-1]))
+        swap(G(x'[i]),G(x'[i-1]))
+    else:
+      if G(x'[i-1]) < G(x'[i]):
+        swap(I[i], I[i-1])
+        swap(f(x'[i]),f(x'[i-1]))
+        swap(G(x'[i]),G(x'[i-1]))
+```
+
+Where:
+
+- $M$ is the number of individuals
+- $I$ is the indicies of the individuals
+- $G(\cdot)$ is the sum of constraint violation
+- $P_f$ is a constant that indicates the probability of using the objective function for comparison ranking.
+
+
+#### $P_f$ 
+Why do we introduce $P_f$ given that is allows for infeasible solutions, in the cases where their fitness values are higher than feasible ones, with some probability? 
+
+Where $P_f > 0.5$: Most comparisons are based solely on $f(x), \therefore$ infeasible solutions are likely to occur.
+
+Where $P_f < 0.5$ : Most comparisons are based on $G(x), \$\therefore$ infeasible solutions are lss likely to occur, however, the resulting solutions may be poor 
+
+Recommended values of $P_f$ fall between 0.45 and 0.5
+
+If penalty functions perform fitness transformation, converting rank change to selection change. Stochastic ranking changes ranks by changing the sorting algorithm. Why do we not change selection directly in the EA?
+
+## Feasibility Rule 
+
+- Based on binary tournament selection
+- Having selected 2 random individuals to form a binary tournament, apply the following rules:
+  - Between 2 feasible solutions, the one with the better fitness value *wins*
+  - Between a feasible and infeasible solution, the feasible solution wins
+  - Between two infeasible solutions, the one with the lowest value for $G$ wins
+
+This method is simple and parameter free, however, it can lead to premature convergence.
+
+## The Repair Approach to Constraint Handling 
+
+Instead of modifying an EA or fitness function, infeasible individuals can be *repaired* into feasible ones
+
+Let $I_s$ be an infeasible individual and $I_r$ be a feasible one. 
+
+![Repair Diagram](../resources/l9-repair1.png)
+
+### Repairing Infeasible Individuals
+
+For this process we maintain two populations:
+
+1. A population of evolving individuals, feasible or infeasible.
+2. A population of feasible reference individuals, subject to change but not evolution.
+
+![Repair Diagram 2](../resources/l9-repair2.png)
+
+#### Algorithm
+
+```basic
+
+I_r = select a reference individual
+do until individual z_i is feasible{
+  z_i = a_i * I_s + (1-a_i)* I_r, where 0<a_i < 1
+  calculate the fitness value of z_i : f(z_i)
+  if f(z_i) <= f(I_r) then replace I_s with z_i
+  else{
+    u = U(0;1) // uniformly distributed random number
+    if u <= Pr then replace I_s with z_i
+  }
+}
+```
+
+Notice we replace $I_r$ with $z_i$ with some probability $Pr$ even though $z_i$ is worse than $I_r$ 
+
+##### Implementation Issues
+
+- How do we find our initial feasible individuals?
+  - Premliminary exploration
+- How do we select $I_r$ 
+  - (uniformly) randomly 
+  - according to it's fitness
+  - According to the distance between $I_r$ and $I_s$ 
+- How do we determine $a_i$ 
+  - Uniformly at random between 0 and 1 
+  - Using a fixed sequence 
+- How do we choose $Pr$ 
+  - A small number, usually <0.5
+
+## Conclusion
+
+Adding a penalty term to the objective function is equivalent to changing the fitness function, which, in turn, is equivalent to changing the selection probabilities. It is easier and more effective to change the selection probabilities directly and explicitly using Stochastic ranking and Feasibility rules.
+We have also seen that there are alternative constraint handling techniques such as repairing methods.
