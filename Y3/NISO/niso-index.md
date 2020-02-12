@@ -10,3 +10,8 @@
 - [Lecture 6](out/NISO-Lecture6.html)
 - [Lecture 7](out/NISO-Lecture7.html)
 - [Lecture 8 & 9](out/NISO-Lecture8.html)
+
+
+## Labs
+
+- [Lab 1](out/NISO-Lab-1.html)
