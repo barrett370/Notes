@@ -141,7 +141,7 @@ For 4 cities we notice that the difference in the routes between a solution and 
 
 ## 2-Opt Algorithm
 
-Given a route such as $A \rightarrow C \rightarrow B \rightarrow D \rightarrow A $. How do we choose 2 edges to swap? This was a problem posed in 1958 by *Croes*
+Given a route such as $A \rightarrow C \rightarrow B \rightarrow D \rightarrow A$ . How do we choose 2 edges to swap? This was a problem posed in 1958 by *Croes*
 
 ### Steps:
 
