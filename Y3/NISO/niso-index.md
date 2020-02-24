@@ -12,6 +12,7 @@
 - [Lecture 8 & 9](out/NISO-Lecture8.html)
 - [Lecture 10](out/NISO-Lecture10.html)
 - [Lecture 11](out/NISO-Lecture11.html)
+- [Lecture 12](out/NISO-Lecture12.html)
 
 ## Labs
 
