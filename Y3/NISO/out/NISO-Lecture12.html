@@ -268,9 +268,34 @@ pre[data-line] .line-highlight[data-end]:after {
 <p>Using fitness sharing we encouraged diversity in our population. It works by changing the raw fitness of individuals. Explicit fitness sharing relies on a similarity or distance metric whereas implicit fitness sharing does not use a similarity measure.</p>
 <h2 class="mume-header" id="what-is-crowding">What is Crowding?</h2>
 
-<p>Crowding techniques add new individuals to a population by replacing similar individuals. Their purpose is to maintain <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x223C;</mo></mrow><annotation encoding="application/x-tex">\sim</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">&#x223C;</span></span></span></span> the same diversity in a population. <strong>They do no modify fitness</strong></p>
+<p>Crowding techniques add new individuals to a population by replacing similar individuals. Their purpose is to maintain <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x2248;</mo></mrow><annotation encoding="application/x-tex">\approx</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.48312em;vertical-align:0em;"></span><span class="mrel">&#x2248;</span></span></span></span> the same diversity in a population. <strong>They do not modify fitness</strong></p>
 <h3 class="mume-header" id="deterministic-crowding">Deterministic Crowding</h3>
 
+<h4 class="mume-header" id="algorithm">Algorithm</h4>
+
+<pre data-role="codeBlock" data-info="python" class="language-python">P<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span><span class="token operator">-</span> Initialise
+<span class="token keyword">for</span> t <span class="token operator">=</span> <span class="token number">1</span> to g<span class="token punctuation">:</span>
+    P<span class="token punctuation">(</span>t<span class="token punctuation">)</span> <span class="token operator">&lt;</span><span class="token operator">-</span> shuffle<span class="token punctuation">(</span>P<span class="token punctuation">(</span>t<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token operator">=</span> <span class="token number">0</span> to mu<span class="token operator">/</span><span class="token number">2</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">:</span>
+        p_1 <span class="token operator">&lt;</span><span class="token operator">-</span> a_2i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span>
+        p_2 <span class="token operator">&lt;</span><span class="token operator">-</span> 2_2i<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>c_1<span class="token punctuation">,</span>c_2<span class="token punctuation">}</span> <span class="token operator">&lt;</span><span class="token operator">-</span> recombine<span class="token punctuation">(</span>p_1<span class="token punctuation">,</span>p_2<span class="token punctuation">)</span>
+        c_1&apos; <span class="token operator">&lt;</span><span class="token operator">-</span> mutate<span class="token punctuation">(</span>c_1<span class="token punctuation">)</span>
+        c_2&apos; <span class="token operator">&lt;</span><span class="token operator">-</span> mutate<span class="token punctuation">(</span>c_2<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token punctuation">[</span>d<span class="token punctuation">(</span>p_1<span class="token punctuation">,</span>c_1<span class="token string">&apos;) + d(p_2,c_2&apos;</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">&lt;=</span> <span class="token punctuation">[</span>d<span class="token punctuation">(</span>p_1<span class="token punctuation">,</span>c_2<span class="token string">&apos;) + d(p_2,c_1&apos;</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> f<span class="token punctuation">(</span>c_1&apos;<span class="token punctuation">)</span> <span class="token operator">&gt;</span> f<span class="token punctuation">(</span>p_1<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                a_2i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span> <span class="token operator">&lt;</span><span class="token operator">-</span> c_1&apos;
+            <span class="token keyword">if</span> f<span class="token punctuation">(</span>c_2&apos;<span class="token punctuation">)</span> <span class="token operator">&gt;</span> f<span class="token punctuation">(</span>p_2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                a_2i<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span> <span class="token operator">&lt;</span><span class="token operator">-</span> c_2&apos;
+        <span class="token keyword">else</span> 
+            <span class="token keyword">if</span> f<span class="token punctuation">(</span>c_2&apos;<span class="token punctuation">)</span> <span class="token operator">&gt;</span> f<span class="token punctuation">(</span>p_1<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                a_2i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span> <span class="token operator">&lt;</span><span class="token operator">-</span> c_2&apos; 
+            <span class="token keyword">if</span> f<span class="token punctuation">(</span>c_1&apos;<span class="token punctuation">)</span> <span class="token operator">&gt;</span> f<span class="token punctuation">(</span>p_2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                a_2i<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span> <span class="token operator">&lt;</span><span class="token operator">-</span> c_1&apos;        
+</pre><p>This is quite a confusing algorithm to read, the following image depicts the lines up to the first <code>if</code> statement</p>
+<p><img src="../resources/GA.jpg" alt></p>
+<p>whereby 2 random parents are chosen and put through crossover and mutation.</p>
+<p>The final if-else statements determine whether or not the new children replace the parents in the population based on their fitness and distance values.</p>
 <p>This approach is capable of niching, i.e. locating and maintaining peaks. It also has minimal replacement error meaning it rarely replaces an individual from one class with one from another.<br>
 There are few parameters to tune and is fast as there ar eno distance calulations.<br>
 However, it can only be used on populations with enough individuals. It must also be used in conjunction with full crossover (<em>crossover rate = 1.0</em>)</p>
@@ -325,7 +350,11 @@ However, it can only be used on populations with enough individuals. It must als
 <ul>
 <li><a href="#what-is-crowding">What is Crowding?</a>
 <ul>
-<li><a href="#deterministic-crowding">Deterministic Crowding</a></li>
+<li><a href="#deterministic-crowding">Deterministic Crowding</a>
+<ul>
+<li><a href="#algorithm">Algorithm</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#speciation">Speciation</a>
