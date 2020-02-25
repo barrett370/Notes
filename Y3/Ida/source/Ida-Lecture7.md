@@ -63,13 +63,13 @@ Finding such classes is non-trivial and involves some relatively advanced linear
 \textbf{A} = \begin{bmatrix}
    u_{1,1} & u_{1,2} & \cdots & w_{1,N} \\ 
    w_{2,1} & u_{2,2} & \cdots & u_{2,N} \\ 
-   \vdots & \vdots & \vdots & \vdots \\ 
+   \vdots & \vdots & \ddots & \vdots \\ 
    u_{N,1} & u_{N,2} & \cdots & u_{N,N}
 \end{bmatrix} \cdot 
 \begin{bmatrix}
    s_1 & 0 & 0 & \cdots & \cdots & 0 \\ 
    0 & s_2 & 0 & \cdots & \cdots & 0 \\ 
-   \vdots & \vdots & \cdots & 0 & \vdots & \vdots  \\ 
+   \vdots & \vdots & \ddots & 0 & \vdots & \vdots  \\ 
    0 & 0 & \cdots & s_N & 0 & 0  
 \end{bmatrix} \cdot 
 \begin{bmatrix}

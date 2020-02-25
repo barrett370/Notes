@@ -4,11 +4,40 @@ Using fitness sharing we encouraged diversity in our population. It works by cha
 
 ## What is Crowding?
 
-Crowding techniques add new individuals to a population by replacing similar individuals. Their purpose is to maintain $\sim$ the same diversity in a population. **They do no modify fitness**
+Crowding techniques add new individuals to a population by replacing similar individuals. Their purpose is to maintain $\approx$ the same diversity in a population. **They do not modify fitness**
 
 ### Deterministic Crowding
 
-<!-- See diagram from panopto, more useful than algorithm from slides -->
+#### Algorithm
+
+```python
+P(0) <- Initialise
+for t = 1 to g:
+    P(t) <- shuffle(P(t-1))
+    for i = 0 to mu/2 -1:
+        p_1 <- a_2i+1(t)
+        p_2 <- 2_2i+2(t)
+        {c_1,c_2} <- recombine(p_1,p_2)
+        c_1' <- mutate(c_1)
+        c_2' <- mutate(c_2)
+        if [d(p_1,c_1') + d(p_2,c_2')] <= [d(p_1,c_2') + d(p_2,c_1')]:
+            if f(c_1') > f(p_1):
+                a_2i+1(t) <- c_1'
+            if f(c_2') > f(p_2):
+                a_2i+2(t) <- c_2'
+        else 
+            if f(c_2') > f(p_1):
+                a_2i+1(t) <- c_2' 
+            if f(c_1') > f(p_2):
+                a_2i+2(t) <- c_1'        
+```
+This is quite a confusing algorithm to read, the following image depicts the lines up to the first `if` statement
+
+![GA pictorially](../resources/GA.jpg)
+
+whereby 2 random parents are chosen and put through crossover and mutation. 
+
+The final if-else statements determine whether or not the new children replace the parents in the population based on their fitness and distance values.
 
 This approach is capable of niching, i.e. locating and maintaining peaks. It also has minimal replacement error meaning it rarely replaces an individual from one class with one from another.
 There are few parameters to tune and is fast as there ar eno distance calulations.

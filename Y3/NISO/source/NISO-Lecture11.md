@@ -15,7 +15,11 @@ There are different techniques for niching including (fitness) sharing and crowd
 
 ### Fitness Sharing 
 
-Fitness sharing transforms the fitness of an individual into a shared group fitness. It relies on the idea that fitness is a finite resource within each niche.
+Initially introduced by Goldberg adn Richardson in 1987. It alters only the fitness assignment stage of a GA, it must be the last applied before selection. 
+
+Fitness sharing transforms the fitness of an individual into a shared group fitness. It relies on the idea that fitness is a finite resource within each niche. 
+
+Essentially, the number of individuals residing near a given peak will be proportional to the height of that peak.
 
 #### Sharing radius
 
@@ -36,7 +40,9 @@ sh(d_{ij}) = \begin{cases}
 $$
 
 where $d_{ij}$ is the distance between individuals $i$ and $j$ 
-$\alpha$ determines how *sharp* or *smooth* the edge of the sharing radius is. As $\alpha \rightarrow \infin$ the edge gets more blurred as $sh(d_{ij}) \rightarrow 1$ 
+$\alpha$ determines how *sharp* or *smooth* the edge of the sharing radius is. As $\alpha \rightarrow \infin$ the edge gets more blurred as $sh(d_{ij}) \rightarrow 1$
+
+$\sigma_{\text{share}}$ is set to a value small enough to allow discrimination between desired peaks.
 
 The shared fitness of individual $i$ can be defined as:
 
@@ -46,10 +52,19 @@ $$
 
 where $\mu$ is the population size
 
-Sharing can be done at the genotypic or phenotypic levels. 
-At the genotypic level use the hamming distance to distinguish individuals.
-At the phenotypic level, use the euclidean distance.
+Population size can be set roughly as a multiple of the number of peaks the user wishes to locate. Sharing is best run for a number of generations, often recommended around $\log\mu$. This heuristic comes from shortening the expected convergence time of a GA that uses fitness-proportionate selection.  
 
+
+Sharing can be done at the genotypic or phenotypic levels. 
+At the genotypic level use the hamming distance to distinguish individuals. This approach is typically applied as a last resort when there is no phenotypic option available.
+
+At the phenotypic level the distance function $d$ is defined using problem-specific knowledge of the phenotype. For a set of $k$ variables, the most common function is the **euclidean distance**. However, for a classification problem the distance between two rules can be defined based upon the examples to which they both apply. 
+
+**Note: A GA under fitness sharing will not converge individuals to the tops of the peaks it locates** Instead run another algorithm such as hill climbing afterwards.
+
+Fitness sharing can be implemented with any selection method, however the choice may affect the stability of the algorithm.
+
+The major drawback of fitness sharing is the additional time required to iterate over the population to compute the shared fitness. 
 
 ##### Fitness Scaling in Sharing
 
