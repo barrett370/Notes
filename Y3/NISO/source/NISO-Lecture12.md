@@ -31,6 +31,7 @@ for t = 1 to g:
             if f(c_1') > f(p_2):
                 a_2i+2(t) <- c_1'        
 ```
+
 This is quite a confusing algorithm to read, the following image depicts the lines up to the first `if` statement
 
 ![GA pictorially](../resources/GA.jpg)
