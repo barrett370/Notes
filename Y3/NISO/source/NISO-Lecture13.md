@@ -6,10 +6,10 @@ Often we encounter problems that have multiple objectives which we would like to
 
 ### Domination
 
-$ x^{(1)} $ dominates $ x^{(2)} $ if it satisfies both:
+$ x_1 $ dominates $ x_2$ if it satisfies both:
 
-1. $ x^{(1)} $ is no worse than $ x^{(2)} $ in all objectives
-2. $ x^{(1)} $ is strictly better than $ x^{(2)} $ in at least on objective. 
+1. $ x_1 $ is no worse than $ x_2 $ in all objectives
+2. $ x_1 $ is strictly better than $ x_2 $ in at least on objective. 
 
 You can often find 2  solutions where neither satisfy the above conditions, in this case we say these solutions are **independent**
 

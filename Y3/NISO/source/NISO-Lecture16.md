@@ -1,87 +1,63 @@
-# Lecture 16: Genetic Programming
+# Lecture 16: Co-Evolution 
 
-There are 2 different views of Genetic Programming:
-1. Content View:
+Co-evolution is where the fitness of an individual is dependant on other individuals in the population. This causes the fitness  of one individual to directly impact the fitness landscape for others.Additionally, fitness of identical individuals can vary between runs based on the population as a whole.
 
-- Automatic Programming
-- Creation of programs by artificial evolution
-- Different representations
-- Each *solution* from our algorithm is a program in its own right.
+## Types of Co-Evolution
 
-2. Representation View
+1. Evaluation Based 
+   - Defined as either competitive or cooperative
+2. Population-Organisation Based
+   - Either using inter or intra population metrics
 
-- Anything using a tree representation
-- Solutions may be programs may be other things
+## Example: Sorting Algorithm
 
-## Representing Programs
+The goal of any sorting algorithm is, given a set of $n$ items, return a data structure containing the same $n$ items but in some order be it alphabetical or numerical.
 
-Tree Representation is one method of representing programs, this sort of structure was used heavily by LISP and LISP-inspired languages like Clojure. We can define our operators to work on these tree data structures
+The efficiency of a sorting algorithm can be expressed in terms of the minimum number of comparisons needed. One sorting algorithm developed by *Green* required 60 comparisons.
 
-Linear representation is more common outside of this field, a program is represented as a series of instructions with registers to store data
+To produce a genetic sorting algorithm we need a way of encoding the *sorting net*. One way of doing this is as a order list of pairs for comparison, these will be our **phenotypes**. We will consider nets of 60-120 comparisons. Our **Genotype** is made up of diploid chromosomes where 1 individual has 15 pairs of 32 bit chromosomes each encoding 4 comparisons
 
-Graph representations use nodes to contain instructions, edges to control the flow of the program and a stack for storing data.
+We will also require a fitness measure. One candidate is the percentage of cases sorted correctly. The issue being, *how do we compute this?* To test all possible inputs is too slow and testing a fixed set of inputs raises the further question as to which to test.
 
-## Tree Representation for Symbolic Regression
+Initial implementations following this pattern performed the following: 
 
-In a tree representation of a program our leaf nodes are either constants, function variables or even sensor values depending on the domain of the program these are known as the **Terminal Set**. 
-They must have an arity of 0.
+- Placed individuals on a 2D grid to promote speciation
+- The fitness was computed from a random subsample to attempt to solve the problems outlined above.
+- The lower half of the population by fitness is deleted and replaced with a copy of a surviving neighbour
+- Pairing performed in the local neighbourhoods.
+- A special crossover operator designed for diploid genotypes is used followed by a mutation with a mutation rate of 0.001
+- Population sizes used ranged from 512-1Million over 5000 generations. 
 
-![Diagram](../resources/l16-graph.png)
+Sadly, these implementations only yielded networks of 65 comparison, worse than the human developed algorithms. 
 
+Why was this the case? One reason may be that after the early generations as the test cases were randomly generated, the difficult of the test remained roughly constant, causing development to stagnate. 
 
-### The Function Set
+Co-Evolution was a proposed solution to this problem. In Co-Evolution both the algorithms and the test cases were evolved simultaneously. Essentially, the algorithms aim to sort whilst the test cases aim to *trip up* the algorithms, same principal as Generative Adversarial Networks from Neural Computation. 
 
-Functions are described as being $n$-ary with $n$ referring to their arity or number of input variables.
+This approach is inspired by the predator-prey or host-parasite relationships seen in nature. It led to the algorithms getting better and the test cases getting harder. 
 
-We must make sure our set of functions is sufficiently complex for the task but not too rich as we risk overcomplicating the task
+Algorithms produced using this approach required 61 comparisons very close to the best that had been created manually.
 
-Functions must be defined over all inputs, for example we need to define division for input 0 if our function set includes division.
+## Example: Game Playing
 
-### Crossover
+After the success of Co-Evolution in creating sorting algorithms people began experimenting with Intra-population competitive co-evolution. An early example was the attempt to evolve an artificial backgammon player. 
 
-Crossover for tree structures is performed using a process called *branch swapping*. Here we pick a random branch on each parent and swap them.
+Co-Evolution solves the issue in the development of artificial game players, who or what to test the individuals against. Candidates can be evaluated against other evolved programs.
 
-#### Matched 1-point Tree Crossover
+In intra-population co-evolution all genotypes are of the same type as they are all from the same population. 
 
-In this form of crossover, follow branches from the root, and, as long as the nodes have the same arity, swap them. 
+The pseudocode for a simple backgammon learner is as follows: 
 
-$n$-o=point crossover is also possible.
+1. Initial Neural Network (NN) is $NN(k); k=0$
+2. Generate a mutant *challenger* of $NN(k)$ 
+   $$w'(i,j) = w(i,j) + \mathcal{N}(0,\sigma)$$
+3. If $NN'(k)$ is beaten by $NN(k)$ 
+   1. $NN(k+1) = NN(k)$
+4. Else 
+   1. $NN(k+1) = 0.95 \cdot NN(k) + 0.05 \cdot NN'(k)$ 
+5. $k=k+1$; GOTO 2 unless finished
 
-### Mutation
+An implementation of the above algorithm used a 197-20-1 fully connect feed-forward neural network with initial weights of 0. There was no direct training for the Neural Networks as the learning was done on a population level. The population size of the EA was 1 and used a simple mutation operator whereby Gaussian noise was added to the weights. No recombination operator was used. This approach was quite performant.
 
-Mutation is performed using *branch replacement*:
-
-1. Pick a random branch from parent
-2. Delete branch
-3. Replace with random new branch
-
-### Population Initialisation
-
-#### Full Method 
-
-With fixed tree depth $\texttt{treeDepth}$:
-
-- Add random function nodes until all branches have depth of $\texttt{treeDepth} -1$ 
-- Add random terminal nodes to all branches
-
-#### Growth Method
-
-With a fixed max tree depth $\texttt{maxDepth}$ 
-
-- Add random function or terminal nodes until all branches have terminals or are of depth $\texttt{maxDepth} -1 $ 
-- Add random terminal nodes to all branches without terminals 
-
-#### Ramped half-and-half 
-
-With a fixed maximum tree depth $\texttt{maxDepth}$ and population size $\texttt{popSize}$ 
-
-- for n=2..$\texttt{maxDepth}$ create:
-  - $( \frac{\texttt{popSize}}{2\times\texttt{maxDepth}-1} )$ individuals using growth in with $\texttt{maxDepth} = n$ 
-  - $( \frac{\texttt{popSize}}{2\times\texttt{maxDepth}-1} )$ individuals using full with $\texttt{treeDepth} = n$ 
-
-### Bloat
-
-As program size grows, crossover becomes uneven, we gain unused code and runtime increases. More space is required to store the program and more CPU time is required to run it. Mutation and crossover of unused code lead to identical offspring behaviour 
-
-To prevent bloat, we can incorporate program size into to the fitness measure and use special crossover operators
+40% of players after 100,000 generations were able to beat a *'strong expert-trained program (PUBEVAL)* 
 

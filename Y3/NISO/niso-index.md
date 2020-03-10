@@ -14,6 +14,8 @@
 - [Lecture 11](out/NISO-Lecture11.html)
 - [Lecture 12](out/NISO-Lecture12.html)
 - [Lecture 13 & 14](out/NISO-Lecture13.html)
+- [Lecture 15](out/NISO-Lecture15.html)
+- [Lecture 16](out/NISO-Lecture16.html)
 
 ## Labs
 
