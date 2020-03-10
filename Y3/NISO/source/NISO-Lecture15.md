@@ -95,7 +95,3 @@ Genetic Programs of this format have crossover operators defined using variable 
 ## Graph representation Genetic Programming 
 
 In genetic programs represented as graphs, nodes represent operations while operands are loaded from the stack. Results are pushed onto the same stack once computed. Edges of the graph define the control flow with control mechanisms being used to determine the which edges to follow, flow mechanisms include comparators on the most recent result such as branching differently depending on whether the result is positive or negative. Loops and recursion are commonplace in such representations. Programs of this form require specialised crossover and mutation operators.
-
-## Evolution of a complete robot
-
-For a task such as this, we use inter-population cooperative co-evolution.
