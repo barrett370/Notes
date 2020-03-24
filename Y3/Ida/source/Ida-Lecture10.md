@@ -75,7 +75,7 @@ $$
 
 We call $p(y| x)$ a likelihood as it is how likely $y$ is given $x$. From this we attempt to maximise the likelihood through a process called *maximum likelihood estimation*
 
-### Bayes Theorem :) 
+### Bayes Theorem ( : 
 
 $$
 p(m,v | Y) = \frac{p(Y | m,v)p(m,v)}{p(Y)}
