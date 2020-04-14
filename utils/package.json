@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@shd101wyy/mume": "^0.4.7",
-    "@types/node": "^13.1.1"
+    "@types/node": "^13.1.1",
+    "minimist": ">=0.2.1"
   }
 }
