@@ -50,7 +50,7 @@ Where $\|d\|$ is the length of the document $d$
 
 ## Document Similarity 
 
-Suppose $d$ is a document and $q$ si a query
+Suppose $d$ is a document and $q$ is a query
 
 - if $d$ contains the same words in the same proportions, then $\vec{d}$ and $\vec q$ will point in the same direction
 - If $d$ and $q$ contain different words then $\vec d$ and $\vec q$ will point in different directions

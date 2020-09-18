@@ -1,0 +1,3 @@
+[submodule "utils/md-utils"]
+	path = utils/md-utils
+	url = git@github.com:barrett370/markdown-utils.git

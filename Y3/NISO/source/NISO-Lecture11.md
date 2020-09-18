@@ -15,7 +15,7 @@ There are different techniques for niching including (fitness) sharing and crowd
 
 ### Fitness Sharing 
 
-Initially introduced by Goldberg adn Richardson in 1987. It alters only the fitness assignment stage of a GA, it must be the last applied before selection. 
+Initially introduced by Goldberg and Richardson in 1987. It alters only the fitness assignment stage of a GA, it must be the last applied before selection. 
 
 Fitness sharing transforms the fitness of an individual into a shared group fitness. It relies on the idea that fitness is a finite resource within each niche. 
 
