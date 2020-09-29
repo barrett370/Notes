@@ -22,7 +22,11 @@ Please follow the following links for lecture notes.
 - [Intelligent Data Analysis](./Y3/Ida/ida-index.md)
 
 
+## 4th Year
 
+### Modules
+
+- [Principals of Programming Languages, Design and Implementation](./Y4/PPL/ppl-index.md)
 
 
 
