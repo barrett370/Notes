@@ -26,7 +26,7 @@ Please follow the following links for lecture notes.
 
 ### Modules
 
-- [Principals of Programming Languages, Design and Implementation](./Y4/PPL/ppl-index.md)
+- [Principals of Programming Languages, Design and Implementation](./Y4/plpdi/ppl-index.md)
 
 
 
