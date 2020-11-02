@@ -17,7 +17,7 @@ main = print ( show ( add 2 plus1 plus 2))
 
 Here you can see we define two functions `plus1` and `plus2` which take a single (integer) parameter. We then define `add` which takes a value `x` along with 2 parameters which are functions. We then pass our functions `plus1` and `plus2` as parameters into this expression which evaluates to 7.
 
-![Code Running](../resources/PPL1-1.png)
+![Code Running](../../resources/PPL1-1.png)
 
 
 ## Classes of functional Languages
@@ -40,11 +40,11 @@ Haskell is an example of a lazy language and OCaml is eager by default.
 
 For example the following code terminates in Haskell:
 
-![](../resources/PPL-HS-1.png)
+![](../../resources/PPL-HS-1.png)
 
 but does not in OCaml
 
-![](../resources/PPL-OCaml-1.png)
+![](../../resources/PPL-OCaml-1.png)
 
 This happens due to their differing evaluation strategies. When we apply `loop`, which will never terminate in either language, to `unit` in Haskell, Haskell realises that `f` is never used and $\therefore$ does not need to be evaluated. OCaml however, _eagerly_ tries to evaluate `loop` and in so doing gets stuck infinitely.
 
