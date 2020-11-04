@@ -146,7 +146,7 @@ $$
 \vec{h_1} = \{ x_1^{[1]},x_2^{[1]},\ldots,x_i^{[1]},x_{i+1}^{[2]},\ldots,x_n^{[2]}\} 
 $$
 $$
-\vec{h_1} = \{ x_1^{[1]},x_1^{[1]},\ldots,x_i^{[1]},x_{i+1}^{[1]},\ldots,x_n^{[1]}\} 
+\vec{h_1} = \{ x_1^{[2]},x_1^{[2]},\ldots,x_i^{[2]},x_{i+1}^{[1]},\ldots,x_n^{[1]}\} 
 $$
 
 ### Whole arithmetic crossover
