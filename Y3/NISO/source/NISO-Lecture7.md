@@ -130,7 +130,7 @@ where $r$ is a random number in the range $[0,1]$, $g_m$ is the maximum number o
 
 ## Real Valued Crossover
 
-Randomly select two parents $\vec{x_2} = \{x_i^{[2]},x_2^{[2]},\ldots, x_n^{[2]}\}$  and $\vec{x_2} = \{x_i^{[2]},x_2^{[2]},\ldots, x_n^{[2]}\}$ , then apply a crossover operators
+Randomly select two parents $\vec{x_1} = \{x_i^{[1]},x_2^{[1]},\ldots, x_n^{[1]}\}$  and $\vec{x_2} = \{x_i^{[2]},x_2^{[2]},\ldots, x_n^{[2]}\}$ , then apply a crossover operators
 
 Crossover operators include:
 
@@ -146,7 +146,7 @@ $$
 \vec{h_1} = \{ x_1^{[1]},x_2^{[1]},\ldots,x_i^{[1]},x_{i+1}^{[2]},\ldots,x_n^{[2]}\} 
 $$
 $$
-\vec{h_1} = \{ x_1^{[2]},x_1^{[2]},\ldots,x_i^{[2]},x_{i+1}^{[1]},\ldots,x_n^{[1]}\} 
+\vec{h_2} = \{ x_1^{[2]},x_1^{[2]},\ldots,x_i^{[2]},x_{i+1}^{[1]},\ldots,x_n^{[1]}\} 
 $$
 
 ### Whole arithmetic crossover
