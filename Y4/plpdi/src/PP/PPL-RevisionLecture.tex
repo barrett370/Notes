@@ -1,0 +1,337 @@
+\documentclass{article}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{bussproofs}
+\EnableBpAbbreviations
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Nat}{\texttt{Nat}}
+\newcommand{\rarr}{\rightarrow}
+
+\title{Principals of Programming Languages: Revision Lecture}
+\author{Sam Barrett}
+
+
+\begin{document}
+\maketitle
+
+\section{The Simply Typed $\lambda$-Calculus}
+\subsection{Syntax}
+The syntax of the Simply Typed $\lambda$-Calculus can be defined as:
+
+$$
+T ::= \mathbb{B} | T \rightarrow T 
+$$
+$$
+M ::= x | \lambda x: T.M | M M | \texttt{true} | \texttt{false} | \texttt{if } M \texttt{ then } M \texttt{ else } M
+$$
+
+You can see here that we use the Church style for typing whereby, variables in $\lambda$ abstractions are annotated with types.
+
+Values are atomic, i.e. they cannot be evaluated further and are of the form:
+
+$$
+V ::= \lambda x: T.M | \texttt{true} | \texttt{false}
+$$
+
+When we compute a term we are typically trying to reduce it to a value.
+
+\subsection{Evaluation Contexts}
+When we want to define the call-by-value small-step operational semantics of a language we use evaluation contexts. The Call-by-value evaluation contexts for the small-step operational semantics of $\lambda$-Calculus is defined as:
+
+$$
+C ::= \bullet | C M | V C | \texttt{if } C \texttt{ then } M \texttt{ else } M 
+$$
+
+A context is a term with a \textit{hole} ($\bullet$) in it. 
+
+You can tell that this is the call-by-value evaluation context as you can see that we always evaluate the arguments of a application before the application itself.
+
+These contexts yield the following rules:
+
+$$
+\frac{}{( \lambda x: T. M) V \rarr_v M[x\backslash V])}\beta
+$$
+
+$$
+\frac{}{ \texttt{if true}  \texttt{ then } M \texttt{ else } N \rarr_v M } \texttt{IteT}
+$$
+
+$$
+\frac{M \rarr_v N}{C[M] \rarr_v C[N]} \texttt{CTX}_C
+$$
+
+$$
+\frac{}{\texttt{if false}  \texttt{ then } M  \texttt{ else } N\rarr_v N} \texttt{IteF}
+$$
+\subsection{Typing Rules}
+And to facilitate the typing of these expressions we use the following typing rules:
+
+$$
+\frac{}{\Gamma,x : T \vdash x : T}  \texttt{VAR}
+$$
+
+$$
+\frac{\Gamma, x : T \vdash M:U}{\Gamma \vdash \lambda x:T.M : T \rarr U} \texttt{ABS}
+$$
+
+$$
+\frac{\Gamma \vdash M : T \rarr U \Gamma \vdash N :T}{\Gamma \vdash M N : U} \texttt{APP}
+$$
+
+$$
+\frac{}{\Gamma \vdash \texttt{true} : \mathbb{B}} \texttt{T}
+$$
+
+$$
+\frac{}{\Gamma \vdash \texttt{false} : \mathbb{B} } \texttt{F}
+$$
+
+$$
+\frac{\Gamma \vdash M : \mathbb{B} \Gamma \vdash N :T \Gamma \vdash P :T}{\Gamma \vdash \texttt{if } M \texttt{ then } N \texttt{ else } P:T  } \texttt{ITE}
+$$
+
+\subsection{Church-Numerals}
+
+We can define Church Numerals in the Simply Typed $\lambda$-Calculus as having the type $ \texttt{Nat} = (\B \rarr \B) \rarr \B \rarr \B $.
+\begin{align*}
+    \underline{0} &= \lambda f:\B \rarr\B. \lambda x: \B.x \\
+    \underline{1} &= \lambda f: \B \rarr \B. \lambda x: \B. f x \\
+    \underline{2} &= \lambda f: \B \rarr \B. \lambda x: \B. f (f x) \\
+    \dots
+\end{align*}
+
+Essentially, the number is a counter of how many applications of $f$ appear.
+
+We can now define a successor function, $ \texttt{succ}$ of type $ \texttt{Nat} \rarr \texttt{Nat}$ and an $ \texttt{add}$ function of type $ \Nat \rarr \Nat \rarr \Nat$:
+
+\begin{align*}
+    \texttt{succ} &= \lambda a : \Nat . \lambda f: \B \rarr \B. \lambda  x: \B. f( a f x) \\
+    \texttt{add} &= \lambda a: \Nat. \lambda b: \Nat. \lambda f: \B \rarr \B . \lambda x: \B. a f (b f x)
+\end{align*}
+
+Our $ \texttt{add}$ function essentially concatenates the $f$s in $a$ with the $f$s in $b$ and our $ \texttt{succ}$ function appends an $f$ to the value $a$.
+
+This encoding can be used to iterate over a function of type $\B \rarr \B$ by applying a function $f : \B \rarr \B$ to a base case $ x : \B$ $n : \Nat$ times.
+
+$$ 
+n f x 
+$$
+
+However, if one wants to iterate over a function of another type, say, $ T\rarr T$ one will need to define a new set of Church numerals over the type $T$, i.e. a type of the form $(T\rarr T) \rarr T \rarr T)$ (This is later solved through the use of System-F's paramerisation of types, similar to Monads)
+
+\subsubsection{Exercise 1}
+
+Can we iterate over a function of type $\Nat \rarr \Nat$ using this method? I.e. can we define $ \texttt{add} = \lambda a:\Nat. \lambda b:\Nat.a \texttt{ succ } b$?
+
+For this to be possible, $a$ would need to have the type $(\Nat \rarr \Nat) \rarr (\Nat \rarr \Nat)$. However, our value $a$ is of the type $(\B \rarr \B) \rarr (\B \rarr \B)$. These types are not compatible, if we were to redefine $\Nat$ to fit this function we would end up with a recursive type definition which is not allowed within the Simply Typed $\lambda$-Calculus.
+
+\textbf{Note: This is possible using System-F} 
+
+\subsection{System-F}
+
+We define the Church-style syntax of System-F as:
+
+\begin{align*}
+    T &::= \alpha | \B | \N | T \rarr T | \forall \alpha. T \\
+    M &::= x | \lambda x:T.M | M M | \texttt{true} | \texttt{false} | \texttt{if } M \texttt{ then } M \texttt{ else } M | \\ & \texttt{let }  x = M \texttt{ in } M | \texttt{zero} | \texttt{succ} M | \texttt{pred} M | \texttt{iszero} M | \lambda \alpha .M | M\{T\}
+\end{align*}
+
+Here we have both Boolean $\B$ and Nat $\N$ ground types. This leads to simpler examples. 
+
+System-F utilises a system of parameterised types. The general form of these types is $\forall \alpha .T$ This defines a family of types whereby for \textbf{any} type $ \alpha $. For example, given an expression $M: \forall \alpha.T$, we can construct a any type of the form $M : T[\alpha \backslash T']$ such as $M : T[\alpha \backslash \B]$ or $M : T[ \alpha \backslash \N]$
+
+We also have what are known as \textit{type abstractions} in the form of $ \lambda \alpha.M$ and \textit{type applications}T of the form $M \{ T \}$
+
+Our Values take the form:
+
+$$
+V ::= \lambda x:T.M | \texttt{true} | \texttt{false} | \texttt{zero} | \texttt{succ} M | \lambda \alpha .M
+$$
+We define our Call-by-value evaluation contexts as:
+
+$$
+C ::= \bullet | C M | V C | \texttt{if } C \texttt{ then }  M \texttt{ else }  M | \texttt{let } x = C \texttt{ in } M | \texttt{pred } C | \texttt{iszero } C | C \{ T \} 
+$$
+
+Which is the same as before with the extension of let, pred, iszero and type application.
+
+We also have an extended set of Call-by-value small-step operational semantics rules:
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$\beta$}
+    \UIC{$ ( \lambda x:T.M) V \rarr_v M[x\backslash V]$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$ M \rarr_v N$}
+    \RL{$ \texttt{CTX}_C$}
+    \UIC{$C[M] \rarr_v C[N]$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{IteT}$}
+    \UIC{$ \texttt{if true}  \texttt{ then } M \texttt{ else } N \rarr_v M $}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{IteF}$}
+    \UIC{$ \texttt{if false}  \texttt{ then } M \texttt{ else } N \rarr_v N $}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{LetV}$}
+    \UIC{$ \texttt{let} x = V \texttt{in} M \rarr_v M[x\backslash V]$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{PredZ}$}
+    \UIC{$ \texttt{pred zero} \rarr_v \texttt{zero}$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{PredS}$}
+\UIC{$ \texttt{pred} (\texttt{succ }M)  \rarr_v M$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{IsZZ}$}
+    \UIC{$ \texttt{iszero zero} \rarr_v \texttt{true}$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{IsZS}$}
+    \UIC{$ \texttt{iszero} ( \texttt{succ} M) \rarr_v \texttt{false}$}
+\end{prooftree}
+
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{T}\beta$}
+    \UIC{$ ( \lambda a.M) \{ T \} \rarr_v M[\alpha \backslash T] $}
+\end{prooftree}
+
+
+And our typing rules are as follows:
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{VAR}$}
+    \UIC{$\Gamma, x : T \vdash x : T$}
+\end{prooftree}
+
+
+\begin{prooftree}
+    \AXC{$\Gamma, x :T \vdash M : U$}
+    \RL{$ \texttt{ABS}$}
+    \UIC{$\Gamma \vdash \lambda x: T.M : T \rarr U$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M :T \rarr U \; \Gamma \vdash N : T$}
+    \RL{$ \texttt{APP}$}
+    \UIC{$\Gamma \vdash M N : U$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{T}$}
+    \UIC{$\Gamma \vdash \texttt{true}: \B$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{F}$}
+    \UIC{$\Gamma \vdash \texttt{false}: \B$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M :\B \; \Gamma \vdash N:T \; \Gamma \vdash P:T$}
+    \RL{$ \texttt{ITE}$}
+    \UIC{$\Gamma \vdash \texttt{if } M \texttt{ then } N \texttt{ else } P : T $}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{Z}$}
+    \UIC{$\Gamma \vdash \texttt{zero} : \N$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$ \Gamma \vdash M : \N$}
+    \RL{$ \texttt{S}$}
+    \UIC{$\Gamma \vdash \texttt{succ} M : \N$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$ \Gamma \vdash M : \N$}
+    \RL{$ \texttt{P}$}
+    \UIC{$\Gamma \vdash \texttt{pred} M : \N$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$ \Gamma \vdash M : \N$}
+    \RL{$ \texttt{I}$}
+    \UIC{$\Gamma \vdash \texttt{iszero} M : \B$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M : T \; \Gamma, x : T \vdash N :U$}
+    \RL{$ \texttt{LET}$}
+    \UIC{$\Gamma \vdash \texttt{let} x = M \texttt{ in } N : U$}
+\end{prooftree}
+
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M :T $}
+    \RL{$ \texttt{TABS}$}
+    \UIC{$\Gamma \vdash \lambda \alpha . M : \forall \alpha .T$}
+\end{prooftree}
+
+\textbf{Note TABS also requires that $ \alpha \notin \texttt{FV}(\Gamma)$ is satisfied} 
+Where $ \texttt{FV}(\Gamma)$ is the set of free variables in $\Gamma$ i.e. $ \alpha $ should be a \textit{new} variable with respect to $ \Gamma$ in the hypothesis.
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M :\forall \alpha . T $}
+    \RL{$ \texttt{TAPP}$}
+    \UIC{$\Gamma \vdash M \{ U \} : T[ \alpha \backslash U] $}
+\end{prooftree}
+
+\subsubsection{Examples}
+
+We previously saw that in the Simply typed $\lambda$-Calculus we could not construct a function, $ \texttt{add}$ of type $ \Nat \rarr \Nat$. Using System-F this is possible through an abstracted definition of Church Numerals:
+
+\begin{align*}
+    \underline{0} &= \lambda \alpha . \lambda f: \alpha \rarr \alpha . \lambda x: \alpha .x  \\
+    \underline{1} &= \lambda \alpha . \lambda f: \alpha \rarr \alpha . \lambda x: \alpha . f x  \\
+    \underline{2} &= \lambda \alpha . \lambda f: \alpha \rarr \alpha . \lambda x: \alpha . f(f x ) \\
+    \dots
+\end{align*}
+
+Again $ \texttt{succ}$ has type $ \Nat \rarr \Nat \rarr \Nat$ and $ \texttt{add}$ type $\Nat \rarr \Nat$:
+
+\begin{align}
+    \texttt{succ} &= \lambda a: \Nat. \lambda \alpha . \lambda f: \alpha \rarr \alpha. \lambda x: \alpha .f (a \{ \alpha  \} f x) \\
+    \texttt{add} &= \lambda a: \Nat . \lambda b: \Nat . \lambda \alpha . \lambda f : \alpha \rarr \alpha . \lambda x: \alpha . a \{ \alpha  \} f ( b \{ \alpha  \} f x )
+\end{align}
+
+Now, given any numeral $n : \Nat$ we can iterate over a function $F$ of type $ T\rarr T$ as follows: $n \{ T \} F$ and we can define $ \texttt{add}$ more simply using $ \texttt{succ}$ as:
+
+$$
+\texttt{add} = \lambda a: \Nat. \lambda b: \Nat. a \{ \Nat \} \texttt{succ} b
+$$
+
+\end{document}
