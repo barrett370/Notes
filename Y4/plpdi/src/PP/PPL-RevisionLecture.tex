@@ -7,10 +7,16 @@
 \usepackage{bussproofs}
 \EnableBpAbbreviations
 \usepackage[a4paper, total={6in, 8in}]{geometry}
+\hfuzz 40pt
 
 \newcommand{\B}{\mathbb{B}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\one}{\underline{1}\;}
 \newcommand{\Nat}{\texttt{Nat}}
+\newcommand{\add}{\texttt{add }}
+\newcommand{\T}{\texttt{true }}
+\newcommand{\F}{\texttt{false }}
+\renewcommand{\succ}{\texttt{succ }}
 \newcommand{\rarr}{\rightarrow}
 
 \title{Principals of Programming Languages: Revision Lecture}
@@ -19,7 +25,6 @@
 
 \begin{document}
 \maketitle
-
 \section{The Simply Typed $\lambda$-Calculus}
 \subsection{Syntax}
 The syntax of the Simply Typed $\lambda$-Calculus can be defined as:
@@ -221,7 +226,7 @@ We also have an extended set of Call-by-value small-step operational semantics r
 \begin{prooftree}
     \AXC{}
     \RL{$ \texttt{T}\beta$}
-    \UIC{$ ( \lambda a.M) \{ T \} \rarr_v M[\alpha \backslash T] $}
+    \UIC{$ ( \lambda \alpha.M) \{ T \} \rarr_v M[\alpha \backslash T] $}
 \end{prooftree}
 
 
@@ -333,5 +338,368 @@ Now, given any numeral $n : \Nat$ we can iterate over a function $F$ of type $ T
 $$
 \texttt{add} = \lambda a: \Nat. \lambda b: \Nat. a \{ \Nat \} \texttt{succ} b
 $$
+
+\underline{Exemplar 1}
+
+Prove that $ \texttt{add} = \lambda a: \Nat. \lambda b:\Nat.a \{ \Nat \} \texttt{succ} b$ is well typed under System-F. Where $ \Gamma = a:\Nat, b:\Nat$ and assuming $ \texttt{succ}$ has type $\Nat \rarr \Nat$
+
+\textbf{Remember: $\Nat$ is defined as $\forall \alpha ( \alpha \rarr \alpha) \rarr \alpha \rarr \alpha$}  
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{VAR}$}
+    \UIC{$ \Gamma \vdash a : \Nat$}
+    \RL{$ \texttt{TAPP}$}
+    \UIC{$ \Gamma \vdash a \{ \Nat \} : (\Nat \rarr \Nat) \rarr \Nat \rarr \Nat$}
+    \AXC{}
+    \UIC{$ \Gamma \vdash \texttt{succ} : \Nat \rarr \Nat $}
+    \RL{$ \texttt{APP}$}
+    \BIC{$\Gamma \vdash a \{ \Nat \}  \texttt{succ} : \Nat \rarr \Nat$}
+
+    \AXC{}
+    \RL{$ \texttt{VAR}$}
+    \UIC{$ \Gamma \vdash b : \Nat $}
+
+    \RL{$ \texttt{APP}$}
+    \BIC{$\Gamma, b:\Nat \vdash a \{ \Nat \} \texttt{succ} b : \Nat $}
+    \RL{$\texttt{ABS}$}
+    \UIC{$\Gamma, a:\Nat \vdash \lambda b:\Nat. a \{ \Nat \} \texttt{succ} b : \Nat \rarr \Nat $}
+    \RL{$\texttt{ABS}$}
+    \UIC{$\Gamma \vdash \lambda a:\Nat. \lambda b:\Nat.a \{ \Nat \} \texttt{succ} b : \Nat \rarr \Nat \rarr \Nat$} 
+\end{prooftree}
+
+\textbf{Remember: To proof something is well typed, construct a proof tree using the relevant typing rules and to prove something evaluates to a certain form use the context rules.} 
+
+\underline{Exemplar 2}
+
+What does $ \texttt{add } \underline{1} \; \underline{1}$ compute to?
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$\beta$} 
+    \UIC{$ \add \one \rarr_v \lambda b:\Nat. \one \{ \Nat \} \succ b$}
+    \RL{$ \texttt{CTX}_{\bullet \; \one}$}
+    \UIC{$ \texttt{add } \one \one \rarr_v (\lambda b:\Nat. \one \{ \Nat \} \succ b )\one$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$\beta$}
+    \UIC{$(\lambda b:\Nat. \one \{ \Nat \} \succ b )\one \rarr_v \one \{ \Nat \} \succ \one$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ T\beta$}
+    \UIC{$\one \{ \Nat \}  \rarr_v \lambda f: \Nat \rarr \Nat. \lambda x: \Nat. f x$}  
+    \RL{$ \texttt{CTX}_{\bullet \succ \one}$}
+    \UIC{$\one \{ \Nat \} \succ \one \rarr_v (\lambda f: \Nat \rarr \Nat. \lambda x: \Nat. f x) \succ \one $}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$\beta$}
+    \UIC{$(\lambda f: \Nat \rarr \Nat. \lambda x: \Nat. f x) \succ \rarr_v \lambda x:\Nat. \succ x $}
+    \RL{$ \texttt{CTX}_{\bullet \one}$}
+    \UIC{$(\lambda f: \Nat \rarr \Nat. \lambda x: \Nat. f x) \succ \one \rarr_v (\lambda x:\Nat. \succ x)\one $}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \beta$}
+    \UIC{$(\lambda x:\Nat. \succ x)\one \rarr_v \succ \one$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$\beta$}
+    \UIC{$ \succ \one \rarr_v \lambda \alpha. \lambda f: \alpha \rarr \alpha. \lambda x: \alpha. f(\one \{ \alpha  \} f x) $}
+\end{prooftree}
+
+This is our final stage. We cannot reduce a value any further. This value is not the same \textit{\underline{2}} that we defined earlier, but it is equivalent to it. I.e. we can define an equivalence relation between them.
+
+
+\subsubsection{Inductively defined data structures under System-F}
+
+We can define other data types in a similar way to how we have defined Church Numerals under System-F.
+
+For example the list structure: 
+\begin{itemize}
+    \item $ \texttt{List} = \forall \alpha. ( \N \rarr \alpha \rarr \alpha) \rarr \alpha \rarr \alpha $
+    \item $ \texttt{nil} : \texttt{List}$
+    \item $ \texttt{nil} = \lambda \alpha. \lambda f: \N \rarr \alpha \rarr \alpha . \lambda x: \alpha .x$
+    \item $ \texttt{cons} : \N \rarr \texttt{List} \rarr \texttt{List}$
+    \item $\texttt{cons} = \lambda n: \N. \lambda l: \texttt{List}. \lambda \alpha. \lambda f: \N \rarr \alpha \rarr \alpha . \lambda x: \alpha. (f n)(l \{ \alpha  \} f x)$
+\end{itemize}
+
+Using this encoding, we can define a list of two elements $N_1$ and $N_2$ as:
+
+$$
+\text{List}[N_1,N_2]: \lambda \alpha. \lambda f: \N \rarr \alpha \rarr \alpha . \lambda x: \alpha. (f N_1) (f N_2 x)
+$$
+
+\subsection{Abstract Data Types}
+
+We can extend System-F to capture abstract data types through the use of existential types.
+
+The syntax of this extension can be defined as:
+
+\begin{align*}
+    T &::= \alpha | \B | \N | T \rarr T | \forall \alpha. T | T \times T | \exists \alpha. T \\
+    M &::= x | \lambda x:T.M | M M | \T | \F | \texttt{if } M \texttt{ then } M \texttt{ else }  M \\
+      & |\texttt{let } x = M \texttt{ in } M | \texttt{zero} | \succ M | \texttt{pred} M | \texttt{iszero} M \\ 
+      & | \lambda \alpha .M | M \{ T \} \\
+      & | \langle M,M \rangle | \texttt{fst} M | \texttt{snd} M \\
+      & | \texttt{pack} \langle T,M \rangle  as T | \texttt{unpack} \alpha, x = M in M 
+\end{align*}
+
+Using existential ($\exists$) types we can \textit{hide} the implementation of a type.
+
+We can say that an abstract data type is comprised of: 
+
+\begin{itemize}
+    \item An abstract name
+    \item A concrete representation type
+    \item A concrete implementation
+    \item An abstract interface
+\end{itemize}
+
+Here the $ \alpha $ in the  existential type facilitates the abstract name.
+
+Packs create abstract data types where $T$ is the concrete representation type, and M is the concrete implementation. 
+
+We define an abstract data type in the form: 
+
+$$
+\texttt{pack} \langle T,M \rangle  \texttt{ as }\exists \alpha . U
+$$
+
+
+We extend the definition of values to include pairs and packs:
+
+$$
+V ::= \lambda x:T.M | \texttt{true} | \texttt{false} | \texttt{zero} | \texttt{succ} M | \lambda \alpha .M | \langle M,M \rangle | \texttt{pack} \langle T,M \rangle  \texttt{ as } T
+$$
+
+And our Call-by-value evaluation contexts are now: 
+
+\begin{align*}
+    C &::= \bullet | C M | V C | \texttt{if } C \texttt{ then }  M \texttt{ else }  M \\
+      &| \texttt{let } x = C \texttt{ in } M | \texttt{pred } C | \texttt{iszero } C | C \{ T \}\\
+      &| \texttt{unpack } \alpha ,x = C \texttt{ in } M | \texttt{fst } C | \texttt{snd }  
+\end{align*}
+
+We also extend our operational semantics rules:
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$\beta$}
+    \UIC{$ ( \lambda x:T.M) V \rarr_v M[x\backslash V]$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$ M \rarr_v N$}
+    \RL{$ \texttt{CTX}_C$}
+    \UIC{$C[M] \rarr_v C[N]$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{IteT}$}
+    \UIC{$ \texttt{if true}  \texttt{ then } M \texttt{ else } N \rarr_v M $}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{IteF}$}
+    \UIC{$ \texttt{if false}  \texttt{ then } M \texttt{ else } N \rarr_v N $}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{LetV}$}
+    \UIC{$ \texttt{let} x = V \texttt{in} M \rarr_v M[x\backslash V]$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{PredZ}$}
+    \UIC{$ \texttt{pred zero} \rarr_v \texttt{zero}$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{PredS}$}
+\UIC{$ \texttt{pred} (\texttt{succ }M)  \rarr_v M$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{IsZZ}$}
+    \UIC{$ \texttt{iszero zero} \rarr_v \texttt{true}$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{IsZS}$}
+    \UIC{$ \texttt{iszero} ( \texttt{succ} M) \rarr_v \texttt{false}$}
+\end{prooftree}
+
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{T}\beta$}
+    \UIC{$ ( \lambda \alpha.M) \{ T \} \rarr_v M[\alpha \backslash T] $}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{FstP}$}
+    \UIC{$ \texttt{fst } \langle M,N \rangle \rarr_v M$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{SndP}$}
+    \UIC{$ \texttt{snd} \langle M,N \rangle \rarr_v N$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{UnP}$}
+    \UIC{$ \texttt{unpack } \alpha ,x = \texttt{ pack } \langle T,M \rangle \texttt{ as } U \texttt{ in } N \rarr_v N[ \alpha \backslash T][x \backslash M] $}
+\end{prooftree}
+
+We extend our typing rules as follows:
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{VAR}$}
+    \UIC{$\Gamma, x : T \vdash x : T$}
+\end{prooftree}
+
+
+\begin{prooftree}
+    \AXC{$\Gamma, x :T \vdash M : U$}
+    \RL{$ \texttt{ABS}$}
+    \UIC{$\Gamma \vdash \lambda x: T.M : T \rarr U$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M :T \rarr U \; \Gamma \vdash N : T$}
+    \RL{$ \texttt{APP}$}
+    \UIC{$\Gamma \vdash M N : U$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{T}$}
+    \UIC{$\Gamma \vdash \texttt{true}: \B$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{F}$}
+    \UIC{$\Gamma \vdash \texttt{false}: \B$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M :\B \; \Gamma \vdash N:T \; \Gamma \vdash P:T$}
+    \RL{$ \texttt{ITE}$}
+    \UIC{$\Gamma \vdash \texttt{if } M \texttt{ then } N \texttt{ else } P : T $}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{}
+    \RL{$ \texttt{Z}$}
+    \UIC{$\Gamma \vdash \texttt{zero} : \N$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$ \Gamma \vdash M : \N$}
+    \RL{$ \texttt{S}$}
+    \UIC{$\Gamma \vdash \texttt{succ} M : \N$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$ \Gamma \vdash M : \N$}
+    \RL{$ \texttt{P}$}
+    \UIC{$\Gamma \vdash \texttt{pred} M : \N$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$ \Gamma \vdash M : \N$}
+    \RL{$ \texttt{I}$}
+    \UIC{$\Gamma \vdash \texttt{iszero} M : \B$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M : T \; \Gamma, x : T \vdash N :U$}
+    \RL{$ \texttt{LET}$}
+    \UIC{$\Gamma \vdash \texttt{let} x = M \texttt{ in } N : U$}
+\end{prooftree}
+
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M :T $}
+    \RL{$ \texttt{TABS}$}
+    \UIC{$\Gamma \vdash \lambda \alpha . M : \forall \alpha .T$}
+\end{prooftree}
+
+\textbf{Note TABS also requires that $ \alpha \notin \texttt{FV}(\Gamma)$ is satisfied} 
+Where $ \texttt{FV}(\Gamma)$ is the set of free variables in $\Gamma$ i.e. $ \alpha $ should be a \textit{new} variable with respect to $ \Gamma$ in the hypothesis.
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M :\forall \alpha . T $}
+    \RL{$ \texttt{TAPP}$}
+    \UIC{$\Gamma \vdash M \{ U \} : T[ \alpha \backslash U] $}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M : T \; \Gamma \vdash N :U$}
+    \RL{$ \texttt{Pair}$}
+    \UIC{$\Gamma \vdash \langle M,N \rangle : T \times U$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M : T \times U$}
+    \RL{$ \texttt{Fst}$}
+    \UIC{$\Gamma \vdash \texttt{fst } M :T $}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M : T \times U$}
+    \RL{$ \texttt{Snd}$}
+    \UIC{$\Gamma \vdash \texttt{snd } M :U $}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M : U[ \alpha \backslash T]$}
+    \RL{$ \texttt{Pack}$}
+    \UIC{$\Gamma \vdash \texttt{pack } \langle T,M \rangle \texttt{ as } \exists \alpha .U : \exists \alpha .U$}
+\end{prooftree}
+
+\begin{prooftree}
+    \AXC{$\Gamma \vdash M : \exists \alpha .T \; \Gamma, x : T \vdash N : U$}
+    \RL{$ \texttt{Unpack}$}
+    \UIC{$\Gamma \vdash \texttt{unpack } \alpha ,x = M in N : U$}
+\end{prooftree}
+
+\textbf{Note: $ \texttt{unpack}$ requires that the condition $ \alpha \notin \texttt{FV}(U)$} 
+
+\subsubsection{Existential Types - Examples}
+
+$$
+\texttt{pack } \langle \B, \langle \T, \lambda x: \B. \texttt{if } x \texttt{ then }  \F \texttt{ else } \T   \rangle  \rangle  \texttt{ as } \exists \alpha . \alpha \times ( \alpha \rarr \alpha )
+$$
+
+For this example, the concrete representation type is Boolean ($\B$), we define two operations on this type. Firstly we define a constant of $\T$ and secondly we define an operation that takes a boolean and negates it. We pack this concrete implementation inside of the pack. Visible to the user is the name $ \alpha $ and the abstract types of the operations contained within the pack.
+
+Another example could be the List type we defined earlier.
+$$
+\texttt{pack } \langle \texttt{List}, \langle \texttt{nil}, \texttt{cons} \rangle  \rangle \texttt{ as } \exists \alpha . \alpha \times (\N \rarr \alpha \rarr \alpha )
+$$
+
+Here the user does not know about the List type and instead is allowed to construct an $ \alpha $ using the first operation and to construct further structures using this initial $ \alpha $ ($ \texttt{nil}$) and the second operation that takes a $\N$ and a $ \alpha $.
 
 \end{document}
