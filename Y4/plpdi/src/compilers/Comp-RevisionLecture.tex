@@ -1,22 +1,34 @@
 \documentclass{article}
 
-\usepackage{csquotes}
 \usepackage{graphicx}
-\usepackage{amsmath}
+\usepackage{mathtools}
 \usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
 \usepackage{tikz}
 \usepackage{forest}
+\usepackage{xcolor}
+\usepackage{bussproofs}
+\EnableBpAbbreviations
+\usepackage{geometry}
+\usepackage{minted}
+\usepackage{csquotes}
 
-\usetikzlibrary{arrows,shapes,automata,petri,positioning,calc}
+\usetikzlibrary{arrows,shapes,automata,petri,positioning,calc,fit}
 \tikzset{
     fsa-point/.style={
         circle,
         draw=black,
         minimum size=3pt
     },
+    asg-point/.style={
+        circle,
+        draw=black,
+        minimum size=3pt
+    },
     every edge/.style={
         draw,
-        ->,>=stealth',
+        -,>=stealth',
         auto,
         semithick
     },
@@ -27,7 +39,7 @@
 \renewcommand{\u}[1]{\underline{#1}}
 \newcommand{\rarr}{\rightarrow}
 
-\title{PLPDI Compilers: Revision Lecture}
+\title{PLPDI Compilers: Revision Notes}
 \author{Sam Barrett}
 
 \begin{document}
@@ -238,13 +250,13 @@ $$
 Is this mean to be processed as:
 
 $$
-\texttt{if x then \{if y then a\} else b}
+\texttt{if x then} \{ \texttt{if y then a}\}\texttt{ else b}
 $$
 
 or 
 
 $$
-\texttt{if x then \{if y then a else b\}}
+\texttt{if x then} \{\texttt{if y then a else b}\}
 $$
 
 These are usually disambiguated by the parser mechanism preferring the \i{shift} to the \i{reduce}. Essentially, always trying to construct the longest possible parses.
@@ -341,6 +353,170 @@ The application of this form of traversal on our exemplar can be seen in Figure~
     \label{fig:AST1}
 \end{figure}
 
+ASTs do not cope well with variable names however, this is a big issue as variables are key in useful programming languages.
+
+We will be focusing on \textbf{immutable} variables in the examples below.
+
+$$
+\texttt{let x = 1+2 in x + x}
+$$
+
+This is an example of a ternary statement, i.e. it has 3 components. It can be drawn as the following AST:
+
+\begin{center}
+    \begin{forest} for tree={grow=north, circle, draw, parent anchor=north, child anchor=south}
+       [let 
+           [+
+            [x]
+            [x]
+           ]
+           [+
+            [2]
+            [1]
+           ]
+           [[x]]
+       ]
+    \end{forest} 
+\end{center}
+
+With this representation we are left with variable names on the leaves of the tree, with no reference back to their definition. If we were to evaluate this in the same way as we did previously we produce the following tree:
+
+\begin{center}
+    \begin{forest} for tree={grow=north, circle, draw, parent anchor=north, child anchor=south}
+       [let 
+           [+
+            [x]
+            [x]
+           ]
+           [3]
+           [[x]]
+       ]
+    \end{forest} 
+\end{center}
+
+When we reach the first x reference, we are forced to backtrack through the tree in order to find it's associated value. This is extremely inefficient, especially in the case where we have nested variable usage, for example in:
+
+$$
+\texttt{let x = 4+5 in let x = 3+2 in x+x}
+$$
+
+When evaluating this expression we must be careful about the scope of the variable(s) x as it has multiple definitions within the same expression. 
+
+We must find a better solution to this problem. We do this by converting our tree into a Directed acyclic graph (DAG), turning our AST into an Abstract Syntax Graph (ASG)
+
+\subsection{Abstract Syntax Graphs (ASGs)}
+
+We can draw the ASG of our original $ \texttt{let}$ expression as such:
+
+\begin{center}
+   \begin{tikzpicture}
+       \node[anchor=south,asg-point] (p1) {+};
+       \node[asg-point,above of=p1] (p2) {+};
+       \node[asg-point,left of=p2, above of=p2] (v1) {1};
+       \node[asg-point, right of=p2, above of=p2] (v2) {2};
+       \node[below=0.2cm of p1] (init) {};
+
+ 
+       \draw (p1) edge[->,bend right] (p2);
+       \draw (p1) edge[->,bend left] (p2);
+       \draw (p2) edge[->] (v1);
+       \draw (p2) edge[->] (v2);
+       \draw (init) edge (p1);
+   \end{tikzpicture} 
+\end{center}
+
+We can now apply our Depth-first left-to-right evaluation order easily and efficiently. However, rememebr we are no longer performing a tree traversal but a \textbf{graph traversal}. The evaluation of this ASG can be seen below:
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.5\linewidth]{c4-4.jpg}
+    \caption{ASG Traversal}%
+    \label{fig:ASG1}
+\end{figure}
+
+Converting from ASTs to ASGs introduces some compile-time overhead but allows for much more efficient execution of ones code. 
+
+\subsection{Hierarchical Abstract Syntax Graphs}
+
+Functions in the context of the $\lambda$-Calculus only have 2 operations we would need to be concerned with with respect to an abstract intermediate representation: 1) Abstraction 2) Application. How can we encode these into ASGs?
+
+\u{Function Application}
+\[
+    \underbrace{x_0,\dots,x_n}_\Gamma,\underbrace{y_0,\dots,y_n}_\Delta \vdash f(m)
+\]
+
+Here we represent the identifiers of $f$ by $\Gamma$ and the identifiers of $m$ by $\Delta$.
+We can consider function application as an operator. Therefore to construct an ASG of this expression, we construct the ASG of $f$ and the ASG of $m$ and combine them using an application operator, represented as @.
+
+\begin{center}
+   \begin{tikzpicture}
+       \node[below=0.8cm of p1] (init) {};
+       \node[circle,draw] (app) {$@$};
+       \node[rectangle,minimum size=1cm,draw,above=1.5cm of app,left of=app] (f) {$f$};
+       \node[rectangle,minimum size=1cm,draw,above=1.5cm of app, right of=app] (m) {$m$};
+       \node[above=0.8cm of f] (abovef) {};
+       \node[above=0.8cm of m] (abovem) {};
+       
+       \draw (abovem) -- node[strike out,draw,-,label=right:{$\Delta$}] {} (m) ;
+       \draw (abovef) -- node[strike out,draw,-,label=right:{$\Gamma$}] {} (f) ;
+       \draw (init) edge (app);
+       \draw (app) edge[bend left] (f);
+       \draw (app) edge[bend right] (m);
+   \end{tikzpicture} 
+\end{center}
+
+Here the stricken through lines represent many lines ($1\ldots n$)
+
+When we apply a function we carry out what is known as the \i{small} $\beta$ rule. It can be formulated as:
+
+\[
+    ( \lambda x.f)m \rightarrow f[m\backslash x]
+\]
+
+This is very similar to the rules we have seen in operational semantics.
+
+\u{Function Abstraction}
+
+\[
+    x_0,\underbrace{x_1,\ldots,x_n}_\Gamma \vdash \lambda x_0.m
+\]
+
+\begin{center}
+    \includegraphics[width=0.3\linewidth]{ASGAbstraction.png}
+\end{center}
+
+In the above ASG you can see the representation of a $\lambda$-abstraction. The bound variable $x_0$ does not leave the scope of the abstraction (denoted by the outermost box).
+
+
+\subsubsection{Examples}
+\begin{enumerate}
+    \item 
+\[
+    \lambda x.x+x+1
+\]
+\begin{center}
+    \includegraphics[height=0.5\linewidth]{ASGEx1.png} 
+\end{center}
+\item
+\[
+    \texttt{let } y = 1 \texttt{ in } \lambda x.x + x + y
+\]
+\begin{center}
+    \includegraphics[height=0.5\linewidth]{ASGEx2.png} 
+\end{center}
+
+\item
+\[
+    \texttt{let } y = 1 \texttt{ in }
+    \texttt{let } f = \lambda x.x + x + y  \texttt{ in }
+    f(f(y))
+\]
+
+\begin{center}
+    \includegraphics[height=0.6\linewidth]{ASGEx3.png} 
+\end{center}
+
+\end{enumerate}
 \subsection{Note from Revision Lecture}
 We must be aware of the distinction between a compiler evaluation and optimisation.
 
@@ -356,9 +532,141 @@ In a closure conversion we want to \textit{pull} inner (anonymous) functions int
 
 \section{Types}
 
+Types first appeared as an attempt to give a foundation of mathematics using the $\lambda$-Calculus via the Curry-Howard correspondence whereby a proposition corresponds to a type and a program corresponds to a proof.
 
+Initially, the point of types in the Simply typed $\lambda$-Calculus was to ensure that a given program will always terminate. Modern usages are to prevent runtime errors in programs.
+
+In the Curry-Howard correspondence, we can consider a value $u : T$ as a predicate $T(u)$ which states that \i{'$u$ has type $T$'}. This is what is known as a \i{type judgement}, type judgements are proved using logically formulated typing rules.
+
+\subsection{Type Checking}
+
+Given a program, $u$ which takes typed variables $x_0,\ldots,x_n$ we can perform a type judgement that $u$ has type $T$
+
+\[
+    x_0:T_0,\ldots,x_n:T_n \vdash u:T \;\;\; (\equiv) \;\;\; \Gamma \vdash u:T
+\]
+
+\begin{center}
+   \begin{prooftree}
+        \AXC{$\Gamma \vdash u : T \rightarrow T' \;\; \Gamma \vdash v:T$}
+        \RL{Implication elimination}
+        \UIC{$\Gamma \vdash u(v) : T'$}
+   \end{prooftree} 
+   \begin{prooftree}
+       \AXC{$\Gamma,x :T \vdash u:T'$}
+       \RL{Implication introduction}
+       \UIC{$\Gamma \vdash \lambda x.u:T \rightarrow T'$}
+   \end{prooftree}
+\end{center}
+
+Here it is the parallels between logical implication and functions as expressed by the Curry-Howard correspondence are clear.
+
+We can extend this to work for other types such as Product and Sum types. For product types we have the rules:
+
+\begin{center}
+   \begin{prooftree}
+       \AXC{$ \Gamma \vdash u : T_1 \times T_2$}
+       \RL{Conjunction Elimination}
+       \UIC{$ \Gamma\vdash proj_i(u):T_i$}
+   \end{prooftree} 
+   \begin{prooftree}
+       \AXC{$ \Gamma \vdash u_i : T_i$}
+       \RL{Conjunction Introduction}
+       \UIC{$ \Gamma\vdash (u_1,u_2) : T_1 \times T_2$}
+   \end{prooftree}
+\end{center}
+
+Using this pattern we can define the function types for references:
+
+\begin{align*}
+    ref_T &: T \rightarrow \texttt{ref}(T) \\
+    assg_T &: \texttt{ref}(T) \rightarrow T \rightarrow ()\\
+    deref_T &: \texttt{ref}(T) \rightarrow T
+\end{align*}
+
+We can go on to define increasingly complex types with this pattern, however, not all languages implement these. 
+One such example is \textbf{dependant types} which are available in proof assistants such as Agda and Idris. They allow for the embedding of conditions into the type of a function, for instance the function "nth" can be defined simply as:
+
+\begin{center}
+   \begin{minted}{OCaml}
+      n : Int -> (xs : 'a List) -> 'a
+   \end{minted} 
+\end{center}
+However, this allows for runtime errors, for instance in the case where \mintinline{OCaml}{ n > length xs == true} the function would crash.
+
+In languages with dependant types we can embed the proof that this isn't true in the type of the function: 
+
+\begin{center}
+   \begin{minted}{OCaml}
+      n : Int -> (xs : 'a List) -> (n < length xs) -> 'a
+   \end{minted} 
+\end{center}
+
+\subsection{Type Inference}
+
+Type inference is the process whereby given a term, we have to decide whether it is possible to assign types to variables so that according to our typing rules our term will now typecheck.
+
+There are various methods such as the Hindley-Milner algorithm which works by collecting a set of \i{equations} from the AST created by denoted types with variables and solving the system of equations using the principals of reduction and unification. 
+
+The Hindley-Milner algorithm in the worst-case scenario has exponential time complexity. However it's average case is more acceptable.
+
+\textbf{For examples of constructing the ASTs mentioned above, see the video lecture.}
 
 \section{Assignment}
+
+Programming languages that have operations that are not representable in the $\lambda$-Calculus have what are known as \i{side effects}. Languages that go without these features are called \i{pure}.
+
+However, if you want to add machine dependant operations such as assignment or IO the language becomes \i{effectful} or \i{impure}
+
+\u{Assignment}
+
+\begin{minted}{Go}
+    x := u
+    x = x + 1 == x = !x + 1 //true
+\end{minted}
+
+Above you can see an example of assignment within an imperative language. The second line shows how most language add implicit de-reference when working with variable values.
+
+More abstractly, this can be written: 
+
+\begin{minted}{Rust}
+   let x = U in V 
+\end{minted}
+
+Where U is our assigned value and V is the block in which it is in scope.
+This can be represented as the following AST:
+
+\begin{center}
+   \begin{tikzpicture}
+       \node[anchor=south,asg-point] (eq) {:=};
+       \node[above left of=eq] (lhs) {variable};
+       \node[above right of=eq] (rhs) {value};
+       \node[below=0.2cm of eq] (init) {};
+
+ 
+       \draw (eq) edge[bend right] (rhs) ;
+       \draw (eq) edge[bend left] (lhs) ;
+       \draw (init) edge (p1);
+   \end{tikzpicture} 
+\end{center}
+
+\begin{center}
+   \begin{tikzpicture}
+       \node[anchor=south,asg-point] (eq) {var};
+       \node[above left of=eq] (lhs) {u};
+       \node[above right of=eq] (rhs) {value};
+       \node[below=0.2cm of eq] (init) {};
+
+ 
+       \draw (eq) edge[bend right] (rhs) ;
+       \draw (eq) edge[bend left] (lhs) ;
+       \draw (init) edge (p1);
+   \end{tikzpicture} 
+\end{center}
+
+\begin{center}
+    \includegraphics[width=0.2\linewidth]{VarAST.png}
+\end{center}
 
 \section{Code Generation}
 
