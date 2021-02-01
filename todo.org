@@ -1,0 +1,4 @@
+* Inbox
+** TODO Complete this document
+
+[[file:~/git-clones/Notes/Y4/plpdi/src/verification/verif-revisionnotes.tex::We say that a state, $s$ is \textbf{terminal} if \texttt{Post}(s) = $\emptyset$, i.e. it has no outgoing transitions. Such states can be used to represent the termination of a program or erroneous or undesired behaviour.]]

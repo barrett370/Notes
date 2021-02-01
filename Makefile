@@ -1,4 +1,4 @@
-.PHONY all:
+ .PHONY all:
 all:
 	cd utils && ./compile-all.sh
 

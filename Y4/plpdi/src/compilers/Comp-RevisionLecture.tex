@@ -37,7 +37,6 @@
 }
 \renewcommand{\i}[1]{\textit{#1}}
 \renewcommand{\u}[1]{\underline{#1}}
-\newcommand{\rarr}{\rightarrow}
 
 \title{PLPDI Compilers: Revision Notes}
 \author{Sam Barrett}
@@ -55,7 +54,7 @@ Compiler books often focus on the task of compiling the C programming language. 
 \end{figure}
 \section{Lexical Analysis}
 
-Lexical analysis, the job performed by the \textit{Lexer} is the first stage of compilation. It converts a source file written in a specific programming language into a string of \i{tokens}. Or alternatively, string $\implies$ list of "lexemes"
+Lexical analysis, the job performed by the \textit{Lexer} is the first stage of compilation. It converts a source file written in a specific programming language into a string of \i{tokens}. Or alternatively, string $\implies$ list of ``lexemes''
 
 For example, the code:
 
@@ -71,19 +70,21 @@ Lexemes are specified using regular expression which, in turn, are implemented u
 
 For example, a simple Regular Expression capturing the \i{lexeme} of numbers:
 
-$$
-num = \texttt{[+-]?[1-9][0-9]}^\ast
-$$
+\[
+  num = \texttt{[+-]?[1-9][0-9]}^\ast
+\]
+
 
 Backtracking is the \i{dumb} approach to parsing regular expressions. It is also known as the brute force method as in the worst case scenario, all possibilities could be tried before the approach \i{gives up}.
 
 Such an expression which is tricky to parse using backtracking is:
 
-$$
-tricky = \texttt{a?a?aa}
-$$
+\[
+  tricky = \texttt{a?a?aa}
+\]
 
-Every occurrence of the \i{optional}, ?, doubles the number of possible routes through a parse tree of this expression. Meaning an input such as $ \texttt{aaaaa}$ would cause an evaluator to explore every possible branch of this tree before determining that it is not captured.
+
+Every occurrence of the \i{optional} ($?$) doubles the number of possible routes through a parse tree of this expression. Meaning an input such as $ \texttt{aaaaa}$ would cause an evaluator to explore every possible branch of this tree before determining that it is not captured.
 
 \subsection{Finite State Automata}
 
@@ -127,11 +128,11 @@ When used as a \i{production system} our rule(s) is(are) repeatedly applied to a
 For example:
 
 \begin{align*}
-    E &\rarr \u{E} + E &&\texttt{apply } E \rarr E + E \\
-      &\rarr \u{E} * E + E &&\texttt{apply } E \rarr E * E \\
-      &\rarr 42 * \u{E} + E &&\texttt{apply } E \rarr N \\
-      &\rarr 42 * 35 + \u{E} && \texttt{apply } E \rarr N \\
-      &\rarr 42 * 35 + 17 && \texttt{apply } E \rarr N
+    E &\rightarrow \u{E} + E &&\texttt{apply } E \rightarrow E + E \\
+      &\rightarrow \u{E} * E + E &&\texttt{apply } E \rightarrow E * E \\
+      &\rightarrow 42 * \u{E} + E &&\texttt{apply } E \rightarrow N \\
+      &\rightarrow 42 * 35 + \u{E} && \texttt{apply } E \rightarrow N \\
+      &\rightarrow 42 * 35 + 17 && \texttt{apply } E \rightarrow N
 \end{align*}
 
 We can also run this process in reverse to convert a string of terminal symbols back to the starting non-terminal $E$. 
@@ -178,9 +179,9 @@ We can re-write our original grammar in a non-ambiguous way to prevent the formu
 
 
 \begin{align*}
-    E &\rarr S + S | S \\
-    S &\rarr M * M | M \\
-    M &\rarr ( E ) | N 
+    E &\rightarrow S + S | S \\
+    S &\rightarrow M * M | M \\
+    M &\rightarrow ( E ) | N
 \end{align*}
 
 \begin{center}
@@ -221,11 +222,11 @@ There is an improved version of top-down parsing called LL(k) or left-to-right l
 The LL(1) form of our grammar is formulated as such:
 
 \begin{align*}
-    E &\rarr T E' \\
-    E' &\rarr + E | \varepsilon \\
-    T &\rarr F T' \\
-    T' &\rarr * T| \varepsilon \\
-    F &\rarr N | ( E )
+    E &\rightarrow T E' \\
+    E' &\rightarrow + E | \varepsilon \\
+    T &\rightarrow F T' \\
+    T' &\rightarrow * T| \varepsilon \\
+    F &\rightarrow N | ( E )
 \end{align*}
 
 Grammars of this type can be constructed algorithmically from an already deterministic grammar. \textbf{However,} not all grammars can be put into LL(1) form. It has been shown that it is undecidable whether given a grammar there is a fixed value of $k$ s.t. the grammar can be put into LL($k$) form.
@@ -264,11 +265,11 @@ These are usually disambiguated by the parser mechanism preferring the \i{shift}
 A more problematic type of conflict is the reduce-reduce conflict.
 
 \begin{align*}
-    \texttt{Seq} &\rarr \varepsilon \\
+    \texttt{Seq} &\rightarrow \varepsilon \\
         &| \texttt{Maybe} \\
         &| \texttt{Seq }a \\
         \\
-    \texttt{Maybe} &\rarr \varepsilon \\
+    \texttt{Maybe} &\rightarrow \varepsilon \\
           &| a
 \end{align*}
 
@@ -652,21 +653,91 @@ This can be represented as the following AST:
 
 \begin{center}
    \begin{tikzpicture}
-       \node[anchor=south,asg-point] (eq) {var};
-       \node[above left of=eq] (lhs) {u};
-       \node[above right of=eq] (rhs) {value};
+       \node[anchor=south,asg-point] (eq) {!};
+       \node[above of=eq] (lhs) {variable};
        \node[below=0.2cm of eq] (init) {};
 
- 
-       \draw (eq) edge[bend right] (rhs) ;
-       \draw (eq) edge[bend left] (lhs) ;
+       \draw (eq) edge (lhs) ;
        \draw (init) edge (p1);
    \end{tikzpicture} 
 \end{center}
 
 \begin{center}
     \includegraphics[width=0.2\linewidth]{VarAST.png}
-\end{center}
+  \end{center}
+
+  Above you can see that we represent a variable, $v$ as a \textit{thunk}. This is an alternative use for thunks, we previously used them when constructing functions, notice in this case we omit the bottom $\lambda$ node.
+
+  \u{Example}
+
+\[
+  \texttt{var x = 0 in x := !x + 1}
+\]
+
+
+\begin{center}
+   \begin{tikzpicture}
+
+       \node[circle,draw] (var) {$\texttt{var}$};
+       \node[below=0.8cm of var] (init) {};
+       \node[circle,draw,above=1.5cm of var,left of=var] (zero) {$0$};
+
+       % Thunk
+       \node[circle,draw,above=1.5cm of var, right of=var] (assign) {$\texttt{:=}$};
+       \node[circle,draw,above right=of assign] (plus) {$+$};
+       \node[circle,draw,above left of=plus] (bang) {!};
+       \node[circle,draw,above right of=plus] (v1)  {$1$};
+       \node[circle,fill,above=2.1cm of assign] (border) {};
+       \node[draw,fit=(assign) (plus) (bang) (v1)] {};
+
+       \draw (var) edge[bend left] (zero);
+       \draw (var) edge[bend right] (assign);
+
+       \draw (assign) edge[bend right] (plus);
+       \draw[bend left] (assign) -- (border) node[below of=border,right= 0.003mm of border] {x};
+
+       \draw (plus) edge[bend left] (bang);
+       \draw (plus) edge[bend right] (v1);
+
+       \draw[bend left] (bang) -- (border) node[below= 0.01mm of border,right= 0.003mm of border] {x};
+
+       \draw (init) edge (var) {};
+
+   \end{tikzpicture}
+ \end{center}
+
+ Parsing this depth-first left-to-right we find values on both sides of our $\texttt{var} $ operation. Informally, our rewrite operation will be:
+
+ \begin{itemize}
+   \item allocate/ create variable
+   \item initialise to 0
+   \item bind to x
+ \end{itemize}
+
+ This produces the following ASG:
+
+ \begin{center}
+   \begin{tikzpicture}
+
+       \node[below=0.8cm of assign] (init) {};
+       \node[circle,draw,above=1.5cm of var, right of=var] (assign) {$\texttt{:=}$};
+       \node[circle,draw,above right=of assign] (plus) {$+$};
+       \node[circle,draw,above left of=plus] (bang) {!};
+       \node[circle,draw,above right of=plus] (v1)  {$1$};
+
+       \node[circle,draw,above of=bang] (xvar) {};
+       \node[circle,draw,left=14mm of assign] (zero) {$0$};
+
+       \draw (assign) edge[bend right] (plus);
+       \draw[bend left] (assign) edge[bend left] (xvar) ;
+
+       \draw (plus) edge[bend left] (bang);
+       \draw (plus) edge[bend right] (v1);
+
+       \draw[bend left] (bang) edge[bend right] (xvar);
+       \draw (xvar) edge[bend right] (zero);
+   \end{tikzpicture}
+ \end{center}
 
 \section{Code Generation}
 
@@ -686,3 +757,7 @@ Only touched on briefly due to complexity. Essentially, code generation is the f
 
 
 \end{document}
+
+%%% Local Variables:
+%%% TeX-command-extra-options: "-shell-escape"
+%%% End:

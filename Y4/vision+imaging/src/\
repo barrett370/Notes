@@ -1,0 +1,46 @@
+#+latex_class: article
+#+latex_class_options:
+#+latex_header: \usepackage{tikz} \usetikzlibrary{shapes,arrows,calc,positioning}
+#+latex_header_extra:
+#+description:
+#+keywords:
+#+subtitle:
+#+options: toc:nil
+#+latex_compiler: pdflatex
+#+title: Lecture 1
+#+date: \today
+
+* Topic Overview
+
+Robot vision is a subset of Computer vision
+
+* Introduction to Computer Vision
+
+** A brief history of biological vision
+
+- Vision can be traced back around 543M years.
+- Around this time, the number of different species /exploaded/
+- We believe vision was responsible for this phase of evolution.
+- Humans have around 50% of our neural tissue linked directly or indirectly to
+
+** History of Computational Vision
+One of the first academic works in computer vision was /Block World/ in 1963 by Larry Roberts. Here the world is translated into simple geometric shapes with the goal being to identify and understand what these shapes are.
+
+Another influential figure in modern computer vision is David Marr.
+*** Though process of David Marr
+
+Marr's process of thinking about computation representations of images follows very closely to what neuroscientists believe happens inside the human brain.
+
+
+\begin{tikzpicture}[
+block/.style={
+draw, rectangle split, rectangle split vertical, rectangle split parts=2, rectangle split draw splits=true, fontscale=12, text width = 5mm
+}]
+\node [block] (b1) {
+ Input Image
+ \nodepart{two} Perceived intensities
+};
+\node [block, right of=b1] (b2) {
+Primal Sketch
+\nodepart{two} Zero crossings, blobs, edges, bars, ends, virtual lines, groups, curve boundaries}
+\end{tikzpicture}

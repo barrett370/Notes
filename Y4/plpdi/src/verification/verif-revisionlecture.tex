@@ -1,0 +1,64 @@
+\documentclass{article}
+
+\title{Computer-Aided Verification: Revision Lecture}
+\author{Sam Barrett}
+
+\begin{document}
+    \maketitle
+    \section{Modelling Sequential and Parallel Systems}
+
+    The key ideas and concepts of this week of the submodule are:
+    \begin{itemize}
+        \item Verification requires precise models of system behaviour over time in order to reason about it.
+        \item We utilise transition systems (LTSs)
+        \item A key concept relating to our use of LTSs is non-determinism, which is the idea that we either have choices at individual nodes or overall alternative paths through the system.
+        \item LTSs and non-determinism are particularly useful when looking at parallel programs where we can compose multiple LTSs into a single LTS synchronously or asynchronously.
+    \end{itemize}
+
+    Following this section of the submodule you should be able to:
+
+    \begin{itemize}
+        \item Construct an LTS representing a sequential or parallel imperative program.
+        \item Construct an LTS representing a reactive, multi-component, system.
+        \item Construct the (synchronous/ asynchronous) parallel composition of LTSs.
+    \end{itemize}
+
+    
+    Points to remember:
+
+    \begin{itemize}
+        \item When drawing an LTS, always make sure the states are clear.
+        \item When deciding what the states \textit{are} make sure they contain all the required information to verify properties or move to the next state.
+        \item When building the product of two LTSs make sure both parts of the component in the product state. I.e. make sure the product LTS has all the information from both the component LTSs.
+        \item When constructing and exploring LTSs be sure to be exhaustive, work as if you are the modelchecker. Be sure to \textbf{never} duplicate a state.
+        \item Be sure to layout the states logically to make them easier to read/mark.
+    \end{itemize}
+
+    \section{Temporal Logic}
+
+    In the second week we focused on specifying properties for these models, to do this we used temporal logic. We assumed a linear time view of execution.
+
+    We classified our properties into 3 categories: Invariants, safety properties and liveness properties. 
+
+    We used LTL equivalence to prove or disprove these properties.
+
+    Based on the material from this week you should be able to:
+
+    \begin{itemize}
+        \item Identify classes that a property, written as LTL or natural language, belongs to and explain why
+        \item understand the semantics of LTL, i.e. given a LTS and a LTL formula you should be able to say whether it is satisfied.
+        \item Be able to translate a property from natural language to LTL
+        \item Be able to use LTL equivalences to prove or disprove equivalence of two LTL formula.
+    \end{itemize}
+
+
+
+    \section{Model Checking}%
+    \label{sec:model_checking}
+    
+    
+    \section{Software Model Checking}%
+    \label{sec:software_model_checking}
+
+
+\end{document}
