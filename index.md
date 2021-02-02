@@ -27,6 +27,7 @@ Please follow the following links for lecture notes.
 ### Modules
 
 - [Principals of Programming Languages, Design and Implementation](./Y4/plpdi/ppl-index.md)
+- [Algorithms and Complexity](./Y4/alg+complexity/alg-index.md)
 
 
 

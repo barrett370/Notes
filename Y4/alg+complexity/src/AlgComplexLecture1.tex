@@ -1,10 +1,11 @@
 \documentclass{article}
 \usepackage{amsmath, amssymb,amsfonts,tikz}
-\usetikzlibrary{shapes,arrows,calc,positioning}
+\usetikzlibrary{shapes,arrows,calc,positioning,backgrounds}
 \title{Algorithms \& Complexity: Lecture 1}
 \author{Sam Barrett}
 \newcommand{\qs}{q_{\texttt{start}}}
 \newcommand{\qh}{q_{\texttt{halt}}}
+
 
 \begin{document}
 
@@ -182,4 +183,343 @@ Given that $f(x) = 0110111$, our required output tape will then be as follows:
 
 If the machine, $M$ does \textit{this} for every bitstring $x$ then we say it \textbf{computes} $f$. In the Arora-Barak definition, it does not matter what is on the work tape at the end of execution or the location of the work heads.
 
+\subsection{Computable functions}
+
+We say a function $f : \{ 0,1 \} ^{*} \rightarrow \{ 0,1 \} ^{*}$ or a function $f$ from bitstrings to bitstrings is \textbf{computable} if there exists some Turing machine that computes it and \textbf{non-computable} if there isn't.
+
+In the second case where there exists no Turing machine that computes a function, is there some other kind of machine that \textit{does} compute it?
+
+\subsubsection{Church's thesis}
+
+We have only looked at one definition of Turing machines, there are many different variations that have been studied. 1 tape vs $\infty$ tapes, large alphabets, tapes infinite in both directions, 2D tapes, etc.
+
+\textbf{None} of these variations affect our definition of computability. The same definition holds for all models that have been investigated, leading to Church's thesis which (informally) states:
+
+
+\tikzstyle{background rectangle}=[thin,draw=black]
+\begin{center}
+  \begin{tikzpicture}[show background rectangle]
+    \node[align=justify, text width=\textwidth, inner sep=1em]{
+      ``any \textit{'algorithm'} that computes a function $\{ 0,1 \} ^{*} \rightarrow \{ 0,1 \} ^{*}$ can be converted into a Turing machine that computes the same function''
+  };
+
+  \node[xshift=3ex, yshift=-0.7ex, overlay, fill=white, draw=white, above
+  right] at (current bounding box.north west) {
+    Church's thesis
+  };
+  \end{tikzpicture}
+\end{center}
+
+\subsection{Boolean functions and language}
+
+A language can be defined as any set of \textit{words}, for example \textit{all the words with an even occurrence of 1} is a language.
+
+
+A \textbf{boolean function} is a function of the form: $f : \{ 0,1 \}^{*} \rightarrow \{ 0,1 \} $. Noting that the output is a single bit rather than a bitstring.
+
+A important point about languages and boolean function is that they correspond. There is a one-to-one correspondence in fact between languages and boolean functions.
+\begin{itemize}
+  \item For a given boolean function $f$ the corresponding language is the set of bitstrings $x$ s.t. $f(x) = 1$
+  \item For a language $L$, the corresponding boolean function sends $x$ to 1 if $x \in L$ and to $0$ otherwise.
+\end{itemize}
+
+This allows us to treat boolean functions, languages and decision problems as essentially the same thing.
+
+A decision problem is said to be \textbf{deciadable} when the corresponding boolean function is \textbf{computable}. I.e. given a language $L$, for $L$ to be decidable there must exist some Turing machine that will start with a bitstring $x$ and will run continuously until it halts and upon halting there will be a $1$ on the output tape if $x \in L$ or $0$ if it is not in the language.
+
+\subsubsection{Example: palindromes}
+
+A \textbf{palindrome} is a bitstring that \textit{reads} the same forwards as backwards.
+
+We can define our decision procedure for $\texttt{PAL} $, the set of all palindromes as:
+
+\begin{enumerate}
+  \item Copy the input to the work tape
+  \item Move the input head to the start of the input
+  \item move the input head to the right while moving the output head to the left. If at any moment, the machine observes two different values, it writes 0 to the output tape and halts
+  \item Write 1 to the output tape and halt
+\end{enumerate}
+
+We can represent this as a Turing machine with 3 tapes and 5 states in the following example:
+
+\underline{Step 1:}
+
+\textbf{Input tape:}
+\begin{center}
+
+  \begin{tikzpicture}[every node/.style={block},
+  block/.style={minimum height=1.5em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+
+        \node (A) {$\rhd$};
+        \node (B) [right = of A] {1};
+        \node (C) [right = of B] {0};
+        \node (D) [right = of C] {1};
+        \node (E) [right = of D] {1};
+
+        \node (F) [above = 0.75cm of D,draw=red,thick] {\textsf H};
+        \draw[-latex] (F) -- (D);
+
+        \draw (E.north east) -- ++(1cm,0) (E.south east) -- ++ (1cm,0);
+      \end{tikzpicture}
+
+\end{center}
+
+\textbf{Work tape:}
+\begin{center}
+
+  \begin{tikzpicture}[every node/.style={block},
+  block/.style={minimum height=1.5em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+        \node (A) {$\rhd$};
+        \node (B) [right = of A] {1};
+        \node (C) [right = of B] {0};
+        \node (D) [right = of C] {1};
+        \node (E) [right = of D] {1};
+        \node (G) [right = of E] {$\Box$};
+
+        \node (F) [above = 0.75cm of G,draw=red,thick] {\textsf H};
+        \draw[-latex] (F) -- (G);
+
+        \draw (E.north east) -- ++(1cm,0) (E.south east) -- ++ (1cm,0);
+      \end{tikzpicture}
+
+\end{center}
+
+\textbf{Output tape:}
+\begin{center}
+
+  \begin{tikzpicture}[every node/.style={block},
+  block/.style={minimum height=1.5em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+
+        \node (A) {$\Box$};
+        \node (B) [right = of A] {$\Box$};
+        \node (C) [right = of B] {$\Box$};
+        \node (D) [right = of C] {$\Box$};
+        \node (E) [right = of D] {$\Box$};
+
+        \node (F) [above = 0.75cm of A,draw=red,thick] {\textsf H};
+        \draw[-latex] (F) -- (A);
+
+        \draw (E.north east) -- ++(1cm,0) (E.south east) -- ++ (1cm,0);
+      \end{tikzpicture}
+
+\end{center}
+
+\underline{Step 2:}
+
+\textbf{Input tape:}
+\begin{center}
+
+  \begin{tikzpicture}[every node/.style={block},
+  block/.style={minimum height=1.5em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+
+        \node (A) {$\rhd$};
+        \node (B) [right = of A] {1};
+        \node (C) [right = of B] {0};
+        \node (D) [right = of C] {1};
+        \node (E) [right = of D] {1};
+
+        \node (F) [above = 0.75cm of A,draw=red,thick] {\textsf H};
+        \draw[-latex] (F) -- (A);
+
+        \draw (E.north east) -- ++(1cm,0) (E.south east) -- ++ (1cm,0);
+      \end{tikzpicture}
+
+\end{center}
+
+\textbf{Work tape:}
+\begin{center}
+
+  \begin{tikzpicture}[every node/.style={block},
+  block/.style={minimum height=1.5em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+
+
+        \node (A) {$\rhd$};
+        \node (B) [right = of A] {1};
+        \node (C) [right = of B] {0};
+        \node (D) [right = of C] {1};
+        \node (E) [right = of D] {1};
+        \node (G) [right = of E] {$\Box$};
+
+        \node (F) [above = 0.75cm of G,draw=red,thick] {\textsf H};
+        \draw[-latex] (F) -- (G);
+
+
+        \draw (E.north east) -- ++(1cm,0) (E.south east) -- ++ (1cm,0);
+      \end{tikzpicture}
+
+\end{center}
+
+\textbf{Output tape:}
+\begin{center}
+
+  \begin{tikzpicture}[every node/.style={block},
+  block/.style={minimum height=1.5em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+
+        \node (A) {$\Box$};
+        \node (B) [right = of A] {$\Box$};
+        \node (C) [right = of B] {$\Box$};
+        \node (D) [right = of C] {$\Box$};
+        \node (E) [right = of D] {$\Box$};
+
+        \node (F) [above = 0.75cm of A,draw=red,thick] {\textsf H};
+        \draw[-latex] (F) -- (A);
+
+        \draw (E.north east) -- ++(1cm,0) (E.south east) -- ++ (1cm,0);
+      \end{tikzpicture}
+
+\end{center}
+
+
+\underline{Step 3:}
+
+\textbf{Input tape:}
+\begin{center}
+
+  \begin{tikzpicture}[every node/.style={block},
+  block/.style={minimum height=1.5em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+
+        \node (A) {$\rhd$};
+        \node (B) [right = of A] {1};
+        \node (C) [right = of B] {0};
+        \node (D) [right = of C] {1};
+        \node (E) [right = of D] {1};
+
+        \node (F) [above = 0.75cm of B,draw=red,thick] {\textsf H};
+        \draw[-latex] (F) -- (B);
+
+        \draw[-latex,blue] ($(F.east)!0.5!(B.east)$) -- ++(7mm,0);
+
+        \draw (E.north east) -- ++(1cm,0) (E.south east) -- ++ (1cm,0);
+      \end{tikzpicture}
+
+\end{center}
+
+\textbf{Work tape:}
+\begin{center}
+
+  \begin{tikzpicture}[every node/.style={block},
+  block/.style={minimum height=1.5em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+
+
+        \node (A) {$\rhd$};
+        \node (B) [right = of A] {1};
+        \node (C) [right = of B] {0};
+        \node (D) [right = of C] {1};
+        \node (E) [right = of D] {1};
+        \node (G) [right = of E] {$\Box$};
+
+        \node (F) [above = 0.75cm of E,draw=red,thick] {\textsf H};
+        \draw[-latex] (F) -- (E);
+
+        \draw[<-, -latex,blue] ($(C.east)!0.5!(F.east)$) -- ++(-7mm,0);
+
+
+        \draw (E.north east) -- ++(1cm,0) (E.south east) -- ++ (1cm,0);
+      \end{tikzpicture}
+
+\end{center}
+
+\textbf{Output tape:}
+\begin{center}
+
+  \begin{tikzpicture}[every node/.style={block},
+  block/.style={minimum height=1.5em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+
+        \node (A) {$\Box$};
+        \node (B) [right = of A] {$\Box$};
+        \node (C) [right = of B] {$\Box$};
+        \node (D) [right = of C] {$\Box$};
+        \node (E) [right = of D] {$\Box$};
+
+        \node (F) [above = 0.75cm of A,draw=red,thick] {\textsf H};
+        \draw[-latex] (F) -- (A);
+
+        \draw (E.north east) -- ++(1cm,0) (E.south east) -- ++ (1cm,0);
+      \end{tikzpicture}
+
+\end{center}
+
+\textbf{Input tape:}
+\begin{center}
+
+  \begin{tikzpicture}[every node/.style={block},
+  block/.style={minimum height=1.5em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+
+        \node (A) {$\rhd$};
+        \node (B) [right = of A] {1};
+        \node (C) [right = of B] {0};
+        \node (D) [right = of C] {1};
+        \node (E) [right = of D] {1};
+
+        \node (F) [above = 0.75cm of C,draw=red,thick] {\textsf H};
+        \draw[-latex] (F) -- (C);
+
+        \draw[-latex,blue] ($(F.east)!0.5!(C.east)$) -- ++(7mm,0);
+
+        \draw (E.north east) -- ++(1cm,0) (E.south east) -- ++ (1cm,0);
+      \end{tikzpicture}
+
+\end{center}
+
+\textbf{Work tape:}
+\begin{center}
+
+  \begin{tikzpicture}[every node/.style={block},
+  block/.style={minimum height=1.5em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+
+
+        \node (A) {$\rhd$};
+        \node (B) [right = of A] {1};
+        \node (C) [right = of B] {0};
+        \node (D) [right = of C] {1};
+        \node (E) [right = of D] {1};
+
+        \node (F) [above = 0.75cm of D,draw=red,thick] {\textsf H};
+        \draw[-latex] (F) -- (D);
+
+        \draw[<-, -latex,blue] ($(B.east)!0.5!(F.east)$) -- ++(-7mm,0);
+
+
+        \draw (E.north east) -- ++(1cm,0) (E.south east) -- ++ (1cm,0);
+      \end{tikzpicture}
+
+\end{center}
+
+\textbf{Output tape:}
+\begin{center}
+
+  \begin{tikzpicture}[every node/.style={block},
+  block/.style={minimum height=1.5em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+
+        \node (A) {$0$};
+
+        \node (F) [above = 0.75cm of A,draw=red,thick] {\textsf H};
+        \draw[-latex] (F) -- (A);
+
+        \draw (A.north east) -- ++(1cm,0) (A.south east) -- ++ (1cm,0);
+      \end{tikzpicture}
+
+    \end{center}
+    \textbf{Note: the formal definition may require a $\rhd$ at the beginning of the ouput tape, the procedure would be adjusted accordingly}
+
+    \subsection{Data representation}
+
+    In many real-world problems our input data does not take the innately take the form of a bitstring, when working with Turing machines, it must be encoded as a bitstring. Not all data can be encoded as bitstrings but many can. An example of data that cannot is any member of the set of Real numbers $\mathbb{R}$.
+
+    Knowing this, we can answer a common question: ``\textit{why don't} we consider Turing machines with more than 1 input? '' the answer: We can simply encode a list of bitstrings as a single bitstring!
+
+
 \end{document}
+
