@@ -1,10 +1,16 @@
 \documentclass{article}
-\usepackage{amsmath, amssymb,amsfonts,tikz}
+\usepackage{amsmath, amssymb,amsfonts,tikz, mdframed}
 \usetikzlibrary{shapes,arrows,calc,positioning,backgrounds}
 \title{Algorithms \& Complexity: Lecture 1}
 \author{Sam Barrett}
 \newcommand{\qs}{q_{\texttt{start}}}
 \newcommand{\qh}{q_{\texttt{halt}}}
+\newcommand{\U}{\mathcal{U}}
+
+\newmdtheoremenv{thesis}{Thesis}
+\newmdtheoremenv{problem}{Problem}
+\newmdtheoremenv{proof}{Proof}
+
 
 
 \begin{document}
@@ -197,18 +203,10 @@ We have only looked at one definition of Turing machines, there are many differe
 
 
 \tikzstyle{background rectangle}=[thin,draw=black]
-\begin{center}
-  \begin{tikzpicture}[show background rectangle]
-    \node[align=justify, text width=\textwidth, inner sep=1em]{
-      ``any \textit{'algorithm'} that computes a function $\{ 0,1 \} ^{*} \rightarrow \{ 0,1 \} ^{*}$ can be converted into a Turing machine that computes the same function''
-  };
 
-  \node[xshift=3ex, yshift=-0.7ex, overlay, fill=white, draw=white, above
-  right] at (current bounding box.north west) {
-    Church's thesis
-  };
-  \end{tikzpicture}
-\end{center}
+\begin{thesis}
+      ``any \textit{algorithm} that computes a function $\{ 0,1 \} ^{*} \rightarrow \{ 0,1 \} ^{*}$ can be converted into a Turing machine that computes the same function''
+\end{thesis}
 
 \subsection{Boolean functions and language}
 
@@ -519,6 +517,210 @@ We can represent this as a Turing machine with 3 tapes and 5 states in the follo
     In many real-world problems our input data does not take the innately take the form of a bitstring, when working with Turing machines, it must be encoded as a bitstring. Not all data can be encoded as bitstrings but many can. An example of data that cannot is any member of the set of Real numbers $\mathbb{R}$.
 
     Knowing this, we can answer a common question: ``\textit{why don't} we consider Turing machines with more than 1 input? '' the answer: We can simply encode a list of bitstrings as a single bitstring!
+
+    \section{Code as data}
+
+    We have just seen that many types of data can be encoded as bitstrings and processed by Turing machines. We will now focus on the case where we encode \textbf{Program code} as input to a Turing machine.
+
+    We can encode Java programs as bitstrings, we can even encode other Turing machines as bitstring input to a Turing machine as our Turing machine is essentially a 6-tuple as we mentioned earlier.
+
+    For any bitstring $\alpha $ we will denote the corresponding Turing machine $M_{\alpha }$.
+
+    We will examine two consequences of this encoding:
+
+    \subsection{Universal Java program}
+
+      A \textbf{universal Java program}, this simply refers to a Java \textit{interpreter} written entirely in Java. It is able to execute \textbf{any} Java program.
+
+      This is the same principal as a \textbf{universal Turing machine}, $\mathcal{U}$ being a Turing machine interpreter written in (on?) a Turing machine.
+
+
+      The universal Java program takes 2 parameters: $\alpha $ and $x$, encoded as a single bitstring and returns the same result as the machine $M_{\alpha }$ when applied to $x$
+
+
+      \textit{How can this be achieved?}
+
+      \subsubsection{Sketch of the universal Turing machine, $\mathcal{U}$}
+
+      $\U$ can be implemented using 4 (work) tapes. It first \textit{unpacks}  the input $\langle \alpha , x \rangle $ into its two constituent parts and places them onto the first two work tapes.
+
+      The machine $M_{\alpha }$ may use an alphabet of 100 symbols and 700 work tapes, we can always simulate it using just the alphabet $\{ \rhd, \Box,0,1 \} $ and two work tapes (inc. output tape).
+
+      We essentially simulate $M_{\alpha }$ by providing the machine defined on $1^{st}$ work tape ($\alpha $) with our final 3 work tapes as it's input, work and output tapes respectively. An example will clarify this:
+
+
+
+  \textbf{Input tape:}
+  \begin{center}
+
+    \begin{tikzpicture}[
+    block/.style={minimum height=1.8em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+          \node [block] (A) {$\rhd$};
+          \node[minimum height=1.8em,outer sep=0pt,rectangle,node distance=0pt] (B) [right = of A] {$\langle \alpha, x \rangle $};
+
+          \draw (A.north east) -- ++(3cm,0) (A.south east) -- ++ (3cm,0);
+        \end{tikzpicture}
+
+  \end{center}
+
+  \textbf{Work tape 1:}
+  \begin{center}
+
+    \begin{tikzpicture}[
+    block/.style={minimum height=1.8em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+          \node [block] (A) {$\rhd$};
+          \node[minimum height=1.8em,outer sep=0pt,rectangle,node distance=0pt] (B) [right = of A] {$\alpha $};
+
+          \draw (A.north east) -- ++(3cm,0) (A.south east) -- ++ (3cm,0);
+        \end{tikzpicture}
+
+  \end{center}
+
+  \textbf{Work tape 2:}
+  \begin{center}
+
+    \begin{tikzpicture}[
+    block/.style={minimum height=1.8em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+          \node [block] (A) {$\rhd$};
+          \node[minimum height=1.8em,outer sep=0pt,rectangle,node distance=0pt] (B) [right = of A] {$x$};
+
+          \draw (A.north east) -- ++(3cm,0) (A.south east) -- ++ (3cm,0);
+        \end{tikzpicture}
+
+
+  \end{center}
+
+  \textbf{Work tape 3:}
+  \begin{center}
+
+    \begin{tikzpicture}[
+    block/.style={minimum height=1.8em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+          \node [block] (A) {$\rhd$};
+
+          \draw (A.north east) -- ++(3cm,0) (A.south east) -- ++ (3cm,0);
+        \end{tikzpicture}
+
+  \end{center}
+
+  \textbf{Work tape 4:}
+  \begin{center}
+
+    \begin{tikzpicture}[
+    block/.style={minimum height=1.8em,outer sep=0pt,draw,rectangle,node distance=0pt}]
+
+          \node [block] (A) {$\rhd$};
+
+          \draw (A.north east) -- ++(3cm,0) (A.south east) -- ++ (3cm,0);
+        \end{tikzpicture}
+
+
+      \end{center}
+
+      Where work tape 2,3,4 become input, work tape and output tape for the machine defined on work tape 1 ($M_{\alpha }$)
+
+      \subsection{Diagonalisation}
+
+      This is our second consequence of treating code as data.
+
+      Diagonalisation is a proof method that can be used to show problems to be hard or even impossible.
+
+      Let us examine how to use it to prove the undecidability of the \textbf{halting problem}
+
+      The halting problem (HALT) can be defined as follows:
+
+
+      \begin{problem}[The halting problem]
+
+        the set of pairs $\langle \alpha,x \rangle $ (encoded as a single bitstring) such that machine $M_{\alpha }$, executed on input $x$, halts, i.e. it does not run forever.
+
+      \end{problem}
+
+
+      Turing's proof to this problem is as follows:
+
+      \begin{proof}
+        Suppose that $N$ is a machine that solves the halting problem.
+
+        We can convert it into a machine $N'$ that, given $x$, runs forever if $\langle x,x \rangle \in \texttt{HALT} $ (i.e. the machine $M_{x}$ executed on $x$ halts), and halts otherwise.
+
+        We know $N' = M_{\alpha }$ for some $\alpha $, i.e. there exists some bitstring $\alpha $ that represents our new machine, as we know every machine can be represented as a bitstring.
+
+        Running $N'$ on $\alpha$ halts if it runs forever and runs forever if it halts.
+
+        We have derived a contradition.
+
+
+      \end{proof}
+
+      This can be shown clearly diagramatically:
+
+
+      Given a machine $N$ that can solve the halting problem:
+
+
+      \begin{center}
+        \begin{tikzpicture}
+
+          \node [rectangle,draw,minimum size = 15mm] (N) at (2,2) {$N$};
+
+
+          \node (i1) at (0,2.25) {};
+          \node (i2) at (0,1.75) {};
+
+          \draw (i1) -- node[above] {$\alpha $} (1.25,2.25);
+          \draw (i2) -- node[above] {$x$} (1.25,1.75);
+
+          \node (o1) at (4,2) {};
+
+          \draw (N) -- node[above] {ans} (o1);
+        \end{tikzpicture}
+      \end{center}
+
+      We can construct a machine $N'$ that given a single input, $x$, runs forever if $M_{x}$ executed on $x$ halts and halts otherwise:
+
+      \begin{center}
+        \begin{tikzpicture}
+          %\draw [help lines] (-5,-5) grid (10,10);
+
+          \node [rectangle,draw,minimum size = 15mm] (N) at (2,2) {$N$};
+
+
+          \node (i1) at (0,2.25) {};
+          \node (i2) at (0,1.75) {};
+
+          \draw (i1) -- node[above] {$\alpha $} (1.25,2.25);
+          \draw (i2) -- node[above] {$x$} (1.25,1.75);
+
+          \node (o1) at (4,2) {};
+
+          \draw (N) -- node[above] {ans} (o1);
+
+          \draw[red,thick] ($(o1.north west)+(4,2)$)  rectangle node[above = 1.5cm of o1] {$N'$} ($(i2.south east)+(-1,-2)$);
+
+          \node (i3) at (-2,2) {$\alpha $};
+
+          \draw (i3) edge[bend right] (0.1,1.75);
+          \draw (i3) edge[bend left] (0.1,2.25);
+          \node [draw, diamond] (q) at (5.2,2){ans= \texttt{halt} ?};
+
+          \node [draw,rectangle] (loop) at (7,3.5) {\texttt{loop} };
+
+          \node (o2) at (9,2) {};
+
+          \draw (q) -- node[above] {\texttt{false} } (o2);
+          \draw (q) -- node[above] {\texttt{true} } (loop);
+
+
+        \end{tikzpicture}
+      \end{center}
+      \textbf{Where the outermost $\alpha$ is the bitstring of $N'$}
+
+
+      Above you can clearly see that if $N'$ is run on the bitstring representation of itself ($\alpha $), it will halt only if it does not halt and it will hang if it halts. This cannot occur, therefore we cannot construct $N$ and the problem is undecidable.
 
 
 \end{document}
