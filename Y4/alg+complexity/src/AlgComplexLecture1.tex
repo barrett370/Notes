@@ -3,14 +3,14 @@
 \usetikzlibrary{shapes,arrows,calc,positioning,backgrounds}
 \title{Algorithms \& Complexity: Lecture 1}
 \author{Sam Barrett}
-\newcommand{\qs}{q_{\texttt{start}}}
-\newcommand{\qh}{q_{\texttt{halt}}}
-\newcommand{\U}{\mathcal{U}}
 
 \newmdtheoremenv{thesis}{Thesis}
 \newmdtheoremenv{problem}{Problem}
 \newmdtheoremenv{proof}{Proof}
 
+\newcommand{\qs}{q_{\texttt{start}}}
+\newcommand{\qh}{q_{\texttt{halt}}}
+\newcommand{\U}{\mathcal{U}}
 
 
 \begin{document}
@@ -721,7 +721,6 @@ We can represent this as a Turing machine with 3 tapes and 5 states in the follo
 
 
       Above you can clearly see that if $N'$ is run on the bitstring representation of itself ($\alpha $), it will halt only if it does not halt and it will hang if it halts. This cannot occur, therefore we cannot construct $N$ and the problem is undecidable.
-
 
 \end{document}
 
