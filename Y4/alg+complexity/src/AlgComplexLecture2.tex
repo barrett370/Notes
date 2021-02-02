@@ -7,6 +7,7 @@
 \newmdtheoremenv{thesis}{Thesis}
 \newmdtheoremenv{problem}{Problem}
 \newmdtheoremenv{proof}{Proof}
+\newmdtheoremenv{definition}{Definition}
 
 \newcommand{\N}{\mathbb{N}}
 \newcommand\defeq{\stackrel{\mathclap{\normalfont\mbox{def}}}{=}}
@@ -364,8 +365,174 @@ block/.style={minimum height=1.8em,outer sep=0pt,draw,rectangle,node distance=0p
   The same argument can be made to show that if we have something in polynomial \textbf{space} it must be in \textbf{exponential } time. To construct this proof simply replace the $\log n$ in the above proof with a polynomial.
 
 
-\section{Nondeterministic time complexity}
+  \section{Nondeterministic time complexity}
+
+  A simple definition of the complexity class $\bf{NP}$ is
+
+  \begin{definition}($\bf{NP}$)
+
+    Problems for which checking a solution is easy
+
+  \end{definition}
+
+  There are two methods for formally defining $\bf{NP}$:
+  \begin{enumerate}
+    \item using certificates
+    \item using nondeterministic Turing machines.
+  \end{enumerate}
+
+  \subsection{Example: Sudoku}
+
+  Let \texttt{SUD} be the set of solvable $n$-Sudoku puzzles, where $n$ refers to the dimension of the grids.
+
+  Given a Sudoku puzzle $x$, a solution \textbf{certifies} that $x \in \texttt{SUD} $
+
+  The size of a solution is polynomial in $|x|$ (the length of $x$). The time taken to check a candidate solution is also polynomial in $|x|$
+
+  \subsection{Defining $\bf{NP}$ using certificates}
+
+  \begin{definition}($\bf{NP}$)
+    A language $L$ is said to be in $\bf{NP}$ if there is a polynomial-time machine for checking polynomially-sized certificates of $L$.
+
+    Or, more precisely:
+
+    If there is a polynomial $p$, which gives the size of a candidate certificate) and a polynomial-time machine (for checking a candidate certificate) $M$ such that, $\forall x \in \{ 0,1 \}^{*} $(where $x$ is a bitstring representation of a Sudoku puzzle), the following are equivalent:
+
+    \begin{itemize}
+      \item $x\in L$
+      \item There is some bitstring $u$ (a solution to the puzzle) of length $p|x|$ such that, $M \langle x,u \rangle = 1$.
+    \end{itemize}
+
+    Here we say that $u$ certifies the fact that $x \in L$
+  \end{definition}
+
+  \textbf{Note above, all text in parenthesis is not a part of the definition}
+
+  \subsection{Nondeterministic Turing machine}
+
+
+  A \textbf{nondeterministic Turing machine} is similar to a Turing machine except for:
+  \begin{itemize}
+    \item it has 2 transition functions: $\delta_{0}$ and $\delta_{1}$
+          \item besides having a halting state $q_{\texttt{halt} }$ it also has an accepting state $q_{\texttt{accept} }$
+  \end{itemize}
+
+  It starts in the initial state $q_{\texttt{start} }$, the same as a conventional Turing machine. At each step it \textit{follows} either $d_{0 }$ or $d_{1}$. Once the machine's state is $q_{\texttt{accept} }$ or $q_{\texttt{halt} }$, no further transition takes place.
+
+
+  When we have a nondeterministic Turing machine we need to be more careful when talking about the worst-case time complexity.
+  For example:
+
+
+\begin{center}
+ \begin{tabular}{|c|c|}
+ \hline
+ Input & Running time\\ [0.5ex]
+ \hline\hline
+ 00 & 15, 7, 3, 9\\
+ \hline
+ 01 & 6, \textbf{23}\\
+ \hline
+ 10 & 7, 11, 5, 11, 8 \\
+ \hline
+ 11 & 12, 3, 4, 3, 12\\
+ \hline
+\end{tabular}
+\end{center}
+
+Here $\texttt{WT}_{M}(2) = 23$ and the machine is polynomial-time if $WT_{M}$ is $O(n^{k})$ for some $k \geq 1$
+
+\subsection{Defining \bf{NP} using nondeterministic Turing machines}
+\label{subsec:NPNDTM}
+
+
+A language $L$ is in $\bf{NP}$ when there's a polynomial-time nondeterministic machine $M$ such that, for $\forall x \in \{ 0,1 \} ^{*}$, the following are equivalent:
+
+\begin{itemize}
+  \item $x \in L$, $x$ is in the language $L$.
+  \item When $M$ is executed with input $x$, there's some sequence of choices that leads to $q_{\texttt{accept} }$
+\end{itemize}
+
+\subsubsection{Example: \texttt{SUD} }
+
+In the case of $n$-Sudoku, given a Sudoku puzzle $x$, the nondeterministic Turing machine does the following:
+
+\begin{enumerate}
+  \item begins by copying $x$ to the work tape.
+  \item Then it non-deterministically fills each blank with a digit. \textbf{This stage takes time polynomial in $|x|$}
+  \item It goes on to check whether the completed grid is valid. \textbf{This step (and substeps) also takes time polynomial in $|x|$}
+        \begin{enumerate}
+          \item If it is, it goes to $q_{\texttt{accept} }$
+          \item if it is not, it goes to state $q_{\texttt{halt} }$.
+        \end{enumerate}
+\end{enumerate}
+
+\subsection{Equivalence of definitions}
+
+Our two definitions of $\bf{NP}$ \textbf{are} equivalent.
+
+\subsection{Is $\bf{NP} = P$?}
+
+Clearly $P \subseteq \bf{NP}$. This is the case trivially because any deterministic Turing machine is also a nondeterministic Turing machine by simply setting the accepting state to be the same as the halting state, and both transition functions to be the same.
+
+It is an open problem as to whether $P = \bf{NP}$. The currently supported hypothesis is \textbf{no}, $P \neq \bf{NP}$. If the answer is \textit{yes}, then there is a polynomial time algorithm for deciding whether an $n$-Sudoku puzzle is solvable.
+
+It follows that there is a polynomial time algorithm that, given a solvable $n$-Sudoku puzzle, finds a solution. This is by testing all possible digits for each blank space.
+
 
 \section{Nondeterministic space complexity}
+
+Given a nondeterministic Turing machine, what does it mean to be in non-polynomial space complexity?
+
+Let $M$ be a nondeterministic Turing machine. It is in polynomial-space if $\texttt{WS}_{M}$ is $O(n^{k})$ for some $k \geq 1$.
+
+The worst case space complexity is polynomial, therefore, \texttt{NPSPACE} is the class of languages that can be decided by a polynomial-space nondeterministic Turing machine. This is the same principal as we saw in our second definition of $\bf{NP}$ in Section~\ref{subsec:NPNDTM}.
+
+The same as $P \subseteq \bf{NP}$, $\texttt{PSPACE} \subseteq \texttt{NPSPACE}  $.
+
+\subsection{Savitch's theorem}
+
+Using a special case of Savitch's theorem, we show $\texttt{PSPACE} = \texttt{NPSPACE}  $
+
+Suppose that $M$ is a nondeterministic Turing machine, and for an input size $n$, the space usage is polynomial in $n$
+
+Then the length of a configuration (as defined earlier) is also polynomial in $n$.
+
+Let us say that, for $n \geq 1000$, a configuration has length at most $7n^{18}$.
+
+Consider the configuration (directed) graph, which shows all $\leq 2^{7n^{18}}$ different configurations and the transitions between them. Each configuration has at most 2 next configurations.
+
+With this graph, we want to, using a space-efficient algorithm, work out if there's a path from the start configuration to any accepting configuration. If such a path exists we know that the input is accepted.
+
+\textit{How do we find this path space-efficiently?}
+
+
+\subsubsection{Finding a space space-efficiently}
+
+To answer this question, we generalise.
+
+Given nodes $s$ and $t$ and a number $k$, how much space do we use when deciding whether there is a path of length $\leq 2^{k}$ from $s$ to $t$ ? We will refer to this result as $D(k)$.
+
+We will argue, by induction, that $D(k) \leq k \times 7n^{18}$.
+
+To do this we check, for each configuration $t$, whether $t$ is accepting and whether there is a path from the start configuration to $t$. This requires at most $7n^{18}$ bits to store $t$, and $D(7n^{18})$ bits to check for the path, i.e. at most $7n^{18} +  (7n^{18})^{2}$ bits in total. This polynomial, as is required by \textit{Savitch's theorem}.
+
+All that is left is to finish the inductive proof of $D(k) \leq k \times 7n^{18}$.
+\begin{proof}
+
+\underline{Base case:} If $k=0$, the problem is trivial. Just check if $s=t$.
+
+\underline{Inductive step:} To find whether there is a path from $s$ to $t$ of length $\leq 2^{k+1}$, do the following:
+\begin{enumerate}
+  \item For each node $z$, test whether there is a path from $s$ to $z$ of length $\leq 2^{k}$ and a path from $z$ to $t$ of length $\leq 2^{k}$
+  \item By inductive hypothesis, this takes $\leq k \times 7n^{18}$ cells, plus a further $7n^{18}$ cells to store $z$. Totalling $\leq (k+1) \times 7n^{18}$.
+
+\end{enumerate}
+
+Hence, $D(k+1) \leq (k+1) \times 7n^{18}$ therefore true $\forall k$
+\end{proof}
+
+
+
 
 \end{document}
