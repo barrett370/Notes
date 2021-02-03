@@ -1,15 +1,16 @@
-
+\message{ !name(VisionImagingLecture1.tex)}
 
 \documentclass{article}
-\usepackage{graphicx,amsmath,mdframed}
+\usepackage{graphicx,amsmath}
 
-
-\newmdtheoremenv{law}{Law}
 
 \title{Computation \& Robot Vision: Lecture 1}
 \author{Sam Barrett}
 
 \begin{document}
+
+\message{ !name(VisionImagingLecture1.tex) !offset(-3) }
+
 \maketitle
 
 \section{Camera and image formation}
@@ -172,131 +173,12 @@ Consider the \textit{fronto-parallel} plane $\Pi_{0}$ defined by $Z = Z_{0}$, fo
     x = -mX, \\
     y = -mY
   \end{cases}
+
+  \text{where} m = - \frac{d}{Z_{0}}
 \]
-
- $ \text{where } m = - \frac{d}{Z_{0}}$
-
- Physical constrains mean that $Z_{0}$ must be negative (or simply, the plane must be in front of the pinhole), so the magnification $m$ associated with the plane $\Pi_{0}$ is positive.
-
-Consider two points $P$ and $Q$ in $\Pi_{0}$ and their corresponding projected images $p$ and $q$, it is obvious that $\vec{PQ}$ and $\vec{pq}$ are parallel, meaning that $\|\vec{pq}\| = m \| \vec{PQ} \|$. This  simply demonstrates the dependence of image size on object distance that we observed earlier.
-
-An advantage of weak perspective is that it is relatively easy to use but it isn't particularly accurate. It can be used when the scene depth is small relative to the average distance from the camera, i.e. $m$ can be taken to be constant.
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[scale=0.6]{figures/weakperspective.png}
-  \caption{\label{fig:weakperspective} Weak Perspective Projection}
-\end{figure}
-
-
-\subsection{Orthographic Projection}
-
-When it is known that the camera always remains at a roughly constant distance from the scene, we can normalise the image coordinates so that $m=-1$. This is the \textit{orthographic projection} and is defined by:
-
-\[
-  \begin{cases}
-    x = X, \\
-    y = Y
-  \end{cases}
-\]
-
-with all light rays parallel to the $\mathbf{k} $ axis and orthogonal to the image plane $\pi$. This can be an acceptable model in many conditions but the assumption of pure orthographic projection is usually unrealistic.
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[scale=0.6]{figures/orthperspective.png}
-  \caption{\label{fig:orthperspective} Orthographic Projection}
-\end{figure}
-
-\subsubsection{Size of pinhole}
-
-\begin{itemize}
-  \item Pinhole too big
-
-        Many directions are averaged, blurring the image
-
-  \item Pinhole correctly sized
-
-        Dark but sharp image
-
-  \item Pinhole too small
-
-        Diffraction effects blur the image.
-\end{itemize}
-
-Generally, pinhole cameras produce dark images as very little light is allowed through the pinhole onto the sensor.
-
-\subsection{Cameras with lenses}
-
-Most cameras are equipped with lenses, this is to circumvent the issues that arise from using a pinhole.
-
-\begin{itemize}
-  \item lenses can help to gather more light
-  \item lenses can help to keep the produced image in sharp focus.
-\end{itemize}
-
-\subsubsection{The law of geometric optics}
-
-Lenses are governed by the law of geometric optics.
-
-\begin{itemize}
-  \item Light travels in straight lines when travelling in homogeneous media.
-  \item When a ray is reflected from a surface, this ray, its reflection, and the surface normal are coplanar and the angles between them are complimentary
-        \item When a ray passes from one medium to another, it is \textit{refracted}, meaning its direction changes.
-\end{itemize}
-
-
-
-\begin{law}(Snell's law)
-\[
-  n_{1}\sin \alpha_{1} = n_{2}\sin \alpha_{2}
-\]
-
-Where:
-
-\begin{itemize}
-  \item $r_{1}$ is the incident ray
-  \item $n_{1}$ and $n_{2}$ are the refractive indexes of the origin medium and destination medium respectively.
-  \item $r_{2}$ is the refracted ray
-  \item $r_{1}$ and $r_{2}$ are the normal to the incident surface and are coplanar
-  \item $\alpha _{1}$ and $\alpha _{2}$ are the angles between the normal and the $r_{1}$ and $r_{2}$
-\end{itemize}
-\end{law}
-
-When the angles between these rays and the refracting surfaces of the lens are assumed to be small, Snell's law becomes $n_{1}\alpha_{1} \approx n_{2}\alpha_{2}$. \textbf{This is known as the paraxial form of Snell's law.}
-
-If we consider a \textit{thin} lens with two spherical surfaces of radius $R$ and a refractive index of $n$ and we assume the lens is surrounded by a vacuum, rays passing through $O$ are not refracted. This is the case as any ray passing through the right boundary of our lens is refracted but is then refracted precisely the same amount the other way when passing the left boundary.
-
-Consider a point $P$ which is located at $-Z$ from the optical axis (the plane on which the lens sits), and denote a ray $PO$ which passes from this point through the centre of the lens $O$. It follows from our paraxial form of Snell's law that $PO$ is \textbf{not} refracted. It is also the case that all other rays passing through $P$ are focused by our lens to the point $p$ located at a depth of $z$ such that,
-
-\[
-  \frac{1}{z} - \frac{1}{Z} = \frac{1}{f}
-\]
-
-Where $f= \frac{R}{2(n-1)}$ and is the focal length of the lens.
-
-All of this however, relies on an idealised \textit{thin} lens. In actuality, our lenses do not have these same characteristcs.
-
-
-There are other such aberrations:
-
-\begin{itemize}
-  \item Chromatic abberation
-        \begin{itemize}
-          \item   Light at different wavelengths follows different paths, meaning some wavelengths are defocussed
-                \item This can be avoided in machines by coating the lens. Humans cannot avoid it.
-        \end{itemize}
-  \item Scattering at the lens surface
-
-        \begin{itemize}
-          \item Some light entering the lens system is reflected oiff each surface it encounters (see Fresnel's law)
-          \item This can be circumvented in machines by coating the lens and its interior. Humans must live with it.
-        \end{itemize}
-\end{itemize}
-
-These abberations can also be avoided through the use of compound lenses.
-
 
 
 \end{document}
 
+
+\message{ !name(VisionImagingLecture1.tex) !offset(-184) }
