@@ -1,127 +1,78 @@
-% Created 2021-02-01 Mon 11:06
-% Intended LaTeX compiler: pdflatex
+
+
 \documentclass{article}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 \usepackage{graphicx}
-\usepackage{grffile}
-\usepackage{longtable}
-\usepackage{wrapfig}
-\usepackage{rotating}
-\usepackage[normalem]{ulem}
-\usepackage{amsmath}
-\usepackage{textcomp}
-\usepackage{amssymb}
-\usepackage{capt-of}
-\usepackage{hyperref}
-\usepackage{tikz}
-\usetikzlibrary{shapes,arrows,calc,positioning}
+
+\title{Computation \& Robot Vision: Lecture 1}
 \author{Sam Barrett}
-\date{\today}
-\title{Lecture 1}
 
 \begin{document}
-
 \maketitle
 
-\section{Topic Overview}
-\label{sec:org67939df}
+\section{Camera and image formation}
+\label{sec:cif}
 
-Robot vision is a subset of Computer vision
+\subsection{The human eye}
+\label{subsec:human-eye}
 
-\section{Introduction to Computer Vision}
-\label{sec:orgdd022ac}
+The ultimate goal of Computer vision is to allow computers to \textit{see} in a similar (or better) way to humans.
 
-\subsection{A brief history of biological vision}
-\label{sec:org9d27a8e}
+We must first start with what we are trying to emulate: the human eye.
 
-\begin{itemize}
-\item Vision can be traced back around 543M years.
-\item Around this time, the number of different species \emph{exploaded}
-\item We believe vision was responsible for this phase of evolution.
-\item Humans have around 50\% of our neural tissue linked directly or indirectly to
-\end{itemize}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[scale=0.5]{figures/human-eye.jpeg}
+  \caption{\label{fig:human-eye} Diagram of the human eye}
+\end{figure}
 
-\subsection{History of Computational Vision}
-\label{sec:orgab35275}
-One of the first academic works in computer vision was \emph{Block World} in 1963 by Larry Roberts. Here the world is translated into simple geometric shapes with the goal being to identify and understand what these shapes are.
+The human eye works by focusing the light entering via the pupil using the lens. This forms an image on the retina.
 
-Another influential figure in modern computer vision is David Marr.
-\subsubsection{Though process of David Marr}
-\label{sec:org4a1ae90}
+The retina is made up of many different types of cells, ultimately terminating in the ganglion cells which feed information to the brain via optic nerve fibres. It's composition can be seen in Figure~\ref{fig:retina}.
 
-Marr's process of thinking about computation representations of images follows very closely to what neuroscientists believe happens inside the human brain.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[scale=0.3]{figures/retina_med.jpeg}
+  \caption{\label{fig:retina} Diagram of the retina}
+\end{figure}
 
-\begin{center}
-\begin{tikzpicture}[block/.style={
-draw, rectangle split, rectangle split, rectangle split parts=2, rectangle split draw splits=true, text width = 25mm
-}]
-    \node [block] (b1) {
-    Input Image
-    \nodepart{two} Perceived intensities
-  };
+The ganglion cells collect information regarding the visual world from bipolar and amacrine cells. The information takes the form of chemicals messages emitted by receptors on the ganglion cell's membrane.
 
-    \node [block, right=10mm of b1] (b2) {
-    Primal Sketch
-    \nodepart{two} Zero crossings, blobs, edges, bars, ends, virtual lines, groups, curve boundaries};
+\subsection{Evolution of cameras}
 
-    \node [block, right=10mm of b2] (b3) {
-    2 $\frac{1}{2}$-D Sketch
-    \nodepart{two} Local surface orientation and discontinuities in depth and in surface orientation};
+The evolution of artificial cameras started in the renaissance with the likes of Da Vinci experimenting with camerae obscurae (pinhole image projections) and perspective. Later, photographic film was invented, allowing for the capture of images by exposing the film to different levels of light, focused by a lens the same as we have seen in Figure~\ref{fig:human-eye}.
 
-    \node [block, right=10mm of b3] (b4) {
-    2 3-D Model representation
-    \nodepart{two} 3-D models hierarchically organised in terms of surface and volumetric primitives};
+We have since gone on to develop entirely digital cameras but the principals remain the same. Here, the photographic film containing photosensitive particles is replaced with a camera \textit{sensor} which are arrays of light-sensitive diodes which convert photons to electrons.
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[scale=0.3]{figures/digital-sensor.jpg}
+  \caption{\label{fig:digital-sensor} Basic photosensor construction }
+\end{figure}
 
-  \draw[->] (b1) -- (b2);
-  \draw[->] (b2) -- (b3);
-  \draw[->] (b3) -- (b4);
-\end{tikzpicture}
-\end{center}
+Digital images are a 2D grid (or matrix) of integers which show the continuous fluctuations in levels of light.
 
-This interpretation is useful to understand the process of decomposing a image into computer-operable data.
+\subsubsection{Encoding colour}
 
-Computer Vision is a multi-disciplinary field utilising expertise from Physics, Biology, Engineering, Computer Science and Psychology.
+How do we encode colour into this matrix of integers? We first need to decide on a representation of colour that a computer can understand. We do this by decomposing colours into their primary components. I.e. the different levels of red, green and blue. We can represent \textbf{any} colour using weighted combinations of these colours.
 
-\subsection{Robot/ Computer Vision}
+Unfortunately, each photodiode is \textit{colour blind} and cannot tell the colour of the light hitting it, only it's intensity. So in order to detect the colour of an image, sensors deploy filters such as the Bayer filter. These are layouts of photo-diodes such that each receptor site is known to only detect light from a particular part of the spectrum. The Bayer filter can be seen in Figure~\ref{fig:bayer1}. Using such a filter we can estimate the RGB at each cell using the values of it's neighbours.
 
-The main goal of computer vision is to automatically understand images and videos. It attempts to do this by computing properties of the 3D world from visual data. This is the \textit{measurement} phase.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[scale=0.1]{figures/bayer1.png}
+  \caption{\label{fig:bayer1} Bayer filter overtop of a sensor}
+\end{figure}
 
-To do this we require algorithms and representations to allow a machine to recognise objects, people, scenes and activities. This is known as \textit{perception} and \textit{interpretation} .
+\begin{figure}[ht]
+  \centering
+  \includegraphics[scale=0.5]{figures/bayer2.jpeg}
+  \caption{\label{fig:bayer2} Diagram showing effect of the Bayer filter}
+\end{figure}
 
-The next level is to implement algorithms to mine, search and interact with visual data. This is the \textit{search} and \textit{organisation} stage.
+\textit{Why are there twice as many green as red and blue pixels?}
 
-\subsubsection{Difficulty}
+This is done to mimic the higher sensitivity the human eye has towards green light.
 
-Human vision is not the goal, it is also flawed and can be fooled with optical illusions. Ideally, out computer systems would be immune to such issues.
-
-What humans and computers ``\textit{see} '' differ greatly. Human vision produces a set of electrical impulses which our brain formats into what we know as an image. Computers interpret electrical signals differently, instead \textit{seeing} images as matrices of numbers.
-
-There is also the issue of ambiguity arising from 3D scenes captured in 2 dimensions. Such as perspective changes.
-
-
-Humans often use prior knowledge when interpreting an image. This is often useful but can lead to inaccuracies.
-
-\section{Modern computer vision applications}
-
-\subsection{Optical Character Recognition}
-
-This system is widely used for scanning writing into a format that computers can work with. This is used for cheque processing, number plate recognition and handwriting recognition.
-
-\subsection{Facial Recognition}
-
-Another modern application of computer vision is facial authentication. This method for authorisation has been widely adopted and continues to see advancements to allow for things such as glasses, facial hair or different light levels.
-
-
-\textbf{The rest of this lecture is just interesting applications \& videos, rewatch it if you are interested}
-
-\section{Summary}
-
-\begin{itemize}
-  \item Robot/ computer vision is useful, interesting but difficult
-  \item It is a growing and exciting field
-  \item There are many \textit{cool} and important applications
-\end{itemize}
 
 \end{document}
+

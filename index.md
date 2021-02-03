@@ -28,6 +28,7 @@ Please follow the following links for lecture notes.
 
 - [Principals of Programming Languages, Design and Implementation](./Y4/plpdi/ppl-index.md)
 - [Algorithms and Complexity](./Y4/alg+complexity/alg-index.md)
+- [Computer Vision](./Y4/vision+imaging/vision-index.md)
 
 
 
