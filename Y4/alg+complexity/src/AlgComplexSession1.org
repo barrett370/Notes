@@ -1,0 +1,66 @@
+#+TITLE: Algorithms and Complexity: Online session week 2
+#+OPTIONS: toc:nil
+
+* Points on formative assignment
+
+- Before trying to answer a question, make sure you understand it.
+- Try and unpack the question. Expand on all assumptions you are given.
+
+  1. Need to give a logspace TM that decides this language
+     We are not expected to fully describe the Turing machine and work out the precise space usage or running time. The amount of detail seen in the model answer.
+
+     The worse case $\texttt{WS}_{M}(n) \leq c \cdot \log n$, this **must** hold for all bitstrings whether in the language or not.
+
+  2. Suppose $L$ is a language in $\bf{NP}$. Then we want to show $L$ is in $\texttt{PSPACE}$
+     **Note: We must be sure to say /'we want to show'/ when talking about something we are yet to prove.
+
+     We have a polynomial $p$ and a polytime machine $M$ s.t. $\forall x \in \{ 0,1\}^{*}, x \in L \Longleftrightarrow \exists u M(x,u) = 1$ where $u$ is a bitstring whose length is $p (| x |)$
+
+     We want to show it is in $\texttt{PSPACE}$, so we want to provide a TM $N$ that decides $L$ and uses polynomial space.
+
+     _Algorithm to decide whether $x \in L$:_
+
+     Step 1. work out $p(|x|)$
+
+     Step 2. go through each bitstring $u$ of that length & check whether $M(x,u) = 1$
+
+    Step 1: uses polynomial space.
+
+    Step 2: uses $p(|x|)$ space to hold $u$, it reuses this same space for each $u$ that we test. $M$ uses polynomial time, we know that anything that is polytime is polyspace!
+    Therefore, overall we must be using polynomial space.
+
+  3. We want $f \notin O(g)$, we want $f(n) > 2 g(n)$ infinitely often.
+
+  4. Given $L_{1},L_{2} \in \mathbf{NP}$
+
+     Since $L_{1} \in \mathbf{NP}$ , we have a polynomial $p_{1}$ and a polytime machine $M_{1}$ that checks $p_{1}$ sized certificates for $L_{1}$
+
+     We also have the same for $L_{2}$, a polynomial $p_{2}$ and a polytime machine $M_{2}$ which checks $p_{2}$ sized certificates for $L_{2}$.
+
+     a. $L_{1} \cup L_{2} \in \mathbf{NP}$ ?
+
+        Thought process:
+
+        - Given a bitstring $x$, say that $u$ certifies that $x \in L$ if $M_{1}(x,u) = 1$ or $M_{2}(x,u) = 1$, here $u$ should have length of $p_{1}(|x|)$ and $p_{2}(|x|)$ respectively.
+
+          If we are lucky and $p_{1} = p_{2}$, we use $p_{1}$ as our size polynomial and the machine $M$ which takes $u$ and machines $M_{1}$ and $M_{2}$
+
+          Let us take a polynomial $p$ which is both $\geq p_1$ and $\geq p_{2}$. We can easily say that $p(n) = p_{1}(n) + p_{2}(n)$.
+
+          Let $M$ be the machine that takes a pair $(x,u)$ and runs $M_{1}(x,u_{1})$ where $u_{1} is the first $p_{1}(|x|)$ bits of $u$
+          and runs $M_{2}(x,u_{2}$ where $u_{2}$ is the first $p_{2}(|x|)$ bits of u
+          and returns 1 if either of these returns 1
+
+          Everything above is polytime, so $M$ is polynomial time also.
+
+          We want to say $x \in L_{1} \cup L_{2}$ iff $\exists u \in \{0,1\}^{p(|x|)} . M(x,u) = 1$
+
+          If $x \in L_{1} \cup L_{2}$:
+
+          _case a_: $x \in L_{1}$, then there is $u_{1} \in \{0,1\}^{p_1(|x|)} . M(x,u_1)=1$
+
+          Let $u$ be $u_1$ followed by 0's of length $p(|x|)$
+
+          Now $M(x,u)$ begins by runnign $M_1(x,u_1)$ which gives 1, so this gives 1
+
+          _case b_: $x \in L_2$ **similar**

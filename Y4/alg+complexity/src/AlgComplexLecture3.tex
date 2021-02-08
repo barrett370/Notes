@@ -1,0 +1,193 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb,amsfonts,tikz, mdframed}
+\usetikzlibrary{shapes,arrows,calc,positioning,backgrounds}
+\title{Algorithms \& Complexity: Lecture 3, Completeness and Reductions}
+\author{Sam Barrett}
+
+\newcommand{\T}{\texttt{T }}
+\newcommand{\True}{\texttt{True }}
+\newcommand{\F}{\texttt{F }}
+\newcommand{\False}{\texttt{False }}
+\newcommand{\NP}{\mathbf{NP}}
+\renewcommand{\P}{\mathbf{P}}
+
+\newmdtheoremenv{lemma}{Lemma}
+\newmdtheoremenv{theorem}{Theorem}
+
+\begin{document}
+\maketitle
+
+\section{SAT and its variants}
+\label{sec:sat}
+
+\subsection{Propositional connectives}
+\label{subsec:proplogic}
+
+A basic reminder of  Propositional logic and connectives:
+
+\begin{itemize}
+  \item \T (\True) and \F (\False) are the propositional \textbf{constants}
+  \item $a \wedge b$ is \True if both $a$ and $b$ are \True, otherwise \False. \textbf{Conjunction}
+  \item $a \vee b$ is \True if either $a$ or $b$ is \True, otherwise \False. \textbf{Disjunction}
+  \item $\neg a$ is \True if $a$ is \False and vice versa. \textbf{Negation}
+  \item $a \rightarrow b$ is \True if either $a$ is \False or $b$ is \True, but \False otherwise. \textbf{Implication}
+\end{itemize}
+
+\begin{lemma}\label{lemma:prop-logic}
+  \textbf{A propositional expression can be evaluated in linear time.} \textit{This is done using the \textit{shunting yard} algorithm to translate into postfix notation and then evaluating using a stack.}
+\end{lemma}
+
+\subsection{Conjunctive normal form}
+\label{subsec:cnf}
+
+A formula is in CNF when it is a conjunction of disjunctions of variables and their negations.
+
+For example,
+
+\[
+  (u_{0}\vee \bar{u_{1}} \vee u_{2}) \wedge (u_{1}\vee \bar{u_{2}} \vee u_{3}) \wedge \underbrace{(\bar{u_{0}\vee u_{2} \vee \bar{u_{3}}})}_{\text{clause}}
+\]
+
+Where in the above example $\bar{u}$ is the negation of $u$.
+
+The disjunctions within the formula are called \textbf{clauses } and the variables are called \textbf{literals}
+
+A clause can be written as $u \rightarrow (v \vee w \vee x)$ rather than $\bar{u} \vee v \vee w \vee x$
+
+\subsubsection{3CNF formulae}
+\label{subsubsec:3cnf}
+
+A CNF formula is \textbf{3CNF} when each clause has at most 3 literals
+
+\textbf{Note: any 3CNF clause can be written as an implication}
+
+\subsection{Satisfiability}
+\label{subsec:satisfiability}
+
+
+Satisfiability is the process of answering questions of the form: \textit{Over the variables $p,q,r$ is the formula $(\neg(q \rightarrow p) \wedge r) \vee (p \wedge q)$}  satisfiable?
+
+In this particular example, the answer is \textit{yes}, in the case where $p= \F$ and $q = r = \T$
+
+\subsubsection{Formula-SAT}
+\label{subsubsec:fsat}
+
+\texttt{Formula-SAT} is the set of all formulas that are satisfiable.
+
+\texttt{Formula-SAT} is in $\NP$, this is the case as given a formula $\phi$, and an interpretation $u$,
+\begin{itemize}
+  \item the length of $u$ is no longer than that of $\phi$
+  \item it takes linear time to test whether it is a satisfying assignment by Lemma~\ref{lemma:prop-logic}.
+\end{itemize}
+
+\subsubsection{SAT}
+\label{subsubsec:sat}
+
+\texttt{SAT} is the set of CNF formulae that are satisfiable. Since \texttt{SAT} is a special case of \texttt{Formula-SAT} (which is in $\NP$), it too is in $\NP$
+
+\subsubsection{3SAT}
+\label{subsubsec:3sat}
+
+\texttt{3SAT} is the set of 3CNF formulae that are satisfiable. Again, since it is a special case of \texttt{SAT}, it too is in $\NP$.
+
+\section{Reductions}
+\label{sec:reductions}
+
+We often want to reduce a problem in mathematics/ Computer science to another, simpler or more understood problem. Intuitively, this can be thought of in the same way as reducing the problem of making \textit{profiteroles} to the problem(s) of making cream-filled pastries and making chocolate sauce.
+
+Let $L$ and $L'$ be languages.
+
+A (many-to-one) \textbf{reduction} from $L$ to $L '$ is a function $f : \{ 0,1 \} ^{*} \rightarrow \{ 0,1 \}^{*} $ such that for any bitstring, $x$ we have $x \in L$ iff $f(x) \in L '$.
+
+Or, more plainly, if we know how to decide membership fo $L '$, then the reduction enables us to decide membership of $L$.
+
+\subsection{Computable reductions}
+\label{subsec:comp-reductions}
+
+We write $L \leq_{m} L '$ when there is a reduction from $L$ to $L '$ that is \textbf{computable}. From this we can see that:
+
+\begin{itemize}
+  \item If $L '$ is decidable, then $L$ is decidable
+  \item If $L$ is undecidable (\textit{e.g. Halting problem}), then $L '$ is undeciable .
+\end{itemize}
+
+This is a very useful property and allows us to easily prove the deciability or undecidability of problems without explicity having to prove them. We will \textbf{not} look any closer in this module.
+
+\subsection{Polynomial time reductions}
+\label{subsec:polytime-reductions}
+
+We write $L \leq_{P } L '$ when there is a reduction from $L$ to $L ' $ that is \textbf{polynomial time}.
+\begin{itemize}
+  \item If $L '$ is in $\P$, then $L$ is also in $\P$
+  \item If $L '$ is in $\NP$, then $L$ is also in $\NP$
+\end{itemize}
+
+\subsection{$\NP$-Completeness}
+\label{subsec:np-complete}
+
+A language $L$ is $\NP$-hard if \textbf{every} language in $\NP$ has a polynomial-time reduction to it.
+
+Therefore, if $L$ is in $\P$ and $\NP$-hard then $\P = \NP$!
+
+If $L$ is in $\NP$ and also $\NP$-hard, we say that it is $\NP$-complete. These are the \textit{hardest} problems in $\NP$.
+
+\subsubsection{Proving $\NP$-completeness}
+
+To prove that a problem is $\NP$-complete:
+
+\begin{itemize}
+  \item One must show that it is in $\NP$
+  \item One must show that some other $\NP$-hard problem reduces to it.
+\end{itemize}
+
+\section{The Cook-Levin theorem}
+\label{sec:cook-levin}
+
+\begin{theorem}
+  \label{theorem:cook-levin}
+  3SAT is $\NP$-complete
+\end{theorem}
+
+We know that 3SAT is in $\NP$. Therefore, to show that it is $\NP$-complete, we must show it to also be in $\NP$-hard.
+
+For any language $L \in \NP$ we want to give a polytime reduction from $L$ to 3SAT.
+
+We will approach this in order from Formula-SAT $\rightarrow$ SAT $\rightarrow $ 3SAT
+
+\subsection{Reducing to Formula-SAT}
+\label{subsec:r-fsat}
+
+Since $L$ is in $\NP$ there must be a nondeterministic Turing machine which decides it.
+
+Say that $M$ is a NDTM for the language $L$, using an input tape, a work tape and an alphabet $\{ \rhd, \Box, 0,1 \} $ with 50 states and a running time and space usage of at most $n^{3}$, where $n$ is the size of the input.
+
+From this, we must convert a bitstring $x$ of length $n$ into a propositional logic formula that is satisfiable iff $x\in L$.
+
+\underline{The variables}
+\begin{itemize}
+  \item Let $a_{i,j,s}$ say that at time $i$, cell $j$ of the work tape contains symbol $s$. Here $i,j < n^{3}$
+  \item Let $b_{i,j}$ say that, at time $i$ the input head is in position $j$. Here $i < n^{3}$ and $j < n$.
+  \item Let $c_{i,j}$ say that, at time $i$, the work head is in position $j$. Here $i,j < n^{3}$
+  \item Let $d_{i,q}$ say that, at time $i$ the current work state is $q$. here $i < n^{3}$ and $q < 50$ (as per machine definition)
+\end{itemize}
+
+\underline{The constraints}
+
+\begin{itemize}
+  \item For any time $i$, each cell $j$ contains only one symbol and there is only one current state.
+  \item The configurations at time $i$ and time $i+1$, and the input, are related by the transition function.
+
+        This is stated locally, meaning if, at time $i$ the state at time $i+1$ is determined only by adjacent states.
+  \item At some time $i < n^{3}$, the current state is $q_{\texttt{accept} }$.
+\end{itemize}
+
+Putting these things together gives a formula of size $O(n^{3})$, It is satisfiable iff the bitstring $x$ is acceptable ($x \in L$).
+
+
+\section{Logspace reductions}
+\label{sec:logspace}
+
+
+
+
+\end{document}

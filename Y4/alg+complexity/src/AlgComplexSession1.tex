@@ -1,0 +1,85 @@
+% Created 2021-02-08 Mon 14:40
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Sam Barrett}
+\date{\today}
+\title{Algorithms and Complexity: Online session week 2}
+\hypersetup{
+ pdfauthor={Sam Barrett},
+ pdftitle={Algorithms and Complexity: Online session week 2},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.5)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+\section{Points on formative assignment}
+\label{sec:org93630b0}
+
+\begin{itemize}
+\item Before trying to answer a question, make sure you understand it.
+\item Try and unpack the question. Expand on all assumptions you are given.
+
+\begin{enumerate}
+\item Need to give a logspace TM that decides this language
+We are not expected to fully describe the Turing machine and work out the precise space usage or running time. The amount of detail seen in the model answer.
+
+The worse case \(\texttt{WS}_{M}(n) \leq c \cdot \log n\), this \textbf{\textbf{must}} hold for all bitstrings whether in the language or not.
+
+\item Suppose \(L\) is a language in \(\bf{NP}\). Then we want to show \(L\) is in \(\texttt{PSPACE}\)
+**Note: We must be sure to say \emph{'we want to show'} when talking about something we are yet to prove.
+
+We have a polynomial \(p\) and a polytime machine \(M\) s.t. \(\forall x \in \{ 0,1\}^{*}, x \in L \Longleftrightarrow \exists u M(x,u) = 1\) where \(u\) is a bitstring whose length is \(p (| x |)\)
+
+We want to show it is in \(\texttt{PSPACE}\), so we want to provide a TM \(N\) that decides \(L\) and uses polynomial space.
+
+\uline{Algorithm to decide whether \(x \in L\):}
+
+Step 1. work out \(p(|x|)\)
+
+Step 2. go through each bitstring \(u\) of that length \& check whether \(M(x,u) = 1\)
+
+Step 1: uses polynomial space.
+
+Step 2: uses \(p(|x|)\) space to hold \(u\), it reuses this same space for each \(u\) that we test. \(M\) uses polynomial time, we know that anything that is polytime is polyspace!
+Therefore, overall we must be using polynomial space.
+
+\item We want \(f \notin O(g)\), we want \(f(n) > 2 g(n)\) infinitely often
+\sout{-----}-----\sout{-----}-----\sout{-----}-----\sout{-----}
+\begin{center}
+\begin{tabular}{lrrrrrr}
+n & 5 & 6 & 7 & 8 & 9 & 10\\
+\end{tabular}
+\end{center}
+\sout{-----}-----\sout{-----}-----\sout{-----}-----\sout{-----}
+\begin{center}
+\begin{tabular}{lllllll}
+Is \(f(n) \leq 2g(n)\)? & No & Yes & Yes & No & \ldots{} & \\
+ &  &  &  &  &  & \\
+\end{tabular}
+\end{center}
+\sout{-----}-----\sout{-----}-----\sout{-----}-----\sout{-----}
+\begin{center}
+\begin{tabular}{lllllll}
+ &  &  &  &  &  & \\
+\end{tabular}
+\end{center}
+\sout{-----}-----\sout{-----}-----\sout{-----}-----\sout{-----}
+\end{enumerate}
+\end{itemize}
+\end{document}
