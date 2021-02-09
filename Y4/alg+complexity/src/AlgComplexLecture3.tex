@@ -12,6 +12,7 @@
 \renewcommand{\P}{\mathbf{P}}
 
 \newmdtheoremenv{lemma}{Lemma}
+\newmdtheoremenv{definition}{Definition}
 \newmdtheoremenv{theorem}{Theorem}
 
 \begin{document}
@@ -60,6 +61,75 @@ A clause can be written as $u \rightarrow (v \vee w \vee x)$ rather than $\bar{u
 A CNF formula is \textbf{3CNF} when each clause has at most 3 literals
 
 \textbf{Note: any 3CNF clause can be written as an implication}
+
+\subsubsection{Conversion to negation-free form}
+\label{subsec:negneg}
+
+A formula is negation free when there are no occurences of $\neg$ or $\rightarrow $. However these are still permitted in the form of negated variables which are still literals.
+
+Every formula is equivalent to one in negation-free form. Simply push in each negation to a literal using de Morgan's laws:
+
+\begin{align*}
+  \neg(\psi \vee \psi ') &= (\neg \psi) \wedge (\neg \psi ') \\
+  \neg(\psi \wedge \psi ') &= (\neg \psi) \vee (\neg \psi ')
+\end{align*}
+
+Each push is $O(n)$-time, so the overall conversion is in $O(n^{2})$ time.
+
+\subsubsection{Negation-free to CNF}
+\label{subsec:neg-free-CNF}
+
+A negation-free formula $\phi$ can be converted to a CNF formula $\phi '$ using extra free variables that are \textbf{equisatisfiable} with $\phi$. This means that the new formula will be satisfiable iff $\phi$ is satisfiable.
+
+This is done via induction on $\phi$:
+
+\begin{itemize}
+  \item The case where $\phi$ is a literal is clear, literals are already in CNF
+  \item The case where \(\phi\) is a conjunction is clear, it is already in CNF
+  \item What if \(\phi\) is a disjunction?
+
+        For any variable $c$ and clause \(\phi\), the formula $c \rightarrow \phi$ is equivalent to the clause $\bar{c} \vee \phi$.
+
+        Therefore, any variable $c$ and CNF formula $\phi$, the formula $c \rightarrow \phi$ is equivalent to a CNF formula by the law:
+
+        \[
+        c \rightarrow (\psi\wedge\psi^{\prime}) = (c \rightarrow \psi) \wedge (c \rightarrow \psi^{\prime})
+        \]
+
+        For any CNF formulas \(\phi\) and \(\phi^{\prime}\), the formula \(\phi\vee\phi^{\prime}\) is equisatisfiable with:
+
+        \[
+        (c\vee c^{\prime}) \wedge (c \rightarrow \phi) \wedge (c^{\prime} \rightarrow \phi^{\prime})
+        \]
+
+        Which is equivalent to a CNF formula, obtained in $O(n)$ time. Thereby, we have a conversion to CNF in $O(n^{2})$
+
+
+\end{itemize}
+
+\subsubsection{CNF to 3CNF}
+\label{subsec:CNF-3CNF}
+
+In CNF, each clause is of the form:
+
+\[
+  a \rightarrow (b_{0} \vee \cdots \vee b_{n-1} \vee c \vee c^{\prime})
+\]
+
+is equisatisfiable with:
+
+\begin{align*}
+  &(a \rightarrow b_{0} \vee d_{0}) \\
+  \wedge&(d_{0} \rightarrow b_{1} \vee d_{1}) \\
+  \ldots &\\
+  \wedge&(d_{n-2} \rightarrow b_{n-1} \vee d_{n-1}) \\
+  \wedge&(d_{n-1} \rightarrow c \vee c^{\prime})
+\end{align*}
+
+Where $d_{0},\ldots, d_{n-1}$ are \textit{fresh} variables.
+
+This gives an $O(n)$ time conversion to 3CNF
+
 
 \subsection{Satisfiability}
 \label{subsec:satisfiability}
@@ -132,6 +202,7 @@ Therefore, if $L$ is in $\P$ and $\NP$-hard then $\P = \NP$!
 If $L$ is in $\NP$ and also $\NP$-hard, we say that it is $\NP$-complete. These are the \textit{hardest} problems in $\NP$.
 
 \subsubsection{Proving $\NP$-completeness}
+\label{ssec:provingNPComplete}
 
 To prove that a problem is $\NP$-complete:
 
@@ -183,9 +254,83 @@ From this, we must convert a bitstring $x$ of length $n$ into a propositional lo
 
 Putting these things together gives a formula of size $O(n^{3})$, It is satisfiable iff the bitstring $x$ is acceptable ($x \in L$).
 
+\subsection{Reduction to SAT}
+\label{subsec:red-sat}
+
+By converting a formula to an equisatisfiable CNF formula in $O(n^{2})$ time (See Section~\ref{subsec:neg-free-CNF}), we show that Formula-SAT $\leq_{P}$ SAT.
+
+\subsection{Reduction to 3SAT}
+\label{subsec:red-3sat}
+
+
+By converting a CNF formula to an equisatisfiable 3CNF formula in $O(n)$ time we show that SAT $\leq_{P}$ 3SAT
+
+\subsection{Proving $\NP$-completeness}
+\label{subsec:provingNPcomplete}
+
+We previously outlined how to prove a problems is $\NP$-complete in Section~\ref{ssec:provingNPComplete}. We have shown that 3SAT reduces to $\NP$-hard thus satisfying the second point.
+
 
 \section{Logspace reductions}
 \label{sec:logspace}
+
+We know that $\bf L \subseteq P$, i.e every decision problem that can be solved in logspace can be solved in polynomial time.
+
+\subsection{Requirements}
+\label{subsec:req}
+\begin{itemize}
+  \item We will write $L \leq_{L} L^{\prime}$ when there is a logspace reduction from $L$ to $L^{\prime}$.
+  \item We \textit{want} the identity reduction to be logspace, i.e. $L \leq_{L} L$.
+  \item We want a composite of logspace reductions to be logspace, so that:
+
+        \[
+        L\leq_{L}L^{\prime}\leq_{L}L^{\prime\prime} \implies L \leq_{L} L^{\prime\prime}
+        \]
+
+        \item If you have two languages that are related, $L \leq_{L} L^{'}$ then $L^{\prime} \in \mathbf{L} $ should imply $L \in \mathbf{L} $
+  \item Every logspace reduction should be polytime, so that, $\leq_{L}$ implies $\leq_{P}$.
+\end{itemize}
+
+
+\subsection{Logspace reduction: definition}
+\label{subsec:ls-definition}
+
+We impose the following requirements on a function $f : \{ 0,1 \} ^{*} \rightarrow \{ 0,1 \} ^{*}$:
+
+\begin{itemize}
+  \item $f$ must be \textbf{polynomially bounded}, meaning, there must be a $c$ such that, for every bitstring $x$, $|f(x)| \leq |x|^{c}$ holds true.
+  \item We can test in logarithmic space whether a particular position in the output it within or outside of the length of $f(x)$. Formally:
+
+        The set of pairs $\langle x,i \rangle $, s.t. $i\leq |f(x)|$ \textbf{must} be in $\mathbf{L}  $
+  \item We can test whether a particular position $\langle x,i \rangle $ gives a result of 1 or not, $f(x)_{i} = 1$ must be in $\bf L$. This is referred to as the \textbf{bitwise} problem for $f$. (This is the most important condition)
+\end{itemize}
+
+\subsection{Composing logspace reductions}
+\label{subsec:ls-composing}
+
+Suppose we have two logspace reductions $f$ and $g$, then the composite function $x\mapsto g(f(x))$ is also logspace, we are going to show that this is the case:
+
+To compute $g(f(x))_{i}$ (the $i^{th}$ bit of the result) using three work tapes (A,B,C), we assume we can compute $f$ and $g$ using one work tape each. We assign $f$ work tape C and $g$ work tape A.
+
+We cannot use tape B as an input tape for $g$ as this would take too much space, resulting in a non-logspace computation. Instead, we use a \textit{virtual} input tape. This means that the current input position $j$ is stored on work tape B (using a logarithmic amount of space), and in each step we work out $f(x)_{j}$, using work tape C.
+
+All of these components are logspace, meaning our composition function $x$ is also logspace as if $L \leq_{L} L^{\prime}$ then $L^{\prime}\in \mathbf{L} $ implies $L \in \mathbf{L} $.
+
+\subsection{Logspace reduction are polytime}
+
+Let $f$ be a logspace reduction. The bitwise problem is in $\bf L$ and therefore also in $\bf P$.
+
+So, for any $x$, the length of $f(x)$ is polynomially bounded and each bit can be computed in polynomial time, allowing us to compute $f(x)$ in polynomial time (polynomially many steps over polynomially bits).
+
+\subsection{Application: \textbf{P}-completeness}
+
+Just as polytime reductions give a reasonable notion of $\NP$-completeness, so logspace reductions give a reasonable notion of $\mathbf{P} $-completeness.
+
+With $\mathbf{P} $-completeness, we cannot simply look to the degree of the polynomial to determine how \textit{hard} it is, as these are infinite and so $\bf P$ would be the same as $\bf P$-complete. We instead need a different measure.
+
+\begin{definition}($\bf P$-completeness)
+A problem is $\bf P$-complete if it is in $\bf P$ and every problem in $\bf P$ logspace-reduces to it.
+\end{definition}
 
 
 
