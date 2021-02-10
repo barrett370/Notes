@@ -49,7 +49,7 @@ We have since gone on to develop entirely digital cameras but the principals rem
 \begin{figure}[ht]
   \centering
   \includegraphics[scale=0.3]{figures/digital-sensor.jpg}
-  \caption{\label{fig:digital-sensor} Basic photosensor construction }
+  \caption{\label{fig:digital-sensor} Basic photo-sensor construction }
 \end{figure}
 
 Digital images are a 2D grid (or matrix) of integers which show the continuous fluctuations in levels of light.
@@ -58,12 +58,12 @@ Digital images are a 2D grid (or matrix) of integers which show the continuous f
 
 How do we encode colour into this matrix of integers? We first need to decide on a representation of colour that a computer can understand. We do this by decomposing colours into their primary components. I.e. the different levels of red, green and blue. We can represent \textbf{any} colour using weighted combinations of these colours.
 
-Unfortunately, each photodiode is \textit{colour blind} and cannot tell the colour of the light hitting it, only it's intensity. So in order to detect the colour of an image, sensors deploy filters such as the Bayer filter. These are layouts of photo-diodes such that each receptor site is known to only detect light from a particular part of the spectrum. The Bayer filter can be seen in Figure~\ref{fig:bayer1}. Using such a filter we can estimate the RGB at each cell using the values of it's neighbours.
+Unfortunately, each photo-diode is \textit{colour blind} and cannot tell the colour of the light hitting it, only it's intensity. So in order to detect the colour of an image, sensors deploy filters such as the Bayer filter. These are layouts of photo-diodes such that each receptor site is known to only detect light from a particular part of the spectrum. The Bayer filter can be seen in Figure~\ref{fig:bayer1}. Using such a filter we can estimate the RGB at each cell using the values of it's neighbours.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[scale=0.1]{figures/bayer1.png}
-  \caption{\label{fig:bayer1} Bayer filter overtop of a sensor}
+  \caption{\label{fig:bayer1} Bayer filter over-top of a sensor}
 \end{figure}
 
 \begin{figure}[ht]
@@ -94,7 +94,7 @@ A pinhole camera is an abstract camera model used to explain the principals of m
   \caption{\label{fig:pinhole-camera} An example of a pinhole camera}
 \end{figure}
 
-There are severable notable effects caused by using this perspective projection:
+There are several notable effects caused by using this perspective projection:
 
 \begin{itemize}
   \item it produces an \textbf{inverted} image.
@@ -126,7 +126,7 @@ These properties can be proved in a geometric fashion, but it is more convenient
 
 \subsection{The equation of projection}
 
-Consider a coordinate system $(O,\mathbf{i}, \mathbf{j} , \mathbf{k} )$ is attached to the pinhole camera, whose origin $O$ coincides with the pinhole and the vectors $\mathbf{i} $ and $\mathbf{j} $ form a basis for a vector plane parallel to the image plane $\Pi$. $\Pi$ is located a distance $d$ from the pinhole along vector $\mathbf{k}$. The line perpendicular to $\Pi $ and passing through the pinhole is called the optical axis, and the point $c$ where it \textit{peirces} $\Pi$ is called the \textit{image centre}. This point can be used as the origin of an image plane coordinate frame, and is important in camera calibration procedures.
+Consider a coordinate system $(O,\mathbf{i}, \mathbf{j} , \mathbf{k} )$ is attached to the pinhole camera, whose origin $O$ coincides with the pinhole and the vectors $\mathbf{i} $ and $\mathbf{j} $ form a basis for a vector plane parallel to the image plane $\Pi$. $\Pi$ is located a distance $d$ from the pinhole along vector $\mathbf{k}$. The line perpendicular to $\Pi $ and passing through the pinhole is called the optical axis, and the point $c$ where it \textit{pierces} $\Pi$ is called the \textit{image centre}. This point can be used as the origin of an image plane coordinate frame, and is important in camera calibration procedures.
 
 Let $P$ denote a scene point with coordinates (X,Y,Z) and $p$ denote the corresponding image with coordinates $(x,y,z)$
 \begin{itemize}
@@ -241,7 +241,7 @@ Lenses are governed by the law of geometric optics.
 
 \begin{itemize}
   \item Light travels in straight lines when travelling in homogeneous media.
-  \item When a ray is reflected from a surface, this ray, its reflection, and the surface normal are coplanar and the angles between them are complimentary
+  \item When a ray is reflected from a surface, this ray, its reflection, and the surface normal are co-planar and the angles between them are complimentary
         \item When a ray passes from one medium to another, it is \textit{refracted}, meaning its direction changes.
 \end{itemize}
 
@@ -258,7 +258,7 @@ Where:
   \item $r_{1}$ is the incident ray
   \item $n_{1}$ and $n_{2}$ are the refractive indexes of the origin medium and destination medium respectively.
   \item $r_{2}$ is the refracted ray
-  \item $r_{1}$ and $r_{2}$ are the normal to the incident surface and are coplanar
+  \item $r_{1}$ and $r_{2}$ are the normal to the incident surface and are co-planar
   \item $\alpha _{1}$ and $\alpha _{2}$ are the angles between the normal and the $r_{1}$ and $r_{2}$
 \end{itemize}
 \end{law}
@@ -275,13 +275,13 @@ Consider a point $P$ which is located at $-Z$ from the optical axis (the plane o
 
 Where $f= \frac{R}{2(n-1)}$ and is the focal length of the lens.
 
-All of this however, relies on an idealised \textit{thin} lens. In actuality, our lenses do not have these same characteristcs.
+All of this however, relies on an idealised \textit{thin} lens. In actuality, our lenses do not have these same characteristics.
 
 
 There are other such aberrations:
 
 \begin{itemize}
-  \item Chromatic abberation
+  \item Chromatic aberration
         \begin{itemize}
           \item   Light at different wavelengths follows different paths, meaning some wavelengths are defocussed
                 \item This can be avoided in machines by coating the lens. Humans cannot avoid it.
@@ -289,12 +289,12 @@ There are other such aberrations:
   \item Scattering at the lens surface
 
         \begin{itemize}
-          \item Some light entering the lens system is reflected oiff each surface it encounters (see Fresnel's law)
+          \item Some light entering the lens system is reflected iff each surface it encounters (see Fresnel's law)
           \item This can be circumvented in machines by coating the lens and its interior. Humans must live with it.
         \end{itemize}
 \end{itemize}
 
-These abberations can also be avoided through the use of compound lenses.
+These aberrations can also be avoided through the use of compound lenses.
 
 
 

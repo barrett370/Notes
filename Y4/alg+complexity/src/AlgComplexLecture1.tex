@@ -51,7 +51,7 @@ Here:
 
 At any point in time, each cell of each tape contains a symbol. All but a finite number will be blank ($\Box$)
 
-\subsubsection{Inital configuration}
+\subsubsection{Initial configuration}
 
 The input tape has $\rhd$ on the leftmost cell, then a bitstring (the \textbf{input}) and the rest of the tape is blank. The work tapes (including the output tape) have $\rhd$ on the leftmost cell and the rest are blank.
 Each tape starts with it's head on it's the leftmost cell.
@@ -101,7 +101,7 @@ Say that $\delta(7, \langle 1,1 \Box \rangle ) = (5, \langle 0, \Box \rangle , \
 
 \begin{itemize}
   \item transition to state 5
-  \item overwrite thje 1 on the work tape with 0
+  \item overwrite the 1 on the work tape with 0
   \item overwrite the $\Box$ on the output tape with $\Box$ (no change)
   \item move left on the input tape (if possible)
   \item move left on the work tape (if possible)
@@ -223,7 +223,7 @@ A important point about languages and boolean function is that they correspond. 
 
 This allows us to treat boolean functions, languages and decision problems as essentially the same thing.
 
-A decision problem is said to be \textbf{deciadable} when the corresponding boolean function is \textbf{computable}. I.e. given a language $L$, for $L$ to be decidable there must exist some Turing machine that will start with a bitstring $x$ and will run continuously until it halts and upon halting there will be a $1$ on the output tape if $x \in L$ or $0$ if it is not in the language.
+A decision problem is said to be \textbf{decidable} when the corresponding boolean function is \textbf{computable}. I.e. given a language $L$, for $L$ to be decidable there must exist some Turing machine that will start with a bitstring $x$ and will run continuously until it halts and upon halting there will be a $1$ on the output tape if $x \in L$ or $0$ if it is not in the language.
 
 \subsubsection{Example: palindromes}
 
@@ -510,7 +510,7 @@ We can represent this as a Turing machine with 3 tapes and 5 states in the follo
       \end{tikzpicture}
 
     \end{center}
-    \textbf{Note: the formal definition may require a $\rhd$ at the beginning of the ouput tape, the procedure would be adjusted accordingly}
+    \textbf{Note: the formal definition may require a $\rhd$ at the beginning of the output tape, the procedure would be adjusted accordingly}
 
     \subsection{Data representation}
 
@@ -651,12 +651,12 @@ We can represent this as a Turing machine with 3 tapes and 5 states in the follo
 
         Running $N'$ on $\alpha$ halts if it runs forever and runs forever if it halts.
 
-        We have derived a contradition.
+        We have derived a contradiction.
 
 
       \end{proof}
 
-      This can be shown clearly diagramatically:
+      This can be shown clearly diagrammatically:
 
 
       Given a machine $N$ that can solve the halting problem:

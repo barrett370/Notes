@@ -96,7 +96,7 @@ We can say this as:
 
 The running time of a machine $M$ is the time taken from the input state, where $x$ sits on the input tape and the other tapes are blank, to reach the halt state ($q_{\texttt{halt} }$).
 
-For any number $n$, we defien $\texttt{WT}_{M}(n) $ to be the \textbf{worst case} running time for an input of length $n$.
+For any number $n$, we define $\texttt{WT}_{M}(n) $ to be the \textbf{worst case} running time for an input of length $n$.
 For example,
 
 \begin{center}
@@ -117,17 +117,17 @@ For example,
 
 Here $\texttt{WT} _{M}(2) = 23$. If we were to say that $\texttt{WT} _{M}(n)$ is $O(n^{2})$ we are saying that there are numbers $n_{0}$ and $C$ such that, $\forall n \geq n_{0}$, the running time is $\leq Cn^{2}$.
 
-\subsection{\texttt{DTIME} classes }
+\subsection{\textbf{DTIME} classes }
 
-$\texttt{DTIME}(n^{2})$ is a \textbf{complexity class}, a complexity class can be thought of as a set of decision problems.
+$\mathbf{DTIME}(n^{2})$ is a \textbf{complexity class}, a complexity class can be thought of as a set of decision problems.
 
-A decision problem, $f : \{ 0,1 \}^{*} \rightarrow \{ 0,1 \}  $ is in $\texttt{DTIME}(n^{2}) $ when there is some machine (of any sized alphabet or number of tapes) that decides it ($f$) and has worst case running time in $O(n^{2})$.
+A decision problem, $f : \{ 0,1 \}^{*} \rightarrow \{ 0,1 \}  $ is in $\mathbf{DTIME}(n^{2}) $ when there is some machine (of any sized alphabet or number of tapes) that decides it ($f$) and has worst case running time in $O(n^{2})$.
 
 \subsubsection{Example: palindromes}
 
 We can again define our set $\texttt{PAL} $ of all palindromic bitstrings with a boolean function $f: \{ 0,1 \}^{*}\rightarrow \{ 0,1 \} $.
 
-Given we have a machine $A-B$ which utilises 3 tapes to decide \textit{palindromicity}  and has worst case running time $O(n)$. We can therefore say that $\texttt{PAL} $ is in $\texttt{DTIME} (n)$.
+Given we have a machine $A-B$ which utilises 3 tapes to decide \textit{palindromicity}  and has worst case running time $O(n)$. We can therefore say that $\texttt{PAL} $ is in $\mathbf{DTIME} (n)$.
 
 Can this be improved upon?
 
@@ -138,10 +138,10 @@ Can this be improved upon?
 We can define the complexity (super) class of \textbf{polynomial time decision problems} as:
 
 \[
-  P \;\; \defeq \;\; \bigcup_{k\geq1}\texttt{DTIME} (n^{k})
+  P \;\; \defeq \;\; \bigcup_{k\geq1}\mathbf{DTIME} (n^{k})
 \]
 
-From this definition, you can see that \textbf{any} decision problem in $\{  \texttt{DTIME} (n^{k})\}_{k=0}^{\infty} $ is also in $P$
+From this definition, you can see that \textbf{any} decision problem in $\{  \mathbf{DTIME} (n^{k})\}_{k=0}^{\infty} $ is also in $P$
 
 \subsubsection{Robustness}
 
@@ -169,12 +169,12 @@ Another common concern is that our data may be represented as a bitstring in mor
 We can define the complexity class of \textbf{exponential time decision problems as}:
 
 \[
-  \texttt{EXP} \;\;\; \defeq \;\;\; \bigcup_{k\geq 1 }\texttt{DTIME} (2^{n^{k}})
+  \mathbf{EXP} \;\;\; \defeq \;\;\; \bigcup_{k\geq 1 }\mathbf{DTIME} (2^{n^{k}})
 \]
 
-Therefore, any decision problem in $\texttt{DTIME} (2^{5n^{17}})$ is in $\texttt{EXP} $ and so on.
+Therefore, any decision problem in $\mathbf{DTIME} (2^{5n^{17}})$ is in $\mathbf{EXP} $ and so on.
 
-Also clearly $P \subseteq \texttt{EXP} $
+Also clearly $\mathbf{P} \subseteq \mathbf{EXP} $
 
 \section{Space complexity}
 
@@ -270,28 +270,28 @@ block/.style={minimum height=1.8em,outer sep=0pt,draw,rectangle,node distance=0p
 
   The space usage above would be 11.
 
-  \subsection{\texttt{SPACE} complexity class}
+  \subsection{\textbf{SPACE} complexity class}
 
-  $\texttt{SPACE} (n^{2})$ is a complexity class and a decision problem $f: \{ 0,1 \}^{*} \rightarrow \{ 0,1 \}  $ is in this space when there is some machine (with any size of alphabet or number of tapes) that decides it ($f$) and has a worst case space usage in $O(n^{2})$
+  $\mathbf{SPACE} (n^{2})$ is a complexity class and a decision problem $f: \{ 0,1 \}^{*} \rightarrow \{ 0,1 \}  $ is in this space when there is some machine (with any size of alphabet or number of tapes) that decides it ($f$) and has a worst case space usage in $O(n^{2})$
 
 
-  \subsection{\texttt{L} and \texttt{PSPACE} }
+  \subsection{\textbf{L} and \textbf{PSPACE} }
 
-  We can now define logarithmic space ($\texttt{L} $) which defines the set of things that can be computed with a machine using a logarithmic number of cells
+  We can now define logarithmic space ($\mathbf{L} $) which defines the set of things that can be computed with a machine using a logarithmic number of cells
 
   \textbf{Note: this relies on the fact that we do not count the number of cells on the input tape.} This is because if we were to count the input tape there would be at least $n$ cells used and $n > \log n$, similarly to how we cannot have \texttt{PAL} solved in less than linear time.
 
   \[
-    \texttt{L}  \;\;\; \defeq  \;\;\; \texttt{SPACE}(\log n)
+    \mathbf{L}  \;\;\; \defeq  \;\;\; \mathbf{SPACE}(\log n)
   \]
 
-  We can also define polynomial space $\texttt{PSPACE} $
+  We can also define polynomial space $\mathbf{PSPACE} $
 
   \[
-    \texttt{PSPACE} \;\;\; \defeq \;\;\; \bigcup_{k\geq1} \texttt{SPACE} (n^{k})
+    \mathbf{PSPACE} \;\;\; \defeq \;\;\; \bigcup_{k\geq1} \mathbf{SPACE} (n^{k})
   \]
 
-  It is also clear taht $\texttt{L} \subseteq \texttt{PSPACE} $
+  It is also clear that $\mathbf{L} \subseteq \mathbf{PSPACE} $
 
   \subsubsection{Robustness}
 
@@ -316,7 +316,7 @@ block/.style={minimum height=1.8em,outer sep=0pt,draw,rectangle,node distance=0p
 
   We can show that in all cases, space complexity is less or equal to time complexity.
 
-  We can prove by example that $\texttt{P} \subseteq \texttt{PSPACE} $:
+  We can prove by example that $\mathbf{P} \subseteq \mathbf{PSPACE} $:
 
   \begin{itemize}
     \item Let $M$ be a machine with 5 work tapes that, for any input of length $n \geq 1000$, has a running time of $\leq 18n^{3}$ steps (a poly-time machine).
@@ -326,7 +326,7 @@ block/.style={minimum height=1.8em,outer sep=0pt,draw,rectangle,node distance=0p
   \end{itemize}
 
   We can also how that, in all cases, time is less than or equal to exponentiated space.
-  The following is a proof of $\texttt{L} \subseteq P $
+  The following is a proof of $\mathbf{L} \subseteq \mathbf{P} $
 
   \begin{itemize}
     \item Let $M$ be a machine with 5 work tapes, 74 states 13 symbols and it eventually halts, that, for any input of length $n\geq 1000$ has a space usage of $\leq 18\log n$ cells
@@ -460,7 +460,7 @@ In the case of $n$-Sudoku, given a Sudoku puzzle $x$, the nondeterministic Turin
 \begin{enumerate}
   \item begins by copying $x$ to the work tape.
   \item Then it non-deterministically fills each blank with a digit. \textbf{This stage takes time polynomial in $|x|$}
-  \item It goes on to check whether the completed grid is valid. \textbf{This step (and substeps) also takes time polynomial in $|x|$}
+  \item It goes on to check whether the completed grid is valid. \textbf{This step (and sub steps) also takes time polynomial in $|x|$}
         \begin{enumerate}
           \item If it is, it goes to $q_{\texttt{accept} }$
           \item if it is not, it goes to state $q_{\texttt{halt} }$.
@@ -473,9 +473,9 @@ Our two definitions of $\bf{NP}$ \textbf{are} equivalent.
 
 \subsection{Is $\bf{NP} = P$?}
 
-Clearly $P \subseteq \bf{NP}$. This is the case trivially because any deterministic Turing machine is also a nondeterministic Turing machine by simply setting the accepting state to be the same as the halting state, and both transition functions to be the same.
+Clearly $\bf{P} \subseteq \bf{NP}$. This is the case trivially because any deterministic Turing machine is also a nondeterministic Turing machine by simply setting the accepting state to be the same as the halting state, and both transition functions to be the same.
 
-It is an open problem as to whether $P = \bf{NP}$. The currently supported hypothesis is \textbf{no}, $P \neq \bf{NP}$. If the answer is \textit{yes}, then there is a polynomial time algorithm for deciding whether an $n$-Sudoku puzzle is solvable.
+It is an open problem as to whether $\bf{P} = \bf{NP}$. The currently supported hypothesis is \textbf{no}, $\bf{P} \neq \bf{NP}$. If the answer is \textit{yes}, then there is a polynomial time algorithm for deciding whether an $n$-Sudoku puzzle is solvable.
 
 It follows that there is a polynomial time algorithm that, given a solvable $n$-Sudoku puzzle, finds a solution. This is by testing all possible digits for each blank space.
 
@@ -486,13 +486,13 @@ Given a nondeterministic Turing machine, what does it mean to be in non-polynomi
 
 Let $M$ be a nondeterministic Turing machine. It is in polynomial-space if $\texttt{WS}_{M}$ is $O(n^{k})$ for some $k \geq 1$.
 
-The worst case space complexity is polynomial, therefore, \texttt{NPSPACE} is the class of languages that can be decided by a polynomial-space nondeterministic Turing machine. This is the same principal as we saw in our second definition of $\bf{NP}$ in Section~\ref{subsec:NPNDTM}.
+The worst case space complexity is polynomial, therefore, \textbf{NPSPACE} is the class of languages that can be decided by a polynomial-space nondeterministic Turing machine. This is the same principal as we saw in our second definition of $\bf{NP}$ in Section~\ref{subsec:NPNDTM}.
 
-The same as $P \subseteq \bf{NP}$, $\texttt{PSPACE} \subseteq \texttt{NPSPACE}  $.
+The same as $\bf{P} \subseteq \bf{NP}$, $\mathbf{PSPACE} \subseteq \mathbf{NPSPACE}  $.
 
 \subsection{Savitch's theorem}
 
-Using a special case of Savitch's theorem, we show $\texttt{PSPACE} = \texttt{NPSPACE}  $
+Using a special case of Savitch's theorem, we show $\mathbf{PSPACE} = \mathbf{NPSPACE}  $
 
 Suppose that $M$ is a nondeterministic Turing machine, and for an input size $n$, the space usage is polynomial in $n$
 

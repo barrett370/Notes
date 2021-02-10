@@ -65,7 +65,7 @@ A CNF formula is \textbf{3CNF} when each clause has at most 3 literals
 \subsubsection{Conversion to negation-free form}
 \label{subsec:negneg}
 
-A formula is negation free when there are no occurences of $\neg$ or $\rightarrow $. However these are still permitted in the form of negated variables which are still literals.
+A formula is negation free when there are no occurrences of $\neg$ or $\rightarrow $. However these are still permitted in the form of negated variables which are still literals.
 
 Every formula is equivalent to one in negation-free form. Simply push in each negation to a literal using de Morgan's laws:
 
@@ -169,7 +169,7 @@ Let $L$ and $L'$ be languages.
 
 A (many-to-one) \textbf{reduction} from $L$ to $L '$ is a function $f : \{ 0,1 \} ^{*} \rightarrow \{ 0,1 \}^{*} $ such that for any bitstring, $x$ we have $x \in L$ iff $f(x) \in L '$.
 
-Or, more plainly, if we know how to decide membership fo $L '$, then the reduction enables us to decide membership of $L$.
+Or, more plainly, if we know how to decide membership of $L '$, then the reduction enables us to decide membership of $L$.
 
 \subsection{Computable reductions}
 \label{subsec:comp-reductions}
@@ -178,10 +178,10 @@ We write $L \leq_{m} L '$ when there is a reduction from $L$ to $L '$ that is \t
 
 \begin{itemize}
   \item If $L '$ is decidable, then $L$ is decidable
-  \item If $L$ is undecidable (\textit{e.g. Halting problem}), then $L '$ is undeciable .
+  \item If $L$ is undecidable (\textit{e.g. Halting problem}), then $L '$ is undecidable .
 \end{itemize}
 
-This is a very useful property and allows us to easily prove the deciability or undecidability of problems without explicity having to prove them. We will \textbf{not} look any closer in this module.
+This is a very useful property and allows us to easily prove the deciability or undecidability of problems without explicitly having to prove them. We will \textbf{not} look any closer in this module.
 
 \subsection{Polynomial time reductions}
 \label{subsec:polytime-reductions}

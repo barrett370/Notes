@@ -164,33 +164,36 @@ We will now examine how $\mathcal{U}$ operates over an input $(x,\alpha)$:
 \label{sec:diagonalisation}
 
 \begin{theorem}(Time hierarchy theorem)
-  There is a language $L\in \mathbf{\mathtt{DTIME}}(t(n)^{4})$ s.t. $L \notin \mathbf{\mathtt{DTIME}}$
+  There is a language $L\in \mathbf{\mathbf{DTIME}}(t(n)^{4})$ s.t. $L \notin \mathbf{\mathbf{DTIME}}$
 
-  i.e. $\mathtt{DTIME}(t(n)) \subsetneq \mathtt{DTIME}(t(n)^{4})$ (one is \textbf{strictly contained within the other})
+  i.e. $\mathbf{DTIME}(t(n)) \subsetneq \mathbf{DTIME}(t(n)^{4})$ (one is \textbf{strictly contained within the other})
 
   Where $t$ is arbitrary but time constructable as defined in Section~\ref{sec:conventions}.
 \end{theorem}
 
-\subsection{Time-sensistive diagonalisation}
+\subsection{Time-sensitive diagonalisation}
 \label{subsec:ts-diagonalisation}
 
-To perform diagonalisation in such a way as to concern ourselves with time compelxity, we define a Turing machine $D$ that does the following:
-
+To perform diagonalisation in such a way as to concern ourselves with time complexity, we define a Turing machine $D$ that does the following:
+\begin{definition}(Turing machine $D$)
+  \label{def:D}
 \begin{itemize}
   \item on input $x$ ($x$ is a binary string $x \in \{ 0,1 \}^*$), run $\mathcal{U}$ on $(x,x)$ for $t(|x|)^{3}$ steps, we use $t(|x|)^{3}$ as it is somewhere between the time overhead for $\mathcal{U}$ ($t(n)^{2}$) and our states time hierarchy constraint of $t(n)^{4}$.
   \item if it halts in this time and rejects (where rejecting means it outputs 0) then accept (output 1)
   \item otherwise, reject (output 0).
 \end{itemize}
 
+\end{definition}
+
 We can now define a language $L \subseteq \{ 0,1 \}^*$ as the language that is decided by $D$. $L$ is just the set of descriptions of Turing machines for which when $\mathcal{U}$ runs it on itself it rejects the appropriate amount of time.
 
-By our construction of $L$ we can observe that $L \in \mathtt{DTIME}(t(n)^{4})$ as our machine $D$ can only run for $t(|x|)^{3}$ steps.
+By our construction of $L$ we can observe that $L \in \mathbf{DTIME}(t(n)^{4})$ as our machine $D$ can only run for $t(|x|)^{3}$ steps.
 
-We claim therefore, that $L$ is the \textbf{explicit} language that separates $\mathtt{DTIME}(t(n^{4}))$ from $\mathtt{DTIME}(t(n))$, meaning that $L \notin \mathtt{DTIME}(t(n))$. We will prove this by contradiction.
+We claim therefore, that $L$ is the \textbf{explicit} language that separates $\mathbf{DTIME}(t(n^{4}))$ from $\mathbf{DTIME}(t(n))$, meaning that $L \notin \mathbf{DTIME}(t(n))$. We will prove this by contradiction.
 
 \subsubsection{Proof}
 
-Assume that $L \in \mathtt{DTIME}(t(n))$, and suppose $M$ decides $L$ taking $ct(n)$ steps on inputs of length $n$.
+Assume that $L \in \mathbf{DTIME}(t(n))$, and suppose $M$ decides $L$ taking $ct(n)$ steps on inputs of length $n$.
 
 We now use $\mathcal{U}$ to simulate $M$ and say it does this within $c_{M}ct(n)^{2}$ steps on inputs of length $n$. Where $c_{M}$ depends only on $M$ and not its description.
 
@@ -200,5 +203,69 @@ This is a key point, it means that there is a point in $\N$, $n_{0}$ where whene
 
 This is where \textit{``foo is dependant only on bar not its description''} becomes important, the trick to \textit{breaking} this inequality and deriving a contradiction is to let \(\alpha\) be a description of $M$ (which has infinitely many descriptions) with $|\alpha| \geq n_{0}$
 
+We will now examine what happens when we run $D$ with the input \(\alpha\) that I described above.
+
+\begin{itemize}
+  \item $D$ runs $\mathcal{U}$ on $(\alpha,\alpha)$ for $t(|\alpha|)^{3}$ steps as per our definition of $D$ in Definition~\ref{def:D}
+  \item From our fixing above, along with our definition of \(\alpha\), we can say that $t(|\alpha|)^{3} \geq c_{M}ct(|\alpha|)^{2}$, giving us in turn:
+
+        \[
+        \mathcal{U}(\alpha,\alpha) = M_{\alpha}(\alpha) = M(\alpha)
+        \]
+
+        As $M$ must halt on \(\alpha\) \textbf{within} $ct(|\alpha|)$ steps, by our assumption of $M$.
+
+  \item As per our definition of $D$, as $M(\alpha)$ halts, $D$ must return $1-M(\alpha)$ as it always returns the inverse.
+
+        However, by doing so, as $M$ was meant to decide the language described by $D$ we have derived a contradiction by constructing a situation in which $M$ and $D$ disagree on an input \(\alpha\). Therefore, $M$ could \textbf{not} have decided the language described by $D$.
+\end{itemize}
+
+By a similar proof, tracking space instead of time we can show that:
+
+\begin{theorem}(Space hierarchy theorem)
+  There is a language $L \in \mathbf{SPACE}(t(n)^{2})$ s.t. $L\notin \mathbf{SPACE}(t(n))$
+\end{theorem}
+
+We will not go on to prove this.
+
+\section{Consequences and the complexity \textit{zoo} }
+
+\subsection{Separations of complexity classes}
+\label{subsec:separations}
+
+\begin{theorem}
+  We have the following:
+
+  $\bf P \subsetneq EXP$
+
+  $\mathbf{L} \subsetneq \mathbf{PSPACE}$
+\end{theorem}
+
+\subsubsection{Proof}
+
+For both of the above statements, the $\subseteq$ case is \textit{obvious}. However, for non-equality we have,
+
+\[
+  \mathbf{P} \subseteq \overbrace{\mathbf{DTIME}(2^{n}) \subsetneq \mathbf{DTIME}(2^{4n})}^{\text{Time hierarchy theorem}} \subseteq \mathbf{EXP}
+\]
+
+This can be seen by the time-hierarchy theorem explored earlier.
+
+We also have for space:
+
+\[
+  \mathbf{L} \subseteq \mathbf{SPACE}(n) \subsetneq \mathbf{SPACE}(n^{2}) \subseteq \mathbf{PSPACE}
+\]
+
+which can equally be seen via the space-hierarchy theorem.
+
+
+We now have a \textit{zoo} of complexity classes:
+
+\[
+  \mathbf{L} \underbrace{\subseteq}_{\text{Lecture 2}} \mathbf{P} \underbrace{\subseteq}_{\text{obv}} \mathbf{NP} \subseteq \overbrace{\mathbf{PSPACE} \underbrace{\subseteq}_{\text{obv}}\mathbf{NPSPACE}}^{ \leftarrow \text{Savitch's theorem}} \subseteq \mathbf{EXP}
+\]
+
+This is all we know! Every other such problem remains open.
 
 \end{document}
