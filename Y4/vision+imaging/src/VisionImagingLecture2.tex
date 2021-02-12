@@ -64,7 +64,7 @@ The steps of an intrinsic projection are as follows:
   \item We then project from our 2D image plane to a discretisesd image which is measured in \textbf{pixels}
 \end{itemize}
 
-\subsubsection{Homogeneous coordinates}
+\subsubsection{Homogeneous co ordinates}
 
 Euclidean geometry uses the \textbf{Cartesian coordinates system}, however, for a projective geometry, \textbf{homogeneous coordinates} are more appropriate.
 
@@ -318,11 +318,11 @@ We can now give a more robust definition of vanishing points,
 
 If we consider a point on one of two parallel lines $l_{1}$ and $l_{2}$, $\mathbf{A} = \begin{bmatrix}
 X_{A}\\Y_{A}\\Z_{A}
-\end{bmatrix} $ and a vector $D$ from $A$, $D = \begin{bmatrix}
+\end{bmatrix} $ and a vector $\mathbf{D} $ from $\mathbf{A}$, $\mathbf{D}  = \begin{bmatrix}
 X_{D}\\ Y_{D}\\Z_{D}
 \end{bmatrix}$.
 
-A point on a the line $\mathbf{X}(\lambda) = \mathbf{A} = \lambda \mathbf{D}   $ is projected to a point $x(\lambda)$ in the image plane by:
+A point on a the line $\mathbf{X}(\lambda) = \mathbf{A} + \lambda \mathbf{D}   $ is projected to a point $x(\lambda)$ in the image plane by:
 
 \[
   x(\lambda) = \begin{bmatrix}

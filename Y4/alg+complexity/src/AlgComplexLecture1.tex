@@ -72,7 +72,7 @@ A \textbf{Turing machine} is defined as a (6) tuple, $M = (k, \Gamma, Q, q_{\tex
 
 \begin{itemize}
   \item the number of tapes, $k$, $k \geq 2$
-  \item the alphabet $\{ 0,1,\rhd,\Box \} \subseteq \Gamma $
+  \item the alphabet $\{ 0,1,\rhd,\Box \}, \Gamma $
   \item a finite set of $Q$ states, including the start state $q_{\texttt{start} }$ and the halt state $q_{\texttt{halt} }$
   \item a transition function, $\delta: Q \times \Gamma^{k} \rightarrow Q \times \Gamma^{k-1}\times \{ L,R,S \}^{k} $
         Where:
