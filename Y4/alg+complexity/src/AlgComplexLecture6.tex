@@ -1,0 +1,177 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb,amsfonts,mdframed, tikz}
+\usepackage[ruled,linesnumbered]{algorithm2e}
+\usetikzlibrary{shapes,arrows,calc,positioning,backgrounds}
+\title{Algorithms \& Complexity: Lecture 6, The Stable Matching Problem}
+
+\author{Sam Barrett}
+
+\newcommand{\T}{\texttt{T }}
+\newcommand{\True}{\texttt{True }}
+\newcommand{\F}{\texttt{F }}
+\newcommand{\False}{\texttt{False }}
+\newcommand{\NP}{\mathbf{NP}}
+\renewcommand{\P}{\mathbf{P}}
+\newcommand{\N}{\mathbb{N}}
+
+\newmdtheoremenv{lemma}{Lemma}
+\newmdtheoremenv{definition}{Definition}
+\newmdtheoremenv{theorem}{Theorem}
+\newmdtheoremenv{example}{Example}
+
+\begin{document}
+\maketitle
+
+\section{The stable matching problem}
+
+Allocation is a fundamental task to life. We want any set of allocations we make to be \textit{stable}. An allocation is stable if there are no unstable pairs, where an unstable pair is a pair that do not \textit{want} to be together, and would prefer a different matching. To achieve this we must introduce a notion of \textit{preferences} .
+
+Allocations can be between 2 individuals from the same set or 2 individuals from different sets. For example $\text{Employees} \mapsto \text{Teams}$ and $\text{Doctors} \mapsto \text{Hospitals}$.
+
+\subsection{Matchings within one group}
+
+Given an example with 4 people $A,B,C$ and $D$ with the following preferences:
+
+\begin{itemize}
+  \item Preferences for $A$ are $B > C > D$
+  \item Preferences for $B$ are $C > A> D $
+  \item Preferences for $C$ are $A > B >D$
+  \item Preferences for $D$ are $A>B>C$
+\end{itemize}
+
+There are 3 possible matchings:
+
+\begin{enumerate}
+  \item $(A,B)$ and $(C,D)$
+
+  $(B,C)$ is an \textbf{unstable} pair
+
+  This is the case as $B$ prefers $C$ over $A$ and $C$ prefers $B$ over $D$.
+  \item $(A,C)$ and $(B,D)$
+
+  $(A,B)$ is an \textbf{unstable} pair
+  \item $(A,D)$ and $(B,C)$
+
+  $(A,C)$ is an \textbf{unstable} pair
+\end{enumerate}
+
+In the above example you can clearly see that no stable matching exists.
+
+\subsection{Matchings between two groups}
+
+Now we consider the case when we try to allocate between two disjoint sets. Does there always exist a stable matching or, like in the previous case, do there sometimes exist settings where stable matchings do not exist?
+
+Given an example of allocations between hospitals and students, each of size $n$. Each hospital has a ranking of the $n$ students and each student has a ranking of the $n$ hospitals. We \textbf{assume} the list of preferences are strict and complete.
+
+\textbf{Not all matchings are stable}.
+
+\begin{itemize}
+  \item Consider two hospitals $h_{1},h_{2}$ and two students $s_{1},s_{2}$.
+  \item Both hospitals prefer $s_{1}$ over $s_{2}$
+  \item Both students prefer $h_{1}$ over $h_{2}$
+  \item Therefore, the matching $(h_{1}, s_{2})$ and $(h_{2},s_{1})$ is not stable as $h_{1}$ and $s_{1}$ form an unstable pair.
+\end{itemize}
+
+
+\subsection{Definition}
+
+\begin{definition}(The \texttt{STABLE MATCHING} problem)
+  The \texttt{STABLE MATCHING} problem asks to find a stable matching, if one exists.
+\end{definition}
+
+The \texttt{STABLE MATCHING} problem is in $\NP$. This is the case as for $n$ elements, there are $n^{2}-n$ pairs in a candidate certificate, each of which is possibly unstable and must be checked individually. If no unstable pair is found then the matching is stable.
+
+The brute force algorithm for \texttt{STABLE MATCHING} tries all $n!$  possible matchings, this is very slow as $n! \approx 2^{n\log n}$.
+
+\section{Gale-Shapely Algorithm}
+
+A better algorithm was proposed by Gale and Shapely in 1962 for complete lists which always finds a stable matching where all elements are allocated. Their algorithm runs in $O(n^{2})$ time and puts \texttt{STABLE MATCHING} into $\P$
+
+The pseudocode for this algorithm is as follows:
+
+\begin{algorithm}[H]
+  \caption{The Gale-Shapley algorithm (1962)}
+  \SetAlgoLined
+  Initially all hospitals and students are free
+
+  \While{There is a hospital which is free and hasn't made an offer to every student}{
+    Choose such a hospital $h$
+
+    Let $s$ be highest ranked student to which $h$ hasn't made an offer yet
+
+    \uIf{$s$ is free}{$(s,h)$ are matched}
+    \Else{
+      $s$ is currently matched to some hospital $h'$
+
+      \uIf{$s$ prefers $h'$ to $h$}{$h$ remains free}
+      \Else{
+        $s$ prefers $h$ to their current match $h'$
+
+        $(s,h)$ get matched and $h'$ becomes free
+      }
+    }
+
+  }
+\end{algorithm}
+
+The running time of this algorithm is clearly $O(n^{2})$ as each while loop makes 1 new offer and there can only be $n^{2}$ offers made before termination.
+
+\subsection{Correctness }
+
+From the pseudocode we can see that after receiving their first offer, students always have a better offer or as good an offer \textit{in hand} . We can also see that if a hospital is \textit{free}, then there is a student to whom they have not yet made an offer. Therefore, upon termination, all hospitals and students are matched. But is the matching stable?
+
+\begin{theorem}(Gale-Shapely returns a stable matching)
+    \begin{itemize}
+        \item Let us suppose that it does not, and there therefore exists an unstable pair $h$ and $s'$
+        \item Let $(h,s)$ and $(h',s')$ be allocations in the result. Then we can say that for the unstable pair $h,s'$ to exist $h$ must prefer $s'$ over $s$ and $s'$ must prefer $h$ over $h'$
+        \item The last offer made by $h$ was to $s$
+        \item Did $h$ make an offer to $s'$ before making an offer to $s$?
+        \begin{itemize}
+            \item If \textbf{NO} then $h$ prefers $s$ to $s'$ \textbf{CONTRADICTION}
+            \item If \textbf{YES} then $h$ was rejected by $s'$ in favour of some other hospital. By our previous point, a student's offers keep getting better (or stay the same) and since $h' \neq h$ it follows that $s'$ prefers its final offer $h'$ to $h$
+        \end{itemize}
+    \end{itemize}
+  \end{theorem}
+
+  There is a surprising property of the Gale-Shapely algorithm: it always returns the \textbf{SAME} stable matching.
+
+  To understand why we require the following definitions:
+
+  For each hospital $h$
+  \begin{itemize}
+    \item  Let $\texttt{Valid}(h) = \{\forall  s : S,  \text{for which there is a stable matching which matches $h$ to $s$}  \}  $
+    \item  $\texttt{Best}(h) $ is the highest ranked (in preference of $h$) student from $\texttt{Valid}(h) $
+  \end{itemize}
+
+  The theorem can be written as ``Gale-Shapely always returns the matching with which matches $h$ to $\texttt{Best}(h) $ for each hospital $h$''
+
+  Similarly, we can show that for each student $s$, $s$ gets their \textbf{worst} possible choice.
+
+  \begin{itemize}
+    \item Let $\texttt{Valid}(s) = \{ \forall h : H, \text{for which there is a stable matching which matches $s$ to $h$} \}  $
+    \item $\texttt{Worst}(s) $ is the lowest ranked (in preference of $s$) hospital from $\texttt{Valid}(s) $
+  \end{itemize}
+
+  The Gale-Shapely algorithms always returns the matching which matches $s$ to $\texttt{Worst}(s) $ for each student $s$
+
+  You can however, reverse this algorithm in the sense that you can make it so that the students make the offers to the hospitals, this procedure maintains the property that it returns the \textbf{same} matching each time but instead of the students getting their worst choices and hospitals getting their best, hospitals get their worst choices and students get their best!
+
+  \section{Extensions}
+
+  What about the case in which the two groups are of different size?
+
+  \underline{Project allocation in the school of Computer Science}
+
+  \begin{itemize}
+    \item Say we have $5n$ students and $n$ members of staff
+    \item Each faculty member has a preference list over $5n$ students
+    \item Each student has a preference list over $n$ staff
+    \item We want to have a stable allocation of 5 students per faculty member.
+  \end{itemize}
+
+  Can we extend Gale shapely? \textbf{Yes}, this is what is used in MSci project allocation.
+
+
+  The stability of a matching is just the start of desirable properties in a matching. We can add many more conditions, such as \textit{no one gets allocated their $n^{th}$ choice}  etc.
+
+\end{document}

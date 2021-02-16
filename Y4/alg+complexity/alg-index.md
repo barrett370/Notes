@@ -5,3 +5,4 @@
 - [Lecture 3](./out/AlgComplexLecture3.pdf)
 - [Lecture 4](./out/AlgComplexLecture4.pdf)
 - [Lecture 5](./out/AlgComplexLecture5.pdf)
+- [Lecture 6](./out/AlgComplexLecture6.pdf)
