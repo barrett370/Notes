@@ -106,7 +106,7 @@ One solution is to \textit{smooth} our image first. One way of doing this is usi
 
 In order to find edges in such an example, simply look for peaks in $\frac{\delta}{\delta x}(h \star f)$, where $h\star f$ is $f$ convolved with the kernel $h$.
 
-Convolution has many nice properties including being transitive and composable, allowing us to say that $\frac{\delta}{\delta x}(h \star f) \equiv (\frac{\delta}{\delta x}h) \star f$, this allows us to store the gaussian derivative as a filter and perform one less step when finding the edges in a noisy function $f$.
+Convolution has many nice properties including being transitive and composable, allowing us to say that $\frac{\delta}{\delta x}(h \star f) \equiv (\frac{\delta}{\delta x}h) \star f$, this allows us to store the Gaussian derivative as a filter and perform one less step when finding the edges in a noisy function $f$.
 
 There are other popular kernels including Prewitt, Sobel and Roberts.
 
@@ -119,13 +119,13 @@ Every smoothing mask has the following properties:
         \item They remove \textit{high frequency} components, meaning the filter also acts as a \textit{low-pass} filter.
 \end{itemize}
 
-We sometimes want to go further, we can take the second derivative by finding the derivative of our gaussian derivative filter, this is known as the \textbf{Laplacian of Gaussian} filter $ \nabla^{2} h_{\sigma} = \frac{\delta^{2}}{\delta x^{2}}h$. When this filter is applied the edge is where the resulting graph crosses the $x$ axis. These results are often more precise than the 1st derivative.
+We sometimes want to go further, we can take the second derivative by finding the derivative of our Gaussian derivative filter, this is known as the \textbf{Laplacian of Gaussian} filter $ \nabla^{2} h_{\sigma} = \frac{\delta^{2}}{\delta x^{2}}h$. When this filter is applied the edge is where the resulting graph crosses the $x$ axis. These results are often more precise than the 1st derivative.
 
 The size, $\sigma$ of our kernel effects the sharpness and the structures found, choosing \(\sigma\) depends on the task at hand.
 
 \subsection{Laplacian Pyramid}
 
-This operation can be performed recursively and works by taking an image $L_{i}$ and convolving it with our gaussian filter t produce $G_{i}$, this resulting smoothed image is then upscaled by injecting 0s in between each row and column before applying the Laplacian operator to produce an image $L_{i}$. As $i \rightarrow n$, the edges in $L_{i}$ get thicker.
+This operation can be performed recursively and works by taking an image $L_{i}$ and convolving it with our Gaussian filter t produce $G_{i}$, this resulting smoothed image is then up-scaled by injecting 0s in between each row and column before applying the Laplacian operator to produce an image $L_{i}$. As $i \rightarrow n$, the edges in $L_{i}$ get thicker.
 
 As $i$ increases, only the thicker edges are present.
 
@@ -157,7 +157,7 @@ This process can only select \textit{strong} edges and does not guarantee \texti
 
 \subsection{Hysteresis Thresholding}
 
-An alternative method of thresholding is known as \textbf{Hyteresis thresholding}. It uses 2 thresholds $t_{l},t_{h}$, to represent a high and low boundary.
+An alternative method of thresholding is known as \textbf{Hysteresis thresholding}. It uses 2 thresholds $t_{l},t_{h}$, to represent a high and low boundary.
 
 \textbf{Note:} usually $t_{h} = 2t_{l}$.
 
@@ -180,7 +180,7 @@ Results of hysteresis thresholding often have better contour connectivity, i.e. 
   }
 \end{algorithm}
 
-\subsection{Non-maximum supression}
+\subsection{Non-maximum suppression}
 
 
 
@@ -264,7 +264,7 @@ Binary images are black and white, silhouette images.
 
 Advantages:
 \begin{itemize}
-  \item They are easy to aquire/take
+  \item They are easy to acquire/take
   \item They require low amount of space to store
   \item They are (relatively) simple to process
 \end{itemize}
