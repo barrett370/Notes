@@ -8,4 +8,4 @@
 - [Lecture 6](./out/AlgComplexLecture6.pdf)
 - [Lecture 7](./out/AlgComplexLecture7.pdf)
 - [...]()
-- [Lecture 9](./out/AlgComplexLecture9.pdf)
+- [Lecture 9 & 10](./out/AlgComplexLecture9.pdf)

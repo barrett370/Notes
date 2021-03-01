@@ -6,14 +6,6 @@
 
 \author{Sam Barrett}
 
-\newcommand{\T}{\texttt{T }}
-\newcommand{\True}{\texttt{True }}
-\newcommand{\F}{\texttt{F }}
-\newcommand{\False}{\texttt{False }}
-\newcommand{\NP}{\mathbf{NP}}
-\renewcommand{\P}{\mathbf{P}}
-\newcommand{\N}{\mathbb{N}}
-
 \newmdtheoremenv{lemma}{Lemma}
 \newmdtheoremenv{definition}{Definition}
 \newmdtheoremenv{theorem}{Theorem}
@@ -63,14 +55,14 @@ This method looks at the previous algorithm and asks whether it would be more ef
   \caption{MemoisationFibonacci}
   \uIf{$n=0$}{return 0}
   \uIf{$n=1$}{return 1}
-  \If{$F[n]$ is undefined}{
+  \If{$ F[n]$ is undefined}{
     $F[n] \leftarrow $ MemoisationFibonacci(n-1) + MemoisationFibonacci(n-2)
   }
 \end{algorithm}
 
 Using this algorithm we can trim or \textit{prune} the tree that needs to be generated.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[scale=0.5]{figures/l9-2.png}
   \caption{\label{fig:memfib} Computing $F_{7}$ via memoisation}
@@ -105,7 +97,9 @@ What is the running time of such an algorithm?
 \subsection{Without weights (lecture 8 recap)}
 
 \begin{itemize}
-  \item We are given a set of $n$ requests $R = \{ \texttt{Req}(1), \texttt{Req}(2), \ldots, \texttt{Req}(i), \ldots, \texttt{Req}(n)\} $
+  \item We are given a set of $n$ requests $R$ 
+
+    $R = \{ \texttt{Req}(1), \texttt{Req}(2), \ldots, \texttt{Req}(i), \ldots, \texttt{Req}(n)\} $
   \item $\texttt{Req}(i)$ has a start time of $\texttt{Start} (i)$ and a finish time of $\texttt{Finish} (i)$
   \item There is a machine which can handle one request at a time
   \item Two requests \textbf{conflict} if they overlap
@@ -120,7 +114,9 @@ The interval scheduling problem asks:
 \subsection{Weighted}
 
 \begin{itemize}
-  \item We are given a set of $n$ requests $R = \{ \texttt{Req}(1), \texttt{Req}(2), \ldots, \texttt{Req}(i), \ldots, \texttt{Req}(n)\} $
+  \item We are given a set of $n$ requests$ R$ 
+
+    $R = \{ \texttt{Req}(1), \texttt{Req}(2), \ldots, \texttt{Req}(i), \ldots, \texttt{Req}(n)\} $
   \item $\texttt{Req}(i)$ has a start time of $\texttt{Start} (i)$ and a finish time of $\texttt{Finish} (i)$
         \item \textbf{Additionally, each request $\texttt{Req}(i)$ has a weight given by $\texttt{Weight}(i)$}
   \item There is a machine which can handle one request at a time
@@ -268,5 +264,99 @@ We can now formulate our algorithm: (See Algorithm~\ref{alg:bf})
         \end{itemize}
         \item Total running time $O(n^{3})$
 \end{itemize}
+
+\section{Subset Sum}
+
+The subset sum problem is defined as:
+
+\begin{problem}(Subset sum problem)
+  Given $n$ items $\{ 1,2,\ldots,n \} $, where each item $i$ has a non-negative integral weight given by $\texttt{Weight}(i) $ and a  number $W$ as an \textbf{upper bound}.
+
+  Find a set $S$ of items such that $\sum_{i\in S} \texttt{Weight} (i) $ is maximised subject to the constraint $\sum_{i\in S} \texttt{Weight} (i) \leq W $
+\end{problem}
+
+We can show that the greedy algorithm which always picks the item with the heaviest weight (while sum is at most $W$) fails.
+
+We can show this by counterexample:
+
+\begin{itemize}
+  \item Item 1 has weight 15
+  \item Item 2 has weight 25
+  \item Item 3 has weight 15
+\end{itemize}
+
+Suppose we are given $W=30$.
+
+Our greedy algorithm picks item 2 as it has the highest weight (while sum is at most $W$). But now it cannot pick either item 1 or 3 as then the sum would exceed $W$. However, we can see that the optimal solution is to pick items 1 and 3 to total 30.
+
+In fact, we know that \textbf{no } greedy algorithm is known which can solve this problem optimally.
+
+\subsection{A DP algorithm}
+
+We can attempt to construct a dynamic algorithm to solve this problem:
+
+Let $\texttt{OPT} [i]$ denote the max weight of choosing items from $\{ 1,2,\ldots, i \} $ such that sum of weights is maximised subject to being at most $W$.
+
+Our final answer would therefore be stored in $\texttt{OPT} [n]$.
+
+Similarly to Algorithm~\ref{alg:bf}, if an item $i$ is not chosen to be in our result set, $\texttt{OPT} [i] = \texttt{OPT} [i-i]$, i.e. we skip it and continue with our previous value.
+
+However, if $i$ is chosen to be in the result set (at this point), then $\texttt{OPT} [i]$ contains $\texttt{Weight} (i)$ plus the optimal selection of items from $\{ 1,2,\ldots,i-1 \} $ with weight at most $W - \texttt{Weight} (i)$.
+
+\textbf{Note} however, we do not store this value in $\texttt{OPT} [i-i]$, in this location we store the max weight of choosing items from $\{ 1,2,\ldots,i \} $ subject to $W$.
+
+We therefore require a table to store this information.
+
+For each $1 \leq i \leq n$ and $1 \leq X \leq W$, let $\texttt{OPT} [i,X]$ be the max weight of choosing items from $\{ 1,2,\ldots, i\} $ subject to weight totalling at most $X$.
+
+\paragraph{Recurrence}
+
+We can define our recurrence:
+
+Let $\texttt{OPT} [i,X]$ be the max weight of choosing items from $\{ 1,2,\ldots,i \} $ subject to a max weight of $X$,
+
+\begin{enumerate}
+  \item If $i$ is \textbf{not} chosen,
+
+        $\texttt{OPT} [i,X] = \texttt{OPT} [i-1,X]$ , this occurs if $\texttt{Weight} (i) > X$
+
+  \item If $i$ is chosen,
+
+        $\texttt{OPT} [i,X] = \texttt{Weight} (i) + \texttt{OPT} [i-1,X-\texttt{Weight}(i) ]$
+\end{enumerate}
+
+
+We can therefore construct the recurrence:
+
+\[
+  \texttt{OPT} [i,X] = \max \left\{ \texttt{OPT} [i-1,X] ; \texttt{Weight} (i) + \texttt{OPT} [i-1,X-\texttt{Weight}(i) ]\right\}
+\]
+
+
+This allows us to construct the following algorithm:
+
+\begin{algorithm}
+  \caption{Subset Sum($n,W$)}
+  We maintain an $(n+1)\times (W+1)$ table indexed by $0 \leq 0 \leq n$ and $0 \leq X \leq W$ where $\texttt{OPT} [i,X]$ stores the max weight of choosing items from $\{ 1,2,\ldots,i \} $ subject to weight being at most $X$
+
+  We initialise $\texttt{OPT} [0,Y]=0$ for each $0 \leq Y \leq W$
+
+  \For{$i = 1,2,\ldots, W$}{
+    \For{each $Z = 0,1,2,\ldots,W$}{
+      $\texttt{OPT} [i,Z] = \max \{ \texttt{OPT} [i-1,Z]; \texttt{Weight}(i) + \texttt{OPT}[i-1,Z-\texttt{Weight}(i) ]   \} $
+    }
+  }
+
+  \Return \texttt{OPT} [n,W]
+\end{algorithm}
+
+\subsubsection{Running time}
+
+The table has $O(n\cdot W)$ entries. Filling a new entry in the table needs to look-up two existing entries from the table and perform one addition and one max operation. This can be done in constant time $O(1)$
+
+Therefore, the time required to fill all entries is $O(n\cdot W)$.
+
+
+
 
 \end{document}
