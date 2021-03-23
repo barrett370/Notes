@@ -1,0 +1,226 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb,amsfonts,mdframed, tikz}
+\usepackage[ruled,linesnumbered]{algorithm2e}
+\usetikzlibrary{shapes,arrows,calc,positioning,backgrounds}
+\title{Algorithms \& Complexity: Lecture 11: Divide and Conquer II}
+
+\author{Sam Barrett}
+
+\newmdtheoremenv{lemma}{Lemma}
+\newmdtheoremenv{definition}{Definition}
+\newmdtheoremenv{theorem}{Theorem}
+\newmdtheoremenv{problem}{Problem}
+\newmdtheoremenv{example}{Example}
+
+\begin{document}
+\maketitle
+
+\section{Counting number of inversions}
+
+\begin{problem}(Inversion)
+
+  Given an array of $n$ pairwise disjoint (unique) numbers  $a_{1},a_{2},\ldots, a_{n}$
+
+  Two numbers $a_{i}$ and $a_{j}$ form an inversion if $i < j$ but $a_{i} > a_{j}$
+\end{problem}
+
+The number of inversions is a measure of the \textit{sortedness}  of an array.
+
+The naive approach to solving this requires $O(n^{2})$ time, as it checks if each of the $\begin{pmatrix}
+n \\ 2
+\end{pmatrix}$ pairs is an inversion or not.
+
+We can instead construct an algorithm similar to MergeSort:
+
+\begin{enumerate}
+  \item Divide
+
+        Divide the list $L$ into two equal sections $L_{1}$ and $L_{2}$
+
+
+  \item Conquer
+
+        Count the number of inversions within $L_{1}$ and $L_{2}$
+
+
+  \item Combine
+
+        Count the number of inversions where one number is from $L_{1}$ and the other is from $L_{2}$
+\end{enumerate}
+
+\textbf{Analysis:}
+
+Let $T(n)$ be the time needed to count the number of inversions from a given list of $n$ numbers.
+
+\begin{itemize}
+  \item The divide step requires $O(1)$ time
+  \item The Conquer step requires $2 \cdot T(n/2)$ steps
+  \item The combine step requires $O(n^{2})$ steps as $|L_{1}| = n/2= |L_{2}|$
+  \item Our recurrence is $T(n) \leq 2 \cdot T(n/2) + O(n^{2})$
+\end{itemize}
+
+This approach doesn't appear to be any better than our naive $O(n^{2})$ approach. Can we improve the combination step?
+
+If we can get the combination step down to $O(n)$ time the our entire procedure can be reduced to the complexity of MergeSort ($T(n) = O(n\cdot \log n)$)
+
+
+\begin{enumerate}
+  \item Divide
+
+        Divide the list $L$ into two equal sections $L_{1}$ and $L_{2}$
+
+
+  \item Conquer
+
+        \textbf{Sort } and count the number of inversions within $L_{1}$ and $L_{2}$
+
+
+  \item Combine
+
+        We can assume that both lists are \textbf{sorted}
+        Count the number of inversions where one number is from $L_{1}$ and the other is from $L_{2}$
+\end{enumerate}
+
+\textbf{Analysis:}
+
+\begin{itemize}
+  \item The divide step requires $O(1)$ time
+  \item The Conquer step requires $2 \cdot T(n/2)$ steps
+  \item The combine step:
+
+        It can be shown that this step now only needs $O(n)$  time as both lists are sorted
+
+
+        \begin{algorithm}
+          \caption{Combine($L_{1},L_{2}$)}
+          \textbf{Input:} Two sorted lists $L_{1},L_{2}$ of length $n/2$ each
+
+          Let $L_{1} = \{ b_{1} < b_{2} < \ldots < b_{n/2} \} $
+
+          Let $L_{2} = \{ c_{1} < c_{2} < \ldots < c_{n/2} \} $
+
+          Initialise $i,j=1$
+
+          Initialise $c=0$ \tcp*{counter to maintain number of inversions}
+
+          \While{$i\neq n/2 \cap j \neq n/2$}{ \tcp*{Even if one list becomes empty, we can stop}
+            \uIf{$b_{i} > c_{j}$}{
+              $j++$
+              $c += (n/2) -i + 1$ \tcp*{All numbers in $L_{1}$ after $a_{i}$ are $> b_{j}$}
+            }\Else{ \tcp*{In this case we have $b_{i} < c_{j}$}
+              $i++$
+            }
+          }
+
+          \Return{c}
+        \end{algorithm}
+        Running time:
+
+        \begin{itemize}
+
+          \item In each step, either $i$ or $j$ increases
+          \item The while loop ends when one of the lists becomes empty
+          \item Hence, the total running time is $|L_{1}| + |L_{2}| = O(n)$
+
+        \end{itemize}
+  \item Our recurrence is $T(n) \leq 2 \cdot T(n/2) + O(n)$
+
+        Same as for MergeSort and we have solved this recurrence to $T(n) = O(n\log n)$
+\end{itemize}
+
+
+We can now construct an algorithm $\texttt{Sort-and-Count} $ which takes a list $L$ and returns the number of inversions in $L$ and the sorted version of $L$.
+
+\begin{algorithm}
+  \caption{\texttt{Sort-and-Count($L$)}}
+
+  Divide $L$ into two lists $L_{1}$ and $L_{2}$
+
+  Let $(r_{1},L_{1}') = \texttt{Sort-and-Count}(L_{1}) $
+
+  Let $(r_{2},L_{2}') = \texttt{Sort-and-Count}(L_{2}) $
+
+  Let $(c, L')$ be the output of Combine($L_{1}',L_{2}'$)
+
+  \Return{$c+r_{1} + r_{2}$}
+
+  \Return{$L'$}
+\end{algorithm}
+
+
+\section{Faster integer multiplication}
+
+We will make two assumptions:
+
+\begin{enumerate}
+  \item Multiplying 2 bits can be done in constant time
+  \item Adding 2 bits can be done in constant time
+\end{enumerate}
+
+When we consider the process of long multiplication, we will split the problem of, for example, $12 \times 13$ into $12 \times 10$ and $12 \times 3$ and combine these results. Intuitively we can see that this process is similar to that which we have been employing to create divide and conquer algorithms.
+
+In this formulation (for multiplying two binary strings of length $n$) we need to add $O(n)$ binary strings where each binary string takes $O(n)$ time to compute. This leads to a total running time of $O(n^{2})$.
+
+\subsection{Attempt 1}
+
+Let $x_{1},x_{0}$ be the first and last $n/2$ bits respectively.
+
+We can therefore say that: $x = x_{0} + 2^{n/2}\cdot x_{1}$, where we also know that both $x_{0,1}$ have length $n/2$
+
+Let $y_{1},y_{0}$ be the first and last $n/2$ bits respectively.
+
+We can therefore say that: $y = y_{0} + 2^{n/2}\cdot y_{1}$, where we also know that both $y_{0,1}$ have length $n/2$
+
+We can then also see that:
+
+\begin{align*}
+  x\cdot y &= (x_{0} + 2^{n/2} \cdot x_{1})\cdot (y_{0} + 2^{n/2}\cdot y_{1}) \\
+  &= x_{0}y_{0} + 2^{n/2} \cdot (x_{1}y_{0}+x_{0}y_{1}) + 2^{n} \cdot x_{1}y_{1}
+\end{align*}
+
+We therefore need to solve the following four instances of multiplication of binary strings of length $n/2$ each:
+
+\begin{itemize}
+  \item $x_{0}$ and $y_{0}$
+  \item $x_{1}$ and $y_{1}$
+  \item $x_{0}$ and $y_{1}$
+  \item $x_{1}$ and $y_{0}$
+\end{itemize}
+
+Giving us the recurrence: $T(n) \leq 4\cdot T(n/2) + O(n)$. We know this recurrence solves to a running time of $O(n^{2})$, no better than our naive algorithm
+
+\subsection{Attempt 2}
+
+We will require the following three quantities:
+
+\begin{enumerate}
+  \item $x_{0}y_{0}$
+
+  \item $x_{1}y_{1}$
+  \item $x_{0}y_{1} + x_{1}y_{0}$
+\end{enumerate}
+
+We have previously shown that these can be obtained from solving four instances of size $n/2$, but can we do better?
+
+Observe:
+
+\[
+  x_{0}y_{1} + x_{1}y_{0} = (x_{1} + x_{0})(y_{1}+ y_{0}) - x_{1}y_{1} - x_{0}y_{0}
+\]
+
+We therefore only need to solve \textbf{three} instances of multiplications of binary strings of length $n/2$:
+
+\begin{enumerate}
+  \item $x_{0}$ and $y_{0}$
+
+  \item $x_{1}$ and $y_{1}$
+
+  \item $(x_{0} + x_{1}) $ and $(y_{0} + y_{1})$
+\end{enumerate}
+
+This gives us the recurrence: $T(n)= 3\cdot T(n/2) + O(n)$ which can be solved to a time of $O(n^{\log_{2} 3}) \equiv O(n^{1.59})$. This is an improvement over our naive and first approach.
+
+
+
+
+\end{document}

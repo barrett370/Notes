@@ -325,7 +325,7 @@ block/.style={minimum height=1.8em,outer sep=0pt,draw,rectangle,node distance=0p
           This is true as 5 cells are non-blank initially  and at most 5 more cells per step of execution ($5 \times \texttt{steps}$) $\implies 5 + (5 \times 18n^{3})$
   \end{itemize}
 
-  We can also how that, in all cases, time is less than or equal to exponentiated space.
+  We can also show that, in all cases, time is less than or equal to exponentiated space.
   The following is a proof of $\mathbf{L} \subseteq \mathbf{P} $
 
   \begin{itemize}
@@ -507,7 +507,7 @@ With this graph, we want to, using a space-efficient algorithm, work out if ther
 \textit{How do we find this path space-efficiently?}
 
 
-\subsubsection{Finding a space space-efficiently}
+\subsubsection{Finding a path space-efficiently}
 
 To answer this question, we generalise.
 
@@ -515,7 +515,7 @@ Given nodes $s$ and $t$ and a number $k$, how much space do we use when deciding
 
 We will argue, by induction, that $D(k) \leq k \times 7n^{18}$.
 
-To do this we check, for each configuration $t$, whether $t$ is accepting and whether there is a path from the start configuration to $t$. This requires at most $7n^{18}$ bits to store $t$, and $D(7n^{18})$ bits to check for the path, i.e. at most $7n^{18} +  (7n^{18})^{2}$ bits in total. This polynomial, as is required by \textit{Savitch's theorem}.
+To do this we check, for each configuration $t$, whether $t$ is accepting and whether there is a path from the start configuration to $t$. This requires at most $7n^{18}$ bits to store $t$, and $D(7n^{18})$ bits to check for the path, i.e. at most $7n^{18} +  D(7n^{18})^{2}$ bits in total. This is polynomial, as is required by \textit{Savitch's theorem}.
 
 All that is left is to finish the inductive proof of $D(k) \leq k \times 7n^{18}$.
 \begin{proof}

@@ -1,19 +1,20 @@
-\documentclass{beamer}
+\message{ !name(AlgComplexAllFlashCards.tex)}\documentclass{beamer}
 \title{Algorithms and Complexity, weeks 1-5 key points}
 \author{Sam Barrett}
 \newcommand{\qs}{q_{\texttt{start}}}
 \newcommand{\qh}{q_{\texttt{halt}}}
 \newcommand{\U}{\mathcal{U}}
 \newcommand{\N}{\mathbb{N}}
-\newcommand{\DT}{\mathbf{DTIME}}
-\usepackage{mdframed,amsmath,amssymb,amsfonts,tikz,mathtools}
+\usepackage{mdframed,amsmath,amssymb,amsfonts,tikz}
 \usetikzlibrary{shapes,arrows,calc,positioning,backgrounds}
 
 \newmdtheoremenv{thesis}{Thesis}
-\newcommand\defeq{\stackrel{\mathclap{\normalfont\mbox{def}}}{=}}
 
 
 \begin{document}
+
+\message{ !name(AlgComplexAllFlashCards.tex) !offset(-3) }
+
 \maketitle
 
 \begin{frame}[allowframebreaks]
@@ -236,38 +237,6 @@ A decision problem is said to be \textbf{decidable} when the corresponding boole
             This informally means \textit{$f(n)$ and $g(n)$ are the same, up to a constant factor}
     \end{itemize}
   \end{frame}
-
-  \begin{frame}
-    \frametitle{Time complexity}
-
-    \begin{definition}
-      Worst case running time:
-
-      The running time of a machine $M$ is the time taken from the input state, where $x$ sits on the input tape and the other tapes are blank, to reach the halt state ($q_{\texttt{halt} }$).
-
-      For any number $n$, we define $\texttt{WT}_{M}(n) $ to be the \textbf{worst case} running time for an input of length $n$.
-    \end{definition}
-
-    \begin{definition}
-      $\mathbf{DTIME} $ classes
-
-      $\mathbf{DTIME} $ is a set of complexity classes.
-
-      A complexity class can be thought of as a set of decision problems (or languages or boolean functions...)
-
-      $\DT(n^{2})$ is an example of a complexity class. A function $f : \{ 0,1 \}^{*} \rightarrow \{ 0,1 \} $ is in $\DT(n^{2})$ when there is some machine that decides it and has worst case running time in $O(n^{2})$
-    \end{definition}
-  \end{frame}
-
-  \begin{frame}
-    \frametitle{Polynomial Time}
-
-    We can define the complexity (super) class of \textbf{polynomial time decision problems} as:
-
-    \[
-      P \;\; \defeq \;\; \bigcup_{k\geq1}\mathbf{DTIME} (n^{k})
-    \]
-
-    From this definition, you can see that \textbf{any} decision problem in $\{  \mathbf{DTIME} (n^{k})\}_{k=0}^{\infty} $ is also in $P$
-  \end{frame}
 \end{document}
+
+\message{ !name(AlgComplexAllFlashCards.tex) !offset(-242) }

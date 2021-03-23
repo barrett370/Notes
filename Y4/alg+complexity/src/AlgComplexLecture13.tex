@@ -1,0 +1,179 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb,amsfonts,mdframed, tikz}
+\usepackage[ruled,linesnumbered]{algorithm2e}
+\usetikzlibrary{shapes,arrows,calc,positioning,backgrounds}
+\title{Algorithms \& Complexity: Lecture 13: Coping with $\mathbf{NP}$-hardness}
+
+\newcommand{\NP}{\mathbf{NP}}
+\renewcommand{\P}{\mathbf{P}}
+
+\author{Sam Barrett}
+
+\newmdtheoremenv{lemma}{Lemma}
+\newmdtheoremenv{definition}{Definition}
+\newmdtheoremenv{theorem}{Theorem}
+\newmdtheoremenv{problem}{Problem}
+\newmdtheoremenv{example}{Example}
+
+\begin{document}
+\maketitle
+
+
+If we assume that $\P \neq \NP$, then it follows that \textbf{no } $\NP$-hard problem has a polytime solution. But we still want to be able to solve these problems in the most efficient way possible.
+
+We will now look at designing exact exponential time algorithms for $\NP$-hard problems as these are still preferable to brute force. (\textbf{note} here \textit{exact} simply means that the algorithm solves the problem \textit{exactly} ).
+
+\section{Algorithms via branching}
+
+\subsection{Example: Vertex Cover}
+
+\begin{problem}(Vertex Cover)
+  Given an undirected graph $G = (V,E)$ on $n$ vertices and $m$ edges, find a set $X$ of minimum size s.t. each edge of $G$ has at least one endpoint in $X$
+\end{problem}
+
+The brute force approach to this problem runs in $2^{n} \cdot n^{O(1)}$ time and works by:
+
+\begin{itemize}
+  \item Enumerating all $2^{n}$ subsets of vertex set $V$
+  \item For each set $X \subseteq V$, check in $O(|X|)$ time if each of the $m$ edges has at least one endpoint in $X$
+\end{itemize}
+
+We now ask ourselves: Can we design an \textit{``Can we design an $(2-\epsilon)^{n} \cdot n^{O(1)}$''} time algorithms for some $\epsilon > 0$?
+
+Note we focus on minimising the $2$ in $2^{n} \cdot n^{O(1)}$ as:
+
+\[
+  \lim_{n\rightarrow \infty} \left( 2^{n} > \forall k \in \mathbb{N}. n^{k} \right)
+\]
+
+Or as $n$ gets increasingly larger, the $2^{n}$ gets \textit{exponentially} larger.
+
+
+Our algorithm relies on the observation that there is no point adding any vertex of degree 1 to the vertex cover. I.e. a vertex only connects to one other vertex. In this case we lose nothing by just adding the vertex it is connected to. This second vertex has the possibility of being as good \textbf{or better} than the degree-1 vertex.
+
+Now we can assume that there will be \textbf{no vertices of degrees $<$ 2}. We can then say that for each vertex $v$ of degree $\geq 2$
+
+\begin{itemize}
+  \item If we pick $v$ then the number of vertices (remaining to be \textit{covered} ) reduces by 1
+  \item If we do not pick $v$  then the number of vertices reduces by at least $2+1=3$. This is as by not picking $v$ \textbf{all} of its neighbours must now be picked and $v$ has at least 2 neighbours. (2 refers to the (at least) 2 neighbours of $v$ and the 1 refers to $v$ being implicitly covered by selecting its neighbours)
+\end{itemize}
+
+If we define $T(n)$ as the time needed to solve the $\texttt{VertexCover} $ problem for a graph with $n$ vertices, we can construct the following recurrence:
+
+\[
+  T(n) \leq T(n-1) + T(n-3)
+\]
+
+Where we solve both instances: where we pick $v$ and where we do not and take the minimum of the two results. This gives us a total running time of $T(n-1) + T(n-3)$
+
+\underline{Base case:}
+
+$T(2) = 1$ as for the case where the graph is two vertices connected by a single edge we select one node and have the minimum vertex cover. This requires a single operation.
+
+Our recurrence is what is known as a \textbf{linear homogenous recurrence}
+\begin{itemize}
+  \item \textit{linear} - terms on the RHS are raised to the power 1
+  \item \textit{homogenous} - there are no constants on the RHS
+\end{itemize}
+
+The standard method for solving such a recurrence is to set $T(n) = x^{n}$ and solve for $x$:
+
+\begin{itemize}
+  \item $T(n) \leq T(n-1) + T(n-3) \mapsto x^{n}\leq x^{n-1}+x^{n-3}$
+  \item Taking $x^{n-3}$ as a common factor gives: $x^{3} \leq x^{2}+1$
+
+  \item This is satisfied by $\forall x \leq 1.46557$
+  \item Therefore, we can say that $1.47^{n} \cdot n^{O(1)}$ is an upper bound for our branching algorithm.
+\end{itemize}
+
+\section{Algorithms via Dynamic Programming}
+
+\subsection{Example: Travelling salesman problem (TPS)}
+
+\begin{problem}(Travelling Salesman Problem )
+  \begin{itemize}
+    \item Given a set $C$ of $n$ cites $c_{1},c_{2},\ldots,c_{n} $
+    \item A distance function $\texttt{dist} : C \times C \rightarrow \mathbb{R}^{\geq 0}$ which gives the distance between every pair of cities
+    \item We want to start at $c_{1}$ and end at $c_{1}$ after visiting \textbf{all} cities on the way
+    \item What order should we visit each city to minimise the total distance we have travelled?
+  \end{itemize}
+\end{problem}
+
+The brute force approach tries all $n!$ orderings. And for each computes its cost by summing all $n$ values. Hence, the running time of this approach is $n! \approx \left( \frac{n}{e}\right)^{n}$. (Where $e$ is the Euler constant equal to around $2.718$)
+
+\subsubsection{Deriving our recurrence relation }
+
+For each $S \subseteq \{ c_{2},c_{3},\ldots, c_{n} \} $ and each $c_{i} \in S$, let $\texttt{OPT}[S,c_{i}] $ be the minimum length of a tour that starts at $c_{1}$, visits all cities in $S$ and ends at $c_{i}$
+
+\underline{Base Case:} when $|S|=1$; for each $i\geq 2$ we have $\texttt{OPT} [\{ c_{i} \}, c_{i} ] = \texttt{dist}(c_{1},c_{i})$
+
+Now suppose that $|S|> 1$ and we want to compute $\texttt{OPT}[S,c_{i}]$ for some $c_{i} \in S$.
+
+\begin{itemize}
+  \item Let $c_{j}$ be the last city visited before ending at $c_{i}$
+  \item $c_{j}$ \textbf{must } be in $S \backslash \{ c_{i} \} $
+  \item Looking at all possibilities gives the following recurrence:
+
+        \[
+        \texttt{OPT} [S,c_{i}] = \displaystyle\min_{c_{j}\in \left( S \backslash \{ c_{i} \} \right)} \texttt{OPT} [S\backslash \{ c_{i} \} , c_{j}] + \texttt{dist} (c_{j},c_{i})
+        \]
+\end{itemize}
+
+Using this recurrence we can construct the algorithm~\ref{alg:tsp} and analyse its running time:
+\begin{algorithm}[ht]
+  \caption{Travelling Salesman Problem (TSP)}
+  \KwIn{A set $C = \{ c_{1},c_{2},\ldots,c_{n} \} $ of $n$ cities and a distance function $\texttt{dist}: C\times C\rightarrow \mathbb{R}^{\geq 0} $}
+  \KwOut{The value/distance of a tour which minimises the total distance travelled when starting and ending at $c_{1}$, while visiting all cities from $C$}
+
+  \For{$i=2:n$}{
+    $\texttt{OPT} [\{ c_{i} \} ,c_{i}] = \texttt{dist}(c_{1},c_{i})$
+  }
+  \For{$k=2:n$}{
+    \For{$S\subseteq \{ c_{2},c_{3},\ldots,c_{n-1},c_{n} \} $ with $|S| = k$}{
+      $\texttt{OPT} [S,c_{i}] = \displaystyle\min_{c_{j} in \left(S\backslash \{ c_{i} \} \right)} \texttt{OPT} [S\backslash \{ c_{i} \}, c_{j} ] + \texttt{dist} (c_{j},c_{i})$
+    }
+
+    k++
+
+  }
+
+  \Return{$\displaystyle\min_{2\leq i\leq n} \texttt{OPT}[\{ c_{2},c_{3},\ldots,c_{n--1},c_{n} \},c_{i} ] + dist(c_{i},c_{1}) $}
+\end{algorithm}
+
+The number of entries in our table $\texttt{OPT} $ is $O(2^{n}\cdot n)$ as we maintain an entry $\texttt{OPT} [S,c_{i}]$ for each $S\subseteq \{ c_{2},\ldots,c_{n} \} $ and each $c_{i} \in S$
+
+To compute $\texttt{OPT} [S,c_{i}]$ we take the minimum of $|S|$ numbers. To do this we look up $|S|-1$ entries and do $|S|-1$ addition operations. Giving an overall running time on $O(n)$ since $|S| \leq n-1$
+
+\newpage
+\subsection{Set Cover problem}
+
+\begin{problem}(Set Cover problem)
+  Given:
+
+  \begin{itemize}
+    \item A set $U = \{ u_{1},u_{2},\ldots,u_{N} \} $ of $N$ elements
+    \item A set $\mathcal{S} = \{ S_{1},S_{2},\ldots,S_{M} \} $  of non-empty subsets of $U$ s.t. $|\mathcal{S}| = M$
+  \end{itemize}
+
+  Find a collection $\mathcal{S}'$ from $\mathcal{S}$ of minimum size s.t. the unions of sets in $\mathcal{S}'$ covers all elements of $U$. We assume that the union of all sets in $\mathcal{S}$ covers all elements in $U$
+\end{problem}
+
+The brute force approach to this problem takes $O(2^{M}\cdot M\cdot N)$ time as it:
+
+\begin{itemize}
+  \item Tries all possible $2^{M}$ subsets of $\mathcal{S}$
+  \item On each subset we can check in $O(M\cdot N)$ time if the union of all sets in the subset covers all elements in $U$.
+
+        Each of the $\leq M$ sets in our subset $\mathcal{S'}$ can have at most $N$ elements each.
+\end{itemize}
+
+Can we do better than this?
+
+\subsubsection{Setting up our recurrence}
+
+For each non-empty subset $X\subseteq U$ and each $1\leq j\leq M$ , let $\texttt{OPT}[X,j] $ be the size of the minimum cardinality subset of $\{ S_{1},S_{2},\ldots,S_{j} \} $ that covers all elements from $X$
+
+\underline{Base Case:} $j=1$
+
+TODO: complete this along with formative assignment (6?)
+\end{document}
