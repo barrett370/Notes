@@ -8,6 +8,7 @@
 - [Lecture 4](out/PP/PPL-Lecture4.html)
 - [Lecture 5](out/PP/PPL-Lecture5.html)
 - [Lecture 6](out/PP/PPL-Lecture6.html)
+- [Revision Notes](out/PP/PPL-RevisionLecture.pdf)
 
 ## Compilers
 
@@ -15,3 +16,9 @@
 - [Lecture 2]()
 - [Lecture 3]()
 - [Lecture 4](out/compilers/Comp-Lecture4.html)
+- [Revision Notes](out/compilers/Comp-RevisionLecture.pdf)
+
+## Verification
+
+- [Revision Notes](out/verif-revisionnotes.pdf)
+
