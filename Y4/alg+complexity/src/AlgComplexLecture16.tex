@@ -1,0 +1,197 @@
+\documentclass{report}
+
+\title{Boolean Circuits}
+\author{Sam Barrett}
+
+\usepackage{amsmath, amssymb,mdframed}
+
+\newmdtheoremenv{definition}{Definition}
+\newmdtheoremenv{theorem}{Theorem}
+\newmdtheoremenv{proof}{Proof}
+\newmdtheoremenv{proposition}{Proposition}
+\newcommand{\N}{\mathbb{N}}
+
+\begin{document}
+
+\section{Introduction}
+
+\subsection{Non-uniform models}
+
+The difference between \textbf{uniform} and \textbf{non-uniform} models of computation is that for \textbf{uniform} models, we will have a single program which can handle inputs of any length. Whereas, for non-uniform models, we have a different program for each input length $n \in \N$
+
+\subsection{CNFs}
+
+A CNF formula is a logical formula which fits the form:
+
+\[
+  \bigwedge_{i}\bigvee_{j} l_{ij}
+\]
+
+Where each $l_{ij}$ is a literal, i.e. either $x$ or $\neg x$ for some variable $x$.
+
+We define computation by CNF as follows:
+
+\begin{definition}(Computation by CNF)
+  Given a Boolean function, $f : \{ 0,1 \}^{n} \rightarrow \{ 0,1 \} $, we say that $f$ is computed by a CNF, $A(x_{1},\ldots,x_n) $ if, for any $\vec{b} \in \{ 0,1 \} ^{n}$, we have:
+
+  \[
+    A(b_{1},\ldots,b_{n}) = f(b_{1},\ldots,b_{n})
+  \]
+\end{definition}
+
+I.e. for any assignment of $A$, $f$ produces the same result.
+\begin{theorem}
+We can show that for \textbf{every} Boolean function, $f : { 0,1 }^{n} \rightarrow { 0,1 } $ there is a CNF $A_{f}$ which computes it.
+\end{theorem}
+
+We show this as follows:
+
+\begin{proof}
+Let $F := \{ \vec{b}\in \{ 0,1 \} ^{n} : f(\vec{b}) = 0\} $ For $b \in \{ 0,1 \} $ write:
+
+\[
+  b \star x := \begin{cases}
+    x  & b=0\\
+    \neg x & b=1
+  \end{cases}
+\]
+
+and define:
+
+\[
+  A_{f} := \bigwedge_{\vec{b}\in F}\bigvee_{i=1}^{n} b_{i} \star x_{i}
+\]
+\end{proof}
+
+Recall that we link Boolean functions, $f : { 0,1 }^{n} \rightarrow { 0,1 } $ with languages $\subseteq \{ 0,1 \}^{n} $.
+
+We say that a language $L\subseteq \{ 0,1 \} ^{*}$ is computed by a \textbf{family} $\{ A_{n} \} _{n=1}^{\infty}$ of CNFs if, for each $n\in \N$, $A_{n}$ is a CNF computing $L\cap \{ 0,1 \}^{n} $.
+
+With this we can define our first \textit{non-uniform} class:
+
+\begin{definition}
+  The size of a CNF $A$, $|A|$ is the number of literals occurrences it contains.
+
+  $\mathbf{CNF}^{\text{poly}}$ is the class of languages computed by polynomially sized families of CNFs
+\end{definition}
+
+\paragraph{Undecidability}
+
+\begin{proposition}
+$\mathbf{CNF}^{\text{poly}} $ contains undecidable languages
+\end{proposition}
+
+\begin{proof}
+  Let $H\subseteq \N$ be the set of natural numbers coding for halting Turing Machines (excluding inputs). Define the following sequence of CNFs:
+
+  \[
+    A_{n} := \begin{cases}
+      x_{1} \vee \neg x_{1} & n \in H\\
+      x_{1} \wedge \neg x_{1} & n \notin H
+    \end{cases}
+  \]
+
+  $A_{n}$ evaluates to 1 on an input $\in \{ 0,1 \} ^{n}$ iff the $n^{th}$ TM halts.
+
+  The induced language $\subseteq \{ 0,1 \} ^{*}$ is therefore clearly undecidable by reduction to $H$.
+\end{proof}
+
+This is the case as if $H\subseteq \N$, $H \subseteq *$. This shows that on the set of all Languages, and therefore all Boolean functions in $\mathbf{CNF}^{\text{poly}} $, there exist undecidable languages.
+
+\subsection{Boolean Circuits: Basics}
+
+A Boolean circuit is similar to a formula, but we can reuse \textit{sub-formulas}. They are represetned as a \textit{well-founded} diagram built from Boolean gates.
+
+Boolean formulae which we have seen earlier can be though of as a special class of circuits whose underlying graphs are trees.
+
+
+\begin{definition}(Boolean Circuit)
+  An $n$-input Boolean circuit $C$ is a \textbf{directed acylic graph} with:
+
+  \begin{itemize}
+    \item $n$ sources, $x_{1},\ldots,x_{n}$
+
+          These are visualised as vertices with no incoming edges (leaves in a tree)
+
+    \item one sink $s$
+
+          A vertex with no outgoing edges (root in a tree)
+
+
+    \item A labelling from nonsource vertices to the set of gates, by default, $\{ \neg,\wedge, \vee \} $
+    \item Vertices labelled $\neg$ are said to have \textbf{fan-in} 1, i.e. 1 incoming edges
+    \item Vertices labelled $\vee$ or \(\wedge\) have \textbf{fan-in} 2
+  \end{itemize}
+
+  The size of $C$ is written $|C|$, and is the number of vertices.
+\end{definition}
+
+\paragraph{Computation of Boolean Circuits}
+
+Given a dag $C$ and an assignment $b: \{ x_{1},\ldots,x_{n} \} \rightarrow \{ 0,1 \}  $ we can define a value $b(v)$ at a node $v$ by induction over the structure of $C$:
+
+\begin{itemize}
+  \item $b(x_{i})$, is already defined as these are the input nodes
+  \item any nonsource node labelled $\neg$ with an incoming edge from node $u$ can be said to have a value $b(v) := 1-b(u)$
+  \item any nonsource node lablled with $\vee$, with incoming edges from $u_{0}$ and $u_{1}$ can be said to have a value $b(v) := \max(b(u_{0}),b(u_{1})$
+  \item Nonsource nodes labelled $\wedge$ with inputs from nodes $u_{0},u_{1}$ has a value $b(v) := \min(b(u_{0}),b(u_{1}))$
+\end{itemize}
+
+With the above definitions, we can say that the value of $b(C)$ is the same as $b(s)$.
+
+We can show that this definition of outputs allows us to construct a polytime algorithm for evaluating circuits.
+
+\begin{proposition}(We can evalute a boolean circuit $C$ in polynomial time)
+
+  The set of pairs $(C,b)$ where
+  \begin{itemize}
+    \item $C$ is an $n$ input circuit and
+    \item $b : { 0,1 }^{n} \rightarrow { 0,1 } $ s.t. $b(C) = 1$
+  \end{itemize}
+  is in $\mathbf{P} $
+\end{proposition}
+
+\paragraph{Depth of a Circuit}
+
+The depth of a circuit is $C$ is the length of the longest path, i.e. the maximum number of edges from a source node to $s$, in its underlying graph.
+
+The depth of a node is the longest path from a source node to that node.
+
+The inductive definition of circuit depth is the same as for the structural induction seen earlier.
+
+\begin{proposition}
+  If $L\subseteq \{ 0,1 \} ^{n}$ is computed by a circuit $C$ of depth $d$, then it is also computed by a formula of size $< 2^{d}$.
+\end{proposition}
+
+\begin{proof}
+  For a node $v$ of $C$, define the formula $F(v)$ by induction on the depth of $v$.
+
+  \begin{itemize}
+    \item $F(x_{i})$ is just the formula $x_{i}$, this has size 1 ($1 < 2 = 2^1$)
+    \item If $v$ of depth $e$ is labelled with \(\neg\) with an incoming edge from node $u$ (of depth $< e$)m then $F(v) := \neg F(u)$ (of size $< 2^{e-1}+1, \therefore < 2^{e}$)
+    \item If $v$ of depth $e$ is labelled $\star \in \{ \wedge,\vee \} $ with incoming edges from $u_{0},u_{1}$ (both of depth $< e$), then $F(v) := (F(u_{0})\star F(u_{1}))$ which has size $<2^{e-1}+2^{e-1} + 1$ which is $< 2^{e}$
+  \end{itemize}
+
+  We have now constructed $F(s)$ which is a formula computing $L$ in size $< 2^{d}$
+\end{proof}
+
+
+We say that a language $L\subseteq \{ 0,1 \} ^{*}$ is computed by a circuit family $\{ C_{n} \}_{n=1}^{\infty} $ if, for each $n\in \N$, $C_{n}$ is an $n$-input circuit computing $L \cap \{ 0,1 \} ^{n}$
+
+For $f :\N \rightarrow \N$ we define:
+
+\begin{itemize}
+  \item $\mathbf{SIZE}(f(n)) $ as the set of languages $L \subseteq \{ 0,1 \} ^{*}$ computed by circuits of size $\leq f(n)$
+
+  \item $\mathbf{DEPTH} (f(n))$ as the set of languages $L\subseteq \{ 0,1 \} ^{*}$ computed by circuits of depth $\leq f(n)$
+\end{itemize}
+
+The class $\mathbf{P} \backslash poly$ is the class of languages computed by polynomial-size circuit families, i.e.:
+
+\[
+  \mathbf{P} \backslash poly := \bigcup_{c=1}^{\infty} \mathbf{SIZE}(n^{c})
+\]
+
+
+
+\end{document}

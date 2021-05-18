@@ -13,3 +13,4 @@
 - [Lecture 12](./out/AlgComplexLecture12.pdf)
 - [Lecture 13](./out/AlgComplexLecture13.pdf)
 - [Lecture 14](./out/AlgComplexLecture14.pdf)
+- [Lecture 16](./out/AlgComplexLecture16.pdf)
