@@ -100,7 +100,7 @@ This is the case as if $H\subseteq \N$, $H \subseteq *$. This shows that on the 
 
 \subsection{Boolean Circuits: Basics}
 
-A Boolean circuit is similar to a formula, but we can reuse \textit{sub-formulas}. They are represetned as a \textit{well-founded} diagram built from Boolean gates.
+A Boolean circuit is similar to a formula, but we can reuse \textit{sub-formulas}. They are represented as a \textit{well-founded} diagram built from Boolean gates.
 
 Boolean formulae which we have seen earlier can be though of as a special class of circuits whose underlying graphs are trees.
 
@@ -133,7 +133,7 @@ Given a dag $C$ and an assignment $b: \{ x_{1},\ldots,x_{n} \} \rightarrow \{ 0,
 \begin{itemize}
   \item $b(x_{i})$, is already defined as these are the input nodes
   \item any nonsource node labelled $\neg$ with an incoming edge from node $u$ can be said to have a value $b(v) := 1-b(u)$
-  \item any nonsource node lablled with $\vee$, with incoming edges from $u_{0}$ and $u_{1}$ can be said to have a value $b(v) := \max(b(u_{0}),b(u_{1})$
+  \item any nonsource node labelled with $\vee$, with incoming edges from $u_{0}$ and $u_{1}$ can be said to have a value $b(v) := \max(b(u_{0}),b(u_{1})$
   \item Nonsource nodes labelled $\wedge$ with inputs from nodes $u_{0},u_{1}$ has a value $b(v) := \min(b(u_{0}),b(u_{1}))$
 \end{itemize}
 
@@ -141,7 +141,7 @@ With the above definitions, we can say that the value of $b(C)$ is the same as $
 
 We can show that this definition of outputs allows us to construct a polytime algorithm for evaluating circuits.
 
-\begin{proposition}(We can evalute a boolean circuit $C$ in polynomial time)
+\begin{proposition}(We can evaluate a boolean circuit $C$ in polynomial time)
 
   The set of pairs $(C,b)$ where
   \begin{itemize}
@@ -195,3 +195,5 @@ The class $\mathbf{P} \backslash poly$ is the class of languages computed by pol
 
 
 \end{document}
+
+% LocalWords:  polynomially
