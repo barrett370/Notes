@@ -14,7 +14,10 @@
 
 
 \begin{document}
-\maketitle
+
+\begin{frame}
+\titlepage
+\end{frame}
 
 \begin{frame}[allowframebreaks]
   \frametitle{Turing machine basics}
@@ -24,18 +27,18 @@
     \item First tape of a Turing machine is \textbf{always} a read-only \textbf{input tape}.
     \item The $k^{th}$ tape is always the output tape
     \item The output tape is also considered a work tape
-    \item The alphabet of a TM is denoted as \(\Gamma\), it is \textbf{finite}.
+    \item The alphabet of a TM is denoted as \(\Gamma\), or sometimes $\Sigma$, it is \textbf{finite}.
     \item Each tape must always start with the \textit{left-of-tape} symbol, $\rhd$
     \item $\{ 0,1 \} ^{*}$ is the set of bitstrings, with $\varepsilon$ denoting the empty string.
   \end{itemize}
 
-  \framebreak
+  \framebreak{}
 
   In a single stage of computation a TM may:
   \begin{itemize}
-    \item reads the character at each tape head
-    \item writes a character at each work tape head
-    \item may move each tape head to the left or to the right. \textbf{note: our tapes are not recursive, if a head on the leftmost cell moves left, it stays put}
+    \item read the character at any/all of the tape heads
+    \item writes a character at any/all of the work tape heads
+    \item may move any/all tape heads to the left or to the right. (tapes are not recursive)
   \end{itemize}
 
 \end{frame}
@@ -52,30 +55,30 @@ It means that for every bitstring $x \in \{ 0,1 \}^{*}$, if we start in state $\
   \framesubtitle{Basics}
 
   \begin{definition}(Computable functions)
-    We say a function $f : \{ 0,1 \} ^{*} \rightarrow \{ 0,1 \} ^{*}$ is \textbf{computable} if there exists some Turing machine that computes it and \textbf{non-computable} if there isn't.
+    We say a function $f : \{ 0,1 \} ^{*} \rightarrow \{ 0,1 \} ^{*}$ is \textbf{computable} if there exists some Turing machine that computes it.
   \end{definition}
 
-  No variation of Turing machine affects this fact, giving us:
+  No variation of Turing machine affects this fact.
 
-  \begin{thesis}(Church's Thesis)
+  \begin{thesis}[ Church's Thesis (informal) ]
     any algorithm that computes a function from bitstrings to bitstrings can be converted into a Turing machine that computes the same function
   \end{thesis}
 \end{frame}
 
 \begin{frame}[allowframebreaks]
-  \frametitle{Boolean functions, languages and decidability}
+  \frametitle{Boolean functions, languages and Decidability}
 
-  \begin{definition}
+  \begin{definition}[Language]
     A \textit{language} can be defined as any set of words
   \end{definition}
 
-  \begin{definition}
+  \begin{definition}[Boolean Function]
     A \textbf{boolean function} is a function of the form: $f : \{ 0,1 \}^{*} \rightarrow \{ 0,1 \} $. Noting that the output is a single bit rather than a bitstring.
   \end{definition}
 
-  There is a one-to-one correspondence between languages and boolean functions.
+  \color{red} There is a one-to-one correspondence between languages and boolean functions.\color{black}
 \begin{itemize}
-  \item For a given boolean function $f$ the corresponding language is the set of bitstrings $x$ s.t. $f(x) = 1$
+  \item For a given boolean function $f$ the corresponding language is the set of bitstrings $\mathcal{X}$ s.t. $\forall x\in \mathcal{X}, f(x) = 1$
   \item For a language $L$, the corresponding boolean function sends $x$ to 1 if $x \in L$ and to $0$ otherwise.
 \end{itemize}
 
@@ -103,7 +106,7 @@ A decision problem is said to be \textbf{decidable} when the corresponding boole
 \begin{frame}
   \frametitle{The Universal Turing Machine, $\U$}
 
-  $\U$ is a Turing machine interpreter written as a Turing machine. It takes 2 inputs (encoded as a single input): $\alpha$ and $x$, where $\alpha$ is the bitstring describing the machine to be interpreted and $x$ is the bistring input.
+  $\U$ is a Turing machine interpreter written as a Turing machine. It takes 2 inputs (encoded as a single input): $\alpha$ and $x$, where $\alpha$ is the bitstring describing the machine to be interpreted and $x$ is the bitstring input.
 
   We define $\U$ as having 4 tapes and the basic alphabet of $\{ \rhd, \Box, 0,1 \} $.  Intuitively, $\U$ works by simulating the $M_{\alpha}$ by \textit{providing} it with the 3 non-input tapes to $M_{\alpha}$ as its input, work and output tape respectively.
 \end{frame}
@@ -240,23 +243,25 @@ A decision problem is said to be \textbf{decidable} when the corresponding boole
   \begin{frame}
     \frametitle{Time complexity}
 
-    \begin{definition}
-      Worst case running time:
+    \begin{definition}[Worst case running time:]
 
       The running time of a machine $M$ is the time taken from the input state, where $x$ sits on the input tape and the other tapes are blank, to reach the halt state ($q_{\texttt{halt} }$).
 
       For any number $n$, we define $\texttt{WT}_{M}(n) $ to be the \textbf{worst case} running time for an input of length $n$.
     \end{definition}
 
-    \begin{definition}
-      $\mathbf{DTIME} $ classes
+    \begin{definition}[$\mathbf{DTIME} $ classes]
 
-      $\mathbf{DTIME} $ is a set of complexity classes.
+      $\mathbf{DTIME} $ is a \textbf{set} of complexity classes.
 
       A complexity class can be thought of as a set of decision problems (or languages or boolean functions...)
 
       $\DT(n^{2})$ is an example of a complexity class. A function $f : \{ 0,1 \}^{*} \rightarrow \{ 0,1 \} $ is in $\DT(n^{2})$ when there is some machine that decides it and has worst case running time in $O(n^{2})$
     \end{definition}
+
+    This definition is robust.
+
+
   \end{frame}
 
   \begin{frame}
@@ -265,9 +270,204 @@ A decision problem is said to be \textbf{decidable} when the corresponding boole
     We can define the complexity (super) class of \textbf{polynomial time decision problems} as:
 
     \[
-      P \;\; \defeq \;\; \bigcup_{k\geq1}\mathbf{DTIME} (n^{k})
+      \mathbf{P} \;\; \defeq \;\; \bigcup_{k\geq1}\mathbf{DTIME} (n^{k})
     \]
 
-    From this definition, you can see that \textbf{any} decision problem in $\{  \mathbf{DTIME} (n^{k})\}_{k=0}^{\infty} $ is also in $P$
   \end{frame}
+
+  \begin{frame}
+    \frametitle{Exponential Time}
+
+    We can define the complexity class of \textbf{exponential time decision problems} as:
+
+    \[
+      \mathbf{EXP} \;\; \defeq \;\; \bigcup_{k\geq 1} \mathbf{DTIME} (2^{n^{k}})
+    \]
+
+    It is clear that $\mathbf{P} \subseteq \mathbf{EXP} $
+
+
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Space Complexity}
+
+    We can extend this notion to space usage of our models.
+
+    The space usage of a Turing Machine for an input $x$ is the number of cells on the \textbf{work tapes} that are non-blank at \textbf{some point during execution}. Blank cells are ignored as there are infinitely many of these.
+
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{The $\mathbf{SPACE}$ Complexity class}
+
+    The spacial analogue for $\mathbf{DTIME} $ we say a problem is in $\mathbf{SPACE} (n^{2})$ if there exists a TM which decides it and has worst case space usage in $O(n^{2})$
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{$\mathbf{L}$ \& $\mathbf{PSPACE}$ }
+
+    We can define logarithmic space, $\mathbf{L} $ which defines the set of things that can be computed with a machine using a logarithmic number of cells (relying on the fact we do not count the input tape cells).
+
+    \begin{definition}[Logspace]
+      \[
+        \mathbf{L} \;\; \defeq \;\; \mathbf{SPACE}(\log n)
+      \]
+
+      We can also define polynomial space, $\mathbf{PSPACE} $:
+
+      \begin{definition}[polynomial space]
+        \[
+          \mathbf{PSPACE} \;\; \defeq \;\; \bigcup_{k \geq 1}\mathbf{SPACE}(n^{k})
+        \]
+
+        It is clear that $\mathbf{L} \subseteq \mathbf{PSPACE} $
+      \end{definition}
+
+    \end{definition}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Space vs. Time}
+    We can show that, in \textbf{all cases}, space complexity is less than or equal to time complexity, meaning also that:
+
+    \[
+      \mathbf{P} \subseteq \mathbf{PSPACE}
+    \]
+
+    \small\textit{See notes for a proof}
+
+    Equally we can show that, in all cases, time is less than or equal to exponentiated space, i.e.
+
+    \[
+      \mathbf{L} \subseteq \mathbf{P}
+    \]
+
+    \small\textit{See notes for a proof}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Nondeterministic Time Complexity}
+    We can informally define $\mathbf{NP} $ as:
+
+    \begin{definition}[NP - informal]
+     Problems for which \textbf{checking} a solution is easy
+   \end{definition}
+
+   We have two methods for formally defining $\mathbf{NP} $:
+
+   \begin{enumerate}
+     \item Using certificates
+
+     \item Using nondeterministic Turing machines
+   \end{enumerate}
+
+   For both, we will use the example of $n$-Sudoku. Where $n$ describes the dimension of the grids.
+
+   Let $\mathbf{SUD} $ be the set of \textbf{solvable} $n$-Sudoku puzzles.
+
+   Given a puzzle $x$, a solution \textbf{certifies} that $x \in \mathbf{SUD}$ The size of a solution is polynomial in $|x|$. The time taken to check a candidate solution is also polynomial in $|x|$
+
+ \end{frame}
+
+ \begin{frame}
+   \frametitle{Using Certificates}
+   \begin{definition}[NP - certificates]
+     A language $L$ is in $\mathbf{NP} $ if there is a polytime machine for checking polynomially-sized certificates of $L$, precisely:
+
+     If there is a polynomial, $p$, which gives the size of a candidate certificate, and a polynimal time machine $M$ s.t. $\forall x \in \{ 0,1 \} ^{*}$, where $x$ is a bitstring representing an $n$-Sudoku puzzle, the following are equivalent:
+
+     \begin{itemize}
+       \item $x \in L$
+
+       \item There is some bitstring $u$ representing a solution to $x$, of length $p|x|$ s.t. $M \langle x,u \rangle =1$
+     \end{itemize}
+
+     In these cases we say that $u$ certifies that $x \in L$
+   \end{definition}
+ \end{frame}
+
+ \begin{frame}[allowframebreaks]
+   \frametitle{Using Nondeterministic Turing Machines}
+   Nondeterministic TMs are TMs which have two transition functions $\delta_{0}, \delta_{1}$ and an additional accepting state $q_{\text{accept}}$. It starts at $\qs$ and follows transitions from either transition function until it reaches either $\qh$ or $q_{\text{accept}}$, at which point no more transitions take place.
+   \framebreak{}
+   \begin{definition}[NP - Nondeterministic TMs]
+     A language $L$ is in $\mathbf{NP} $ when there is a polytime nondeterministic machine $M$, s.t. $\forall x \in \{ 0,1 \} ^{*}$ the following are equivalent:
+
+     \begin{itemize}
+       \item $x \in L$
+       \item When $M$ is executed on input $x$, there is some sequence of transitions that lead to $q_{\text{accept}}$
+     \end{itemize}
+   \end{definition}
+ \end{frame}
+
+ \begin{frame}
+   \frametitle{Nondeterministic Space complexity}
+   What does it mean for a nondeterministic Turing machine (NDTM) to be in nondeterministic polynomial space complexity?
+
+   Let $M$ be a NDTM, it is in polyspace if $\texttt{WS}_{M} $ is $O(n^{k})$ for some $k\geq 1$.
+
+   The worse case space complexity is polynomial, therefore $\mathbf{NPSPACE} $ is the class of languages that can be decided by a polyspace NDTM. We can therefore say:
+
+   \[
+     \mathbf{PSPACE} \subseteq \mathbf{NPSPACE}
+   \]
+
+   in the same way that we say
+
+   \[
+     \mathbf{P} \subseteq \mathbf{NP}
+   \]
+
+
+ \end{frame}
+
+ \begin{frame}
+   \frametitle{Savitch's Theorem: $\mathbf{PSPACE} = \mathbf{NPSPACE}  $}
+
+   We can show this equivalence using a special case of Savitch's theorem.
+
+   Suppose we have a NDTM, $M$ and for an input size $n$ the space usage is polynomial in $n$. The length of a configuration of $M$ is also polynomial in $n$.
+
+   Let us say for $n\geq 1000$ a configuration has a length at most $7n^{18}$.
+
+   Consider the digraph representing all $\leq 2^{7n^{18}}$ configurations of $M$ and the transitions linking them.
+
+   With this graph, we want to, using a space-efficient algorithm, work out if there is a path from the start configuration to any accepting configuration. If such a path exists, we know that the input is accepted.
+ \end{frame}
+
+ \begin{frame}[allowframebreaks]
+   \frametitle{Finding a path space-efficiently}
+   We find this required path by generalising our problem.
+
+   Given nodes $s$ and $t$ and a number $k$, how much space do we use when deciding whether there is path of length $\leq 2^{k}$ from $s\rightarrow t$? We will assume we have some function which calculates this, $D$, where $D(k)$ returns this result.
+
+   We will now argue, by induction, that $D(k) \leq k \cdot 7n^{18}$
+
+   For each configuration $t$, check if $t$ is accepting and whether there is a path from the start configuration to $t$.
+
+   Storing $t$ requires at most $7n^{18}$ bits, $D(7n^{18}$ bits to check for the path, $\therefore$ at most $7n^{18} + D(7n^{18})$ bits total.
+
+   This is polynomial, as is required by Savitch's theorem.
+
+   \framebreak{}
+
+   \begin{proof}
+     \underline{Base Case} If $k =0$, just check if $s=t$
+
+     \underline{Inductive step} Find whether there is a path from $s$ to $t$ of length $\leq 2^{k+1}$:
+
+     \begin{enumerate}
+       \item For each node $z$, test whether there is a path from $s$ to $z$ of length $\leq 2^{k}$ and a path from $z$ to $t$ of length $\leq 2^{k}$
+       \item By our inductive hypothesis, this takes $\leq k \cdot 7n^{18}$ cells, plus a further $7n^{18}$ cells to store $z$, totalling $\leq (k+1) \cdot 7n^{18}$
+
+             $\therefore D(k+1) \leq (k+1) \cdot 7n^{18}$
+
+             $\therefore \forall k D(k) \leq k \cdot 7n^{18}$
+     \end{enumerate}
+
+
+   \end{proof}
+
+
+ \end{frame}
 \end{document}

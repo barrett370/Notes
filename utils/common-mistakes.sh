@@ -5,5 +5,5 @@ declare -a arr=("adn" "nad" "taht" "te" "teh" "si")
 for each in "${arr[@]}"
 do 
 	echo "$each"
-	ack -w --type markdown $each ../Y3 ../Y2
+	ack -w --type tex $each ../Y3 ../Y2 ../Y4 
 done 
