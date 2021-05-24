@@ -1,0 +1,121 @@
+\documentclass{article}
+\title{Alternative Bases for Circuits}
+\author{Sam Barrett}
+
+\usepackage{amssymb,amsmath,graphicx,mdframed}
+
+\newmdtheoremenv{definition}{Definition}
+\newmdtheoremenv{theorem}{Theorem}
+\newmdtheoremenv{proof}{Proof}
+\newmdtheoremenv{lemma}{Lemma}
+
+\begin{document}
+\maketitle
+
+\section{Alternative Bases}
+
+So far we have looked a single (standard) basis which uses the gates $\{ \neg , \vee, \wedge \} $. However, we can design circuits using arbitrary gate types.
+
+\begin{definition}
+  A \textbf{basis} is a finite set \(\Omega = \{ f_{i} \}_{i<k}\) of Boolean functions (also referred to as \textit{connectives} ). We say that a basis \(\Omega\) is ((functionally) \textbf{complete} / \textbf{adequate})  if every Boolean function is computed by an expression or formula formed from variables and elements in \(\Omega\).
+\end{definition}
+
+\begin{definition}
+  \(\Omega\)-Circuits.
+
+  Let \(\Omega\) be a basis. An \(\Omega\)-circuit is defined just like a Boolean circuit except with non-source nodes labelled by arbitrary elements  $f : \{0,1 \}^{n} \rightarrow \{ 0,1 \} $ from \(\Omega\) with precisely $n$ incoming edges.
+\end{definition}
+
+The size and depth of an \(\Omega\) circuit is the same as for a Boolean circuit.
+\begin{itemize}
+  \item The \textbf{size} of an \(\Omega\)-Circuit: length of longest path from a source node to the \textit{sink}
+  \item The \textbf{depth} of an \(\Omega\)-circuit: the number of nodes.
+\end{itemize}
+
+\section{The change-of-basis theorem}
+
+\begin{theorem}
+  Let \(\Omega_{1}\) and \(\Omega_{2}\) be two \textbf{complete } bases. For any \(\Omega_{1}\)-circuit $C_{1}$ there is an \(\Omega)_{2}\)-circuit $C_{2}$ computing a \textbf{logically equivalent} Boolean function with:
+
+  \begin{itemize}
+    \item $|C_{2}| = O(|C_{1}|)$
+    \item $depth(C_{2}) = O(depth(C_{1}))$
+  \end{itemize}
+\end{theorem}
+
+\begin{proof}
+  (sketch)
+
+  For each element $f_{i} \in \Omega_{1}$, let $F_{i}$ be an \(\Omega_{2}\) circuit of size $s_{i}$ and depth $d_{i}$ computing $f_{i}$.
+
+  Let $s= \max_{i}s_{i}$ and $d=\max_{i}d_{i}$
+
+  Construct $C_{2}$ by replacing each non-source node labelled $f_{i}$ by the \(\Omega_{2}\)-circuit $F_{i}$. We can now say that $|C_{2}| \leq s\cdot |C_{1}|$ and $depth(C_{2})\leq d \cdot depth(C_{1})$
+\end{proof}
+
+\section{\(\Omega\)-Rebalancing}
+
+Say we have a complete basis \(\Delta = \{ 0,1,\delta \} \) containing the Boolean constants 0 and 1 along with the function $\delta : \{ 0,1 \}^{3} \rightarrow \{ 0,1 \} $ given by:
+
+\[
+  \delta(x,y,z) := (\neg x \wedge y) \vee (x \wedge z)
+\]
+
+
+\begin{theorem}
+  Spira Balancing
+
+  Let \(\Omega\) be a basis. For every \(\Omega\)-formula $A$ of size $n$, there is a logically equivalent \(\Delta\)-formula $A'$ s.t. $|A'| = n^{O(1)}$ and $depth(A') = O(\log n) = O(\log |A'|)$
+\end{theorem}
+
+We will show this for the case of \textbf{binary} complete bases containing $\{ 0,1 \} $:
+
+\begin{lemma}\label{lemma:S}
+  Let $T$ be a binary tree. There must exist some subtree $S$ of $T$ s.t.:
+
+  \[
+    \frac{1}{3}|T| < |S| \leq \frac{2}{3}|T|
+  \]
+\end{lemma}
+
+\begin{proof}
+
+  (sketch of Lemma~\ref{lemma:S})
+
+  Starting from the root of a binary tree, repeatedly take the largest immediate subtree until one falls into the range specified in Lemma~\ref{lemma:S}. At each step the subtree \textbf{at most halves} in size, and so the first time the subtree has size $\leq \frac{2}{3}|T|$ it must also have size $> \frac{1}{3}|T|$
+
+\end{proof}
+
+\begin{proof}(Spira Balancing)
+
+  We will continue by induction on $n$.
+
+  Let $A$ be a \(\Omega\)-formula and let $B$ be a distinguished subformula of $A$ s.t. $\frac{1}{3}|A| < |B| \leq \frac{2}{3}|A|$ (exists by Lemma~\ref{lemma:S})
+
+  We can say that $A = C(B)$, Where this notation means that $A$ is the combination of the subtree $B$ and the remaining tree $C$.  so $\therefore \frac{1}{3}|A| < |C(x)| \leq \frac{2}{3}|A|$ Meaning some amount in this range of $A$ exists in $C$ as $|B| + |C| = |A|$.
+
+  We can now say that $A$ is logically equivalent to the $\Delta$-formula:
+
+  We do this by taking a case analysis on the value of $B$ which can be 1 or 0 to form:
+
+  \[
+    \delta(B', C(0)', C(1)')
+  \]
+
+  Which means:
+
+  \[
+    \delta =
+  \begin{cases}
+    C(0)' & B = 0 \\
+    C(1)' & B = 1 \\
+  \end{cases}
+\]
+
+
+  Where $B', C(0)', C(1)'$ are obtained by the inductive hypothesis on $n$.
+
+\end{proof}
+
+
+\end{document}

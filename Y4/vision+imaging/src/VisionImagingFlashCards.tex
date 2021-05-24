@@ -1,0 +1,400 @@
+\documentclass{beamer}
+\title{Computer Vision \& Imaging - Key points}
+\author{Sam Barrett}
+\usepackage{amsmath}
+
+\newcommand{\bl}{\color{black}}
+\begin{document}
+
+\begin{frame}
+  \frametitle{Image formation}
+  \begin{itemize}
+    \item A Bayer filter for constructing colour data has twice as many \color{green} green, \bl as \color{red}{red} \bl and \color{blue}{blue} \bl to mimic how the human eye responds to light.
+          Green light is detected more due to both L and M cones being used during daylight vision \& are most sensitive to green light.
+  \end{itemize}
+
+\end{frame}
+
+  \begin{frame}[allowframebreaks]
+    \frametitle{Camera Model}
+
+    \begin{itemize}
+      \item Pinhole cameras- exactly one ray passes through each point in the image plane, the pinhole and the scene
+
+      \item Pinhole perspective is also known as central perspective
+      \item Size of objects in image plane is related to their distance from the focal point.
+
+      \item The point $C'$ which passes through the pinhole along a vector $\mathbf{k} $ and is perpendicular to the image plane $\Pi'$ is called the \textbf{Image centre} and plays an important role in camera calibration
+
+\framebreak
+      \item When using Cartesian coordinates to represent projection
+
+            If we have a ray travelling along a vector from $P = \begin{bmatrix}
+x \\ y\\ z
+            \end{bmatrix}$ which passes through the pinhole, we can calculate its projected position $P' = \begin{bmatrix}
+              x' \\ y' \\ z'
+            \end{bmatrix}$ as $\begin{bmatrix}
+f' \frac{x}{z} \\ f' \frac{y}{z} \\ f'
+\end{bmatrix}$ Where $f'$ is the distance between the image plane and the pinhole (perpendicular to the image plane)
+
+            While this method is \textit{easy} it is only an approximation and this only holds for scenes in which magnification across all objects can be taken as constant. I.e. scenes which have little to no depth.
+
+            This is known as \textbf{Scaled Orthography}
+
+            \framebreak
+
+            We can generalise this further by assuming the constant magnification, $m=-1$, allowing us to simply directly map $x = x'$ and $y = y'$
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Size of the pinhole}
+    \begin{itemize}
+      \item Pinhole too big $\rightarrow$ blurry image
+      \item Pinhole the correct size \(\rightarrow\) a dim but sharp image
+      \item Pinhole too small \(\rightarrow\) blurry image
+    \end{itemize}
+
+    Generally pinhole cameras produce dark images as very little light is able to get through to the screen.
+
+    This is solved through the use of lenses which allow cameras to gather more light (pinhole too big) but focus it s.t. the image is not blurry.
+
+    See Snell's law for lens equations:
+
+    \[
+      n_{1}\sin \alpha_{1} = n_{2} \sin \alpha_{2}
+    \]
+
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Thin lens}
+    For a thin \textit{lens} the following equation holds:
+
+    \[
+      \frac{1}{z'} - \frac{1}{z} = \frac{1}{f}
+    \]
+
+    Where:
+
+    $f$ is the focal length of the lens:
+
+    \[
+      f = \frac{R}{2(n-1)}
+    \]
+
+
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Geometric properties of projection}
+    \begin{itemize}
+      \item Points $\mapsto$ points
+      \item Lines $\mapsto$ lines
+      \item Planes $\mapsto$ whole image
+      \item Polygons    $\mapsto$ polygones
+      \item \textbf{Degenerate cases:}
+            \begin{itemize}
+              \item Lines through focal point $\mapsto$ point
+              \item Plane through focal point $\mapsto$ line
+            \end{itemize}
+      \item 3D objects (polyhedra) project to polygons as only their outermost edge is captured and lines $\mapsto$ lines.
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}[allowframebreaks]
+    \frametitle{Camera Parameters}
+    Camera parameters include:
+    Intrinsic parameters:
+    \begin{itemize}
+      \item Focal Length
+      \item Principal point
+      \item Aspect ratio
+      \item angle between axis
+    \end{itemize}
+    Extrinsic parameters:
+    \begin{itemize}
+      \item Position + orientation in space
+    \end{itemize}
+
+    These parameters differ from camera to camera.
+
+    \framebreak
+
+    There are two kinds of projection:
+    \begin{enumerate}
+      \item Extrinsic projections which project from the 3D world to a 3D camera space
+      \item Intrinsic projections which project from a 3D camera to a 2D image.
+    \end{enumerate}
+
+    \textbf{Aside: Homogeneous coordinates}
+
+    Projective geometry uses Homogeneous coordinates.
+
+    \[
+      \overbrace{\begin{bmatrix}
+x\\y
+\end{bmatrix}}^{ Cartesian Form }
+\Rightarrow \overbrace{\begin{bmatrix}
+x \\y \\1
+  \end{bmatrix}}^{Homogeneous form}
+\]
+
+To convert from Homogeneous to Euclidean: divide by last coordinate \& remove it.
+
+\framebreak
+
+\textbf{Camera coordinate system}
+
+\begin{itemize}
+  \item Principal axis: A line from the camera centre perpendicular to the image plane
+  \item Principal point, $p$: A point where the principal axis punctures the image plane
+  \item Normalised camera coordinate system: A coordinate system in which the origin is at the principal point.
+\end{itemize}
+
+\framebreak
+
+We can now rewrite our projection equations for a pinhole camera from before:
+
+To project a 3D point in the world coordinate system to a 2D point in the image plane:
+
+\[
+  \begin{bmatrix}
+    x \\ y \\ z \\ 1
+  \end{bmatrix} \mapsto
+  \begin{bmatrix}
+    f \frac{x}{z} \\ f \frac{y}{z} \\ 1
+  \end{bmatrix}
+\]
+
+This can also be written as a vector-matrix multiplication:
+
+\[
+  \overbrace{\begin{pmatrix}
+    f X \\ f Y \\ Z
+  \end{pmatrix}}^{\bf x} =
+  \underbrace{\begin{bmatrix}
+    f & & & 0\\
+    & f & & 0\\
+    & & 1 & 0\\
+  \end{bmatrix}}_{\bf P_{0}}
+  \overbrace{\begin{pmatrix}
+X \\Y \\ Z \\ 1
+\end{pmatrix}}^{\bf X}
+\]
+
+
+which can also be written
+\[
+  \bf x = P_{0}X
+\]
+We can re-write the projection matrix $\bf P_{0}$ to separate the focal lengths:
+
+\[
+  \mathbf{P_{0}} = \text{diag}([f,f,1])[\text{I}|0] = \begin{bmatrix}
+    f & & \\
+    & f & \\
+    & & 1 \\
+  \end{bmatrix}\begin{bmatrix}
+    1 & & & 0 \\
+    & 1 & & 0 \\
+    & & 1 & 0 \\
+  \end{bmatrix}
+\]
+\framebreak
+
+\textbf{Converting to image pixels from image plane}
+
+The origin of the image plane is the principal point, $p$. We want to translate these coordinates to have the origin at the image (bottom left) corner.
+
+We write this transformation as:
+
+\[
+  \begin{bmatrix}
+    x \\ y \\ z
+  \end{bmatrix} \mapsto
+  \begin{bmatrix}
+    f \frac{x}{z} + p_{x} \\
+    f \frac{y}{z} + y_{y}
+  \end{bmatrix}
+\]
+
+Or in vector-matrix multiplication:
+
+\[
+  \begin{pmatrix}
+    f x + zp_{x} \\
+    f y + zp_{y}\\
+    z
+  \end{pmatrix} =
+  \begin{bmatrix}
+    f & 0 & p_{x} & 0 \\
+    0 & f & p_{y} & 0 \\
+    0 & 0 & 1 & 0
+  \end{bmatrix}
+  \begin{pmatrix}
+    x \\ y \\ z \\ 1
+  \end{pmatrix}
+\]
+
+We now want to project onto our sensor of size Ws $\times$ Hs (in metres). We represent pixels in a rectangular $M_{x} \times M_{y}$ matrix.
+
+Let $m_{x} = \frac{M_{x}}{W_{s}}$ and $m_{y} = \frac{M_{y}}{H_{s}}$
+
+We now construct the following projection in vector-matrix multiplication form:
+
+\[
+  \begin{pmatrix}
+    x \\y \\z
+  \end{pmatrix}
+  = \underbrace{\begin{bmatrix}
+    m_{x} & 0 & 0\\
+    0 & m_{y} & 0\\
+    0 & 0 & 1
+  \end{bmatrix}}_{\text{pixel /m}}
+  \underbrace{\begin{bmatrix}
+    f & 0 & p_{x} & 0\\
+    0 & f & p_{y} & 0\\
+    0 & 0 & 1 & 0
+  \end{bmatrix}}_{\text{m}}
+  \begin{pmatrix}
+    X \\Y\\ Z\\1
+  \end{pmatrix}
+\]
+
+Which can also be written:
+
+\[
+  \begin{pmatrix}
+    x \\ y \\z
+  \end{pmatrix} =
+  \begin{bmatrix}
+    \alpha_{x} & 0  & x_{0} & 0\\
+    0 & \alpha_{y} & y_{0} & 0\\
+    0 & 0 & 1 & 0
+  \end{bmatrix}
+  \begin{pmatrix}
+    X \\ Y \\ Z \\1
+  \end{pmatrix}
+\]
+
+It is often difficult to guarantee a perfectly rectangular sensor, so we also have a case for a skewed sensor, here we simply add a single value to the projection matrix $\bf P_{0}$ to form:
+
+
+\[
+  \begin{pmatrix}
+    x \\ y \\z
+  \end{pmatrix} =
+  \begin{bmatrix}
+    \alpha_{x} & s  & x_{0} & 0\\
+    0 & \alpha_{y} & y_{0} & 0\\
+    0 & 0 & 1 & 0
+  \end{bmatrix}
+  \begin{pmatrix}
+    X \\ Y \\ Z \\1
+  \end{pmatrix}
+\]
+
+
+We can decompose $\bf P_{0}$ into two separate matrices to allow for easier computation and reasoning, we can construct $\bf P_{0}$ from the product of a square matrix $K$ and a concatination of the $3\times 3$ identity matrix and a 3D 0-vector:
+
+\[
+  \mathbf{P_{0}} = \mathbf{K}[\textbf{I}|0] = \begin{bmatrix}
+    \alpha_{x} & s  & x_{0} \\
+    0 & \alpha_{y} & y_{0} \\
+    0 & 0 & 1
+  \end{bmatrix}
+  \begin{bmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+  \end{bmatrix}
+\]
+
+We refer to $\bf K$ as our \textbf{projection matrix} which prescribes the projection of any 3D point in the camera coordinate system onto our pixels.
+
+Where:
+\begin{itemize}
+  \item $\alpha_{x}= m_{x} \cdot f$
+  \item $\alpha_{y} = m_{y} \cdot f$
+  \item $x_{0} = p_{x} \cdot m_{x}$
+  \item $y_{0} = p_{y} \cdot m_{y}$
+  \item $s$ is our skewness factor
+\end{itemize}
+
+
+
+  \end{frame}
+
+  \begin{frame}[allowframebreaks]
+    \frametitle{Binary Images}
+    Advantages:
+    \begin{itemize}
+      \item Easy to acquire
+      \item Low storage
+      \item Simple to process
+    \end{itemize}
+
+    Disadvantages:
+    \begin{itemize}
+      \item Limited use cases
+      \item Does not generalise to 3D
+      \item Specialised lighting required to capture silhouettes
+    \end{itemize}
+
+    \framebreak
+
+    Binary images are created from conventional images via \textbf{thresholding}. These are \textit{cleaned} using \textbf{morphological operators}
+
+    There are different methods for thresholding:
+    \begin{itemize}
+      \item Above a threshold
+      \item Within a threshold
+      \item In a set of valid values
+    \end{itemize}
+
+  Morphological Operators (MOs):
+
+  \begin{itemize}
+    \item Change the shape of foreground regions via intersection or union operations between a strel and a binary image.
+    \item Basic MOs include: Dilation \& erosion
+  \end{itemize}
+  \framebreak
+
+  \textbf{Dilation}
+
+  \begin{itemize}
+    \item Expands \textbf{connected} components
+    \item Grows features
+
+    \item Fills holes
+  \end{itemize}
+
+  If currently considered pixel is 1, set all pixels under the strel to 1.
+
+  \textbf{Erosion}
+
+  \begin{itemize}
+    \item Erodes connected components
+    \item shrinks features
+    \item Removes bridges, branches \& noise
+  \end{itemize}
+
+  If every pixel under the strel is 1, set the currently considered output pixel to 1.
+
+  \textbf{Opening} is the process of eroding then dilating an image. It is good for removing small objects whilst keeping the original shape.
+
+  \textbf{Closing} is the process of dilating then eroding an image. It is good for filling holes but keeping the original shape.
+
+  \framebreak
+
+  Connected components are determined by their pixel's \textbf{connectedness}. There are different measures of connectedness including 4 and 8-connectedness.
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Photometric Image Formation}
+
+  Images are made up of discrete colour or intensity values. These are related to the lighting of the surrounding environment.
+\end{frame}
+
+\end{document}
