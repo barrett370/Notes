@@ -1,0 +1,134 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb,amsfonts,mdframed, tikz}
+\usepackage[ruled,linesnumbered]{algorithm2e}
+\usetikzlibrary{shapes,arrows,calc,positioning,backgrounds}
+\title{Algorithms \& Complexity: Lecture 8, Greedy Algorithms 2}
+
+\author{Sam Barrett}
+
+\newcommand{\T}{\texttt{T }}
+\newcommand{\True}{\texttt{True }}
+\newcommand{\F}{\texttt{F }}
+\newcommand{\False}{\texttt{False }}
+\newcommand{\NP}{\mathbf{NP}}
+\renewcommand{\P}{\mathbf{P}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}[1]{\texttt{Req}(#1)}
+\renewcommand{\S}[1]{\texttt{Start}(#1)}
+\renewcommand{\F}[1]{\texttt{Finish}(#1)}
+
+\newmdtheoremenv{lemma}{Lemma}
+\newmdtheoremenv{proof}{Proof}
+\newmdtheoremenv{definition}{Definition}
+\newmdtheoremenv{theorem}{Theorem}
+\newmdtheoremenv{problem}{Problem}
+\newmdtheoremenv{example}{Example}
+
+\begin{document}
+\maketitle
+
+\section{Interval Scheduling Problem}
+
+\begin{problem}(The Interval Scheduling Problem)
+
+
+
+  \begin{itemize}
+
+    \item Given a set of $n$ requests $R = \left\{ \R{1}, \R{2}, \R{3}, \ldots, \R{n} \right\} $
+  \item $\R{i}$ has a start time given by $\S{i}$ and a finish time by $\F{i}$
+  \item There exists a machine which can handle one request at a time.
+  \item Two requests \textit{conflict} if they overlap
+
+  \end{itemize}
+
+  Select a set $C\subseteq R$ of requests s.t. $|C|$ is maximised and no two requests from $C$ conflict.
+\end{problem}
+
+
+See Slides for lecture 8 for details on failed greedy algorithm construction.
+
+A correct greedy algorithm for tackling this problem can be seen below:
+
+\begin{algorithm}
+
+  \caption{Greedy Interval Scheduling}
+
+
+  Let $R = \{ \R{1},\R{2},\ldots,\R{i},\ldots,\R{n} \} $ be the set of all requests
+
+  Let $C$ denote the set of requests that we select
+
+  Instantiate $C = \emptyset $
+
+  \While{$R \neq \emptyset$}{
+    Find the request $\R{i} \in R$ which has the \textbf{smallest finish time}
+
+    Add $\R{i}$ to $C$
+
+    Delete from $R$ all requests that conflict with $\R{i}$
+  }
+\end{algorithm}
+
+\subsection{Correctness}
+
+\begin{itemize}
+  \item $C$ does not contain any conflicting requests
+
+        Suppose there is another set $\texttt{OPT}$ which selects more requests than $C$. Let $C$ select $\R{i_{1}}, \R{i_{2}}, \ldots,\R{i_{k}}$ in that order.
+
+        Let $\texttt{OPT}$ schedule $\R{j_{1}},\R{j_{2}},\ldots, \R{j_{m}}$ in that order.
+
+        \begin{lemma}
+          For each $1 \leq l \leq k$, we have $\F{i_{l}} \leq \F{j_{l}}$
+        \end{lemma}
+
+        \begin{proof}
+
+          \begin{enumerate}
+            \item \textbf{Base Case:} $l=1$
+            \item \textbf{Inductive Step:} $\S{j_{l}} \geq \F{j_{l-1}} \geq \F{i_{l-1}}$
+
+                  Therefore, $\R{j_{l}}$ does \textbf{not} conflict with $\R{i_{l-1}}$. However, our algorithm chose $i_{l}$ instead, meaning $\F{i_{l}} \leq \F{j_{l}}$
+          \end{enumerate}
+
+        \end{proof}
+
+        Since $m > k$, $\texttt{OPT}$ selects a request $\R{j_{k+1}}$ we can say:
+
+        \[
+        \S{j_{k+1}} \geq \F{j_{k}} \geq \F{i_{k}}
+        \]
+
+        And thus derive a contradiction as our algorithm stops after selecting $i_{k}$
+
+\end{itemize}
+
+A harder variant of the interval scheduling problem must schedule \textbf{all} requests, minimising lateness. And is defined as follows:
+
+\begin{problem}
+
+  \begin{itemize}
+    \item We have $n$ requests
+    \item Each requests has a duration given by $\texttt{Time}(i)$
+    \item Additionally, each request, $\R{i}$ now had a deadline, $\texttt{Deadline}(i)$
+    \item Choosing a start time $\S{i}$ for each request not gives a finish time $\F{i} = \S{i} + \texttt{Time}(i)$
+
+    \item A request $\R{i}$ is \textbf{late} is $\F{i} > \texttt{Deadline}(i)$
+
+          \[
+          \texttt{Lateness}(i) =
+          \begin{cases}
+            \F{i} - \texttt{Deadline}(i) & \text{if } \F{i} > \texttt{Deadline}(i) \\
+            0 & \text{otherwise}
+          \end{cases}
+          \]
+
+  \end{itemize}
+
+  Schedule all requests in a non-conflicting way, minimising the maximum lateness.
+\end{problem}
+
+A simple greedy algorithm does not find an optimal scheduling.
+
+\end{document}

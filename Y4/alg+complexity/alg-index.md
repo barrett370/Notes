@@ -7,7 +7,7 @@
 - [Lecture 5](./out/AlgComplexLecture5.pdf)
 - [Lecture 6](./out/AlgComplexLecture6.pdf)
 - [Lecture 7](./out/AlgComplexLecture7.pdf)
-- [...]()
+- [Lecture 8](./out/AlgComplexLecture8.pdf)
 - [Lecture 9 & 10](./out/AlgComplexLecture9.pdf)
 - [Lecture 11](./out/AlgComplexLecture11.pdf)
 - [Lecture 12](./out/AlgComplexLecture12.pdf)
